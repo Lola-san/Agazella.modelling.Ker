@@ -1,61 +1,178 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 add_energetic_data|function|ff979f0cc53fde4c|||||||||||||||
-add_metabolic_data|function|38bb9dd31b0350d7|||||||||||||||
-bootstrap_compo_data|function|20d21e47db60a067|||||||||||||||
-compot_data_ww|function|93a38639b861c7da|||||||||||||||
-compute_nut_in_diet|function|574808e755c89ee1|||||||||||||||
-data_diet|stem|9b882d5ebd9ca198|1f96fea6734eb524|82bf23e5f85d2f9d|103864542||t19565.5983169826s|d9a85c17acbf9b14|5322|rds|local|vector|||0.19||
-data_diet_file|stem|6eaad57c56c3a11d|d69ab4f86b75a00c|ef46db3751d8e999|1897204843|data/data_diet_Agazella.xlsx|t19565.5978063587s|596925d48f59c9bf|40445|file|local|vector|||0||
+add_factice_diets|function|c39a7a8693c98f9c|||||||||||||||
+add_metabolic_data|function|06ec211e953e048e|||||||||||||||
+add_metabolic_data_r_truncnorm|function|794e3700d205a679|||||||||||||||
+add_metabolic_data_r_unif|function|06ec211e953e048e|||||||||||||||
+all_prey_compo_data_boot_dw|stem|d19bf87e810a38e6|1cbbf07f59e27e65|c22f8a9271ed6fc8|-1718517248||t19570.5104020167s|188d36ba3cb5d7e8|458647|rds|local|vector|||0.03||
+all_prey_compo_data_boot_ww|stem|6957aa148b231733|6b9c5fafbb8eee80|f2d215d0e97a0369|-1115667684||t19570.5104078431s|cc95b08a03adce61|207116|rds|local|vector|||0.3|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Order, Taxa, Nutrient    dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
+all_prey_compo_data_ready|stem|c3c8bd10ea2627b5|a8011183d4f1700d|13930d4932cac8e3|725982993||t19570.5103984642s|46ea112dadeafa47|18367|rds|local|vector|||0.01||
+bootstrap_compo_data|function|3c5299955e130dda|||||||||||||||
+compot_data_ww|function|6d48e1f546912229|||||||||||||||
+compute_nut_in_diet|function|59bd94bade125f54|||||||||||||||
+compute_nut_in_diet_all_prey|function|c1e68c6e7f78c06a|||||||||||||||
+compute_nut_in_diet_fish_ceph|function|a052d5ce9526ca32|||||||||||||||
+compute_nut_in_diet_fish_Ker|function|0594f1937121c8f6|||||||||||||||
+compute_nut_in_diet_fish_only|function|60a20c2c0e0e6348|||||||||||||||
+data_diet|stem|71fb01acce94683d|1f96fea6734eb524|e61c1e7a95f116e8|103864542||t19570.4007331332s|35c61ffe2c0cccd0|5324|rds|local|vector|||0.05||
+data_diet_file|stem|2dc8e5c2bc1d0672|d69ab4f86b75a00c|ef46db3751d8e999|1897204843|data/data_diet_Agazella.xlsx|t19570.3985419604s|77057010db8c27d4|40417|file|local|vector|||0||
 data_diet_sp_analysed|stem|f13f452a2a93fe95|f20e1183645a9f15|1941edd7d754ba88|-765180180||t19564.5755345269s|401327ea5d655241|2374|rds|local|vector|||0.16||
-data_diet_sp_Ker|stem|796a4be8f623961c|4024cb5a6e748e8b|90c4c4c2c29eccd7|-1564634925||t19566.2925129452s|e380d26daed3999d|2428|rds|local|vector|||0||
-data_diet_sp_Ker_W|stem|e180bd2ab09708d1|9e8fc187cad1b635|9e75261aa2cac175|-516420841||t19566.2925129103s|44cf23ce0e4300d5|1499|rds|local|vector|||0||
+data_diet_sp_Ker|stem|d1b5b259a034021b|716608e96d4e8f65|6acdebd0b98034a6|-1564634925||t19570.5103969589s|286286bcd5330f2f|2438|rds|local|vector|||0||
+data_diet_sp_Ker_W|stem|2ffc3a0f7e22da7b|2adbb9f64c533e98|31b06e53e2e0d8e4|-516420841||t19570.5103985522s|ec84250628c31175|1490|rds|local|vector|||0||
 data_fish_file|stem|fa1a0b9085b40e65|7f91d83679d8b26d|ef46db3751d8e999|-980111727|data/data_fish_YC.xlsx|t19551.3666725068s|6407717204b356cd|125796|file|local|vector|||0||
 data_fish_samples|stem|d2c380ef15d42b07|adf3ebcde7d530f6|501b07575db49b72|617182927||t19564.5711645038s|c1b3d3467682367e|25546|rds|local|vector|||0.07||
-data_fish_summary|stem|84fdb702094dc987|9993f75d436cc599|3ac8a39e11eddb63|-2072107068||t19566.292522726s|79441cb05fa1169a|147557|rds|local|vector|||0.77|1m22mThere were 8 warnings in dplyrmutate.The first warning was1m22m36mi39m In argument SL_cm  as.integerSL_cm.36mi39m In group 12 Family  Myctophidae, Species  Electrona antarctica,  Habitat  Demersal.Caused by warning33m39m NAs introduits lors de la conversion automatique1m22m36mi39m Run dplyrlast_dplyr_warnings to see the 7 remaining warnings.|
+data_fish_summary|stem|547aa1aecc9923fd|8bc0390d2461a8f3|cf6b270f24e1ca16|-2072107068||t19570.3511186304s|79441cb05fa1169a|147557|rds|local|vector|||0.65|1m22mThere were 8 warnings in dplyrmutate.The first warning was1m22m36mi39m In argument SL_cm  as.integerSL_cm.36mi39m In group 12 Family  Myctophidae, Species  Electrona antarctica,  Habitat  Demersal.Caused by warning33m39m NAs introduits lors de la conversion automatique1m22m36mi39m Run dplyrlast_dplyr_warnings to see the 7 remaining warnings.|
 data_scat_file|stem|d64712b10ba548f2|8848b84a38302269|ef46db3751d8e999|-1333760465|data/data_scats.xlsx|t19536.5085527454s|2d4037fc8b9a9516|18678|file|local|vector|||0||
 data_scat_samples|stem|d20e1c708fcec1d8|9fde1e2e358d3285|ecb22b41d6c3af48|1290796212||t19564.5711652179s|ac11e086d7d989b2|4358|rds|local|vector|||0.02||
 data_scat_summary|stem|b31502bfab91842e|ebd61abdbe10789a|bd6ad26ec1243b27|2020220265||t19564.5711771817s|d4c3aedba037cae6|151592|rds|local|vector|||0.86||
-data_sp_analysed_W|stem|4a49593a10595e2d|8b28a29278b8578c|d5d76b7006a37f87|-70017082||t19566.5509311616s|0e4cfb476addf5d5|805|rds|local|vector|||0.73|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique. 1m22mThere were 2 warnings in dplyrsummarise.The first warning was1m22m36mi39m In argument min_W  minW, na.rm  TRUE.36mi39m In group 5 Species  Gobionotothen acuta, Genus  Gobionotothen,  Family  Nototheniidae, Order  Perciformes, Taxa  Fish.Caused by warning in min33m39m aucun argument trouvé pour min  Inf est renvoyé1m22m36mi39m Run dplyrlast_dplyr_warnings to see the 1 remaining warning.|
-data_sp_known_sources|stem|886f631e36281fde|1ae71ee2a6ae7774|26b8256ffb90665c|868690251||t19565.598324157s|948059c0f0375919|436|rds|local|vector|||0.15||
-data_sp_notanalysed_W|stem|186050746da6588b|144b2a3c448824aa|a88a015a067977a5|-983226630||t19565.6214002436s|b679f7e3947faeb2|770|rds|local|vector|||0.7|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique. 1m22mThere were 4 warnings in dplyrsummarise.The first warning was1m22m36mi39m In argument min_W  minW, na.rm  TRUE.36mi39m In group 3 Species  Harpagifer spinosus, Genus  Harpagifer,  Family  Harpagiferidae, Order  Perciformes, Taxa  Fish.Caused by warning in min33m39m aucun argument trouvé pour min  Inf est renvoyé1m22m36mi39m Run dplyrlast_dplyr_warnings to see the 3 remaining warnings.|
-diet_compo_data_pooled|stem|f67fb39cd34843da|3b382462d6248640|e2f87235202deff0|-835572462||t19566.4795543162s|e7b83ba506fd5e14|1626615|rds|local|vector|||0.86||
-diet_data_for_simulations|function|8d32e6053f765df8|||||||||||||||
-diet_data_input|stem|ea9b3ab3a3063f65|f946fd7258f73484|3016daf287447325|-1196102958||t19566.3650760428s|1388513013fbc9e5|928|rds|local|vector|||0.45|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique|
-diet_data_Ker|function|42d6ccffe7928856|||||||||||||||
+data_sp_analysed_W|stem|2bddea696f13491d|8b28a29278b8578c|d9c679b2054f4290|-70017082||t19570.431207189s|d682a23938f11f37|858|rds|local|vector|||0.29|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique. 1m22mThere were 4 warnings in dplyrsummarise.The first warning was1m22m36mi39m In argument min_W  minW, na.rm  TRUE.36mi39m In group 5 Species  Gobionotothen acuta, Genus  Gobionotothen,  Family  Nototheniidae, Order  Perciformes, Taxa  Fish.Caused by warning in min33m39m aucun argument trouvé pour min  Inf est renvoyé1m22m36mi39m Run dplyrlast_dplyr_warnings to see the 3 remaining warnings.|
+data_sp_known_sources|stem|3f52d2872aac6f6f|1ae71ee2a6ae7774|b53b3bdf3f11b876|868690251||t19570.4312100231s|766fa54cb4353197|438|rds|local|vector|||0.04||
+data_sp_notanalysed_W|stem|3e6e7400bbedb244|144b2a3c448824aa|415d031bbe48913d|-983226630||t19570.4312035971s|6176a553eab72916|693|rds|local|vector|||0.27|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique. 1m22mThere were 2 warnings in dplyrsummarise.The first warning was1m22m36mi39m In argument min_W  minW, na.rm  TRUE.36mi39m In group 3 Species  Harpagifer spinosus, Genus  Harpagifer,  Family  Harpagiferidae, Order  Perciformes, Taxa  Fish.Caused by warning in min33m39m aucun argument trouvé pour min  Inf est renvoyé1m22m36mi39m Run dplyrlast_dplyr_warnings to see the 1 remaining warning.|
+diet_compo_data_pooled|stem|c3dbc51dea77b631|3b382462d6248640|9355498680386ee9|-835572462||t19569.5607911747s|5330104e3d8cc5d8|1046629|rds|local|vector|||0.8||
+diet_compo_data_pooled_all_prey|stem|4a7dde1ad29ddd60|e268233f9f6ce22f|8f571f2776e3d09a|-386311695||t19570.613507513s|8a0c0b8e17d8690f|429677|rds|local|vector|||0.85||
+diet_compo_data_pooled_all_prey_with_factice|stem|49cd33d79acfac33|b93a1a7120401394|b259a3b34c1cfec7|-1313741224||t19570.6135199631s|6f4a303fcde23542|518403|rds|local|vector|||0.65||
+diet_compo_data_pooled_all_prey_with_factice_reFe|stem|3793425c20c4f632|e68f08cfded602b6|123b0babff2087d8|-1972810472||t19570.642973203s||526222|rds|local|vector|||0.09||objet diet_data_nested_withmeta_all_prey_with_factice_reFe introuvable
+diet_compo_data_pooled_all_prey_with_factice_rnorm|stem|f376af3233c5c480|0c30dd9a2b859883|9753f5e260a5b6c2|2048667816||t19570.7155112428s|d1794f75fda3ce98|559129|rds|local|vector|||0.34||
+diet_compo_data_pooled_all_prey_with_factice_rnorm_Fe|stem|f8ea69c687fad92b|4ca74c6091df4514|3a0b46dfe3e38f17|618498912||t19570.7155056685s|455598753af78a62|562153|rds|local|vector|||0.52||
+diet_compo_data_pooled_all_prey_with_factice_runif|stem|13da77450c0f5599|0fc42268afadb042|6cf057738efa5331|1515075015||t19570.6684890423s|5baa50fc5a55487f|518461|rds|local|vector|||0.43||
+diet_compo_data_pooled_all_prey_with_factice_runif_Fe|stem|2822da149f884901|f6439b1b0a057df4|3b678cd7b28147e7|1792828387||t19570.65190792s|e49a5cda9e9a4f94|526421|rds|local|vector|||0.53||
+diet_compo_data_pooled_fish_ceph|stem|2d355f151b0eecec|1d145486f29bb155|9a1c6171d045ee4b|-1323921680||t19570.3511448719s|3bbf2a209868e904|403784|rds|local|vector|||0.33||
+diet_compo_data_pooled_fish_Ker|stem|8d89b8cdc68c1ea6|3883b76302aef819|807a7b9c9dbf7e44|-1245807434||t19570.5056195083s|cd2b9a79bcfad586|415963|rds|local|vector|||0.31||
+diet_compo_data_pooled_fish_only|stem|93db7fa999964320|3cd2858815f5799c|f6ef91baa803d688|-62926944||t19570.3511486684s|9d17b824f7f84991|392616|rds|local|vector|||0.21||
+diet_data_for_simulations|function|19c12570b1e81018|||||||||||||||
+diet_data_for_simulations_fish_ceph|function|eba8ece29b40451b|||||||||||||||
+diet_data_for_simulations_fish_only|function|1dd155e6468b6437|||||||||||||||
+diet_data_input|stem|ea9b3ab3a3063f65|f946fd7258f73484|3016daf287447325|-1196102958||t19569.5543629547s|1388513013fbc9e5|928|rds|local|vector|||0.3|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique|
+diet_data_input_all_prey|stem|7e92d3cdd66af762|370d141b827fa110|e6eee3f295c00695|897588282||t19570.4312002948s|ba90f62225fc3849|1503|rds|local|vector|||0.25|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique|
+diet_data_input_all_prey_with_factice|stem|a3a3dce9257ebde1|925f3d7775d87385|789561760c882c58|757835033||t19570.6026223972s|f2f2a730adb1b030|1631|rds|local|vector|||0.52|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique|
+diet_data_input_fish_ceph|stem|febc8783a91693a2|4f459d6d1f801778|e5a726fb82e50a1e|-1958915277||t19569.6396151221s|1c5e3cd96576d695|1426|rds|local|vector|||0.79|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique|
+diet_data_input_fish_Ker|stem|7445e6f3ec0c5091|cfa3d6b8b66f098d|e6eee3f295c00695|2070046423||t19570.4312094645s|2de55b8c1e7ff507|1441|rds|local|vector|||0.19|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique|
+diet_data_input_fish_only|stem|e7200d98709812cd|bce952e7c8f3ac35|3ac87b2ffeef875a|-1877479118||t19569.5779506884s|940ab9c39a5c001e|1376|rds|local|vector|||0.55|1m22mThere was 1 warning in dplyrmutate.1m22m36mi39m In argument W  as.numericW.Caused by warning33m39m NAs introduits lors de la conversion automatique|
+diet_data_Ker|function|db51f0a9724a1b09|||||||||||||||
 diet_data_Ker_sp|function|af6b86a6c2236918|||||||||||||||
 diet_data_Ker_sp_analysed|function|dee868060d14f1fb|||||||||||||||
 diet_data_Ker_sp_notanalysed|function|2b7241b223d89836|||||||||||||||
-diet_data_Ker_Wpercent|function|7ce8e992f0b40e6a|||||||||||||||
-diet_data_nested|stem|42183a0854efa096|c1915436a73979c6|87f5a410f96ad0ae|-1668588169||t19566.3714608903s|4328cc0b979f6ab6|1112|rds|local|vector|||0.17||
-diet_data_nested_withmeta|stem|4da0fcc71921dfdd|c481162426492e04|dda2a5a4774d9a57|2065339590||t19566.4795370469s|3eca1eb6d6c4ef4d|363690|rds|local|vector|||0.23||
-fig_diet_data_sources|stem|e8e5c41a76be6e3d|699589eb1ddd7ea2|07ae8150ba2d7223|-601534136||t19566.3658772564s|523f42601c936605|46368|rds|local|vector|||0.02||
-fig_diet_data_sources_fam|stem|308b441474d6ab86|07b5622260776a27|e2d2d703dacfae2d|1563546973||t19566.3658764934s|d64399310e886a89|46370|rds|local|vector|||0.19||
-fig_ind_nut_release_per_diet|stem|e839d1bd37d1b14a|89682de47a8d730a|3133c8bbe51d532d|-974085751||t19566.5074288803s|04ab1c635cc1b135|2605426|rds|local|vector|||1.21||
+diet_data_Ker_Wpercent|function|8fe18b66a1d85211|||||||||||||||
+diet_data_nested|stem|42183a0854efa096|c1915436a73979c6|87f5a410f96ad0ae|-1668588169||t19569.5543677427s|4328cc0b979f6ab6|1112|rds|local|vector|||0.06||
+diet_data_nested_all_prey|stem|040cddaa5510b5ae|4ba51ffe364f9970|310d5232dfc001ec|-328000512||t19570.4502642934s|ec84250628c31175|1490|rds|local|vector|||0.28||
+diet_data_nested_all_prey_with_factice|stem|23c6ca70614c8ce9|ab168dbc006c75f5|05ab327794402fd4|-1504776597||t19570.603195854s|ff2c25b85c9321a6|1599|rds|local|vector|||0.25||
+diet_data_nested_fish_ceph|stem|7f49d3f61cb19daf|7be2f887af940e6f|88b5c6fac31582c6|951287930||t19569.6396182197s||1358|rds|local|vector|||0.14||objet diet_data_input_fish_ceph introuvable
+diet_data_nested_fish_Ker|stem|01cc9572b77ee2db|edab660d77a1909c|aaf2c5c45d3c0ccd|1959980119||t19570.4502668885s|1ec55c044d810acc|1440|rds|local|vector|||0.03||
+diet_data_nested_fish_only|stem|9aa7f6750e842909|26f0fa995aed9d7f|3c5993ca13ab1c4d|1921617776||t19569.5779562458s|84eded5b02b1e2cb|1314|rds|local|vector|||0.11||
+diet_data_nested_withmeta|stem|049a40b43b1a6732|c481162426492e04|c4dfe2af0392f529|2065339590||t19569.554383669s|e711219c96954b6d|259341|rds|local|vector|||0.05||
+diet_data_nested_withmeta_all_prey|stem|e49db6b25bdcbac8|0c952ccfee433838|e0c8931ccacd7568|1638158325||t19570.6518951568s|8c15aaea25212276|217931|rds|local|vector|||0.16||
+diet_data_nested_withmeta_all_prey_with_factice|stem|6fe2fc3b552729d5|19aaf08aa9af6157|1888dd1b760be734|-1277909450||t19570.6518987244s|9984626c2a076695|272037|rds|local|vector|||0.02||
+diet_data_nested_withmeta_all_prey_with_factice_reFe|stem|7ed0f1afb3f3ccab|1fae3df0cbedb65f|fbe9ff430fa72109|-644869604||t19570.6429563503s|f8cad5802cf1abd0|279218|rds|local|vector|||0.22||
+diet_data_nested_withmeta_all_prey_with_factice_rnorm|stem|7d8983fb3a608838|c3f76f8682d73882|5d8eb2e6072445e6|-1702563191||t19570.7154969437s|4d7d3d63dd45e417|312183|rds|local|vector|||0.03||
+diet_data_nested_withmeta_all_prey_with_factice_rnorm_Fe|stem|259e82c64c8642c8|975bd157db1f862d|5d8eb2e6072445e6|-2070122840||t19570.7154962159s|e29787b479bd061f|315699|rds|local|vector|||0.16||
+diet_data_nested_withmeta_all_prey_with_factice_runif|stem|5cc33851b286fb05|19aaf08aa9af6157|1888dd1b760be734|2120073342||t19570.6684806416s|84b6355ef543afc1|272092|rds|local|vector|||0.14||
+diet_data_nested_withmeta_all_prey_with_factice_runif_Fe|stem|c0366bea47a28dc1|6e6e88649685e53b|1888dd1b760be734|-971855978||t19570.6518966807s|f2928b063936c673|279369|rds|local|vector|||0.01||
+diet_data_nested_withmeta_fish_ceph|stem|b05fa1ec208b1204|43753c7aadd023ed|f34a5701c1da8146|-582787672||t19570.3511391143s||217827|rds|local|vector|||0.08||objet diet_data_nested_fish_ceph introuvable
+diet_data_nested_withmeta_fish_Ker|stem|c3a456ffb0877d4e|2fa1486773318119|7d3158f28a1866f7|84638832||t19570.6518959322s|8998f39f3322e4bb|217884|rds|local|vector|||0.01||
+diet_data_nested_withmeta_fish_only|stem|37508c80dc5e83cb|7a2b5c9112ae7c24|0e1fc3a642878009|-1814902225||t19570.3511397499s|376b4c496f290984|217830|rds|local|vector|||0||
+diet_data_with_factice|stem|2f825495bc4e288e|38db4acc37c64f2d|4afe05f140195f45|1658464374||t19570.6026157948s|34d59e707d7f0232|1595|rds|local|vector|||0.22||
+fig_diet_data_sources|stem|e8e5c41a76be6e3d|699589eb1ddd7ea2|07ae8150ba2d7223|-601534136||t19569.5543731545s|523f42601c936605|46368|rds|local|vector|||0.41||
+fig_diet_data_sources_all_prey|stem|2f43c6ccf3a9be19|4679d362114f21d6|2faca42093d369cf|1554438476||t19570.4502609371s|45de196fc369cc0b|46425|rds|local|vector|||0.59||
+fig_diet_data_sources_all_prey_with_factice|stem|c80fcee507e86495|be238d6a9d2704a5|b9e5965c1ec13058|1679542667||t19570.6026270909s|b92a03b0e56e3030|46595|rds|local|vector|||0.34||
+fig_diet_data_sources_fam|stem|308b441474d6ab86|07b5622260776a27|e2d2d703dacfae2d|1563546973||t19569.5543739912s|d64399310e886a89|46370|rds|local|vector|||0.01||
+fig_diet_data_sources_fam_fish_Ker|stem|a43bb565ce861909|7362a576a641aded|edc272fef221e34e|1485375236||t19570.4502652196s|972617dbd69a81bc|46338|rds|local|vector|||0.01||
+fig_diet_data_sources_fam_fish_only|stem|cfb904d546cfb2a9|7d3040002fa04c07|412a0157d44fb9ae|153928458||t19569.5779548679s||46234|rds|local|vector|||0.19||objet diet_data_input_fish_only introuvable
+fig_diet_data_sources_fish_Ker|stem|8130058ce9994208|f5bfdbef9277df7d|d840fd6183c613b3|774998552||t19570.4502665142s|2d65f731a5a69532|46512|rds|local|vector|||0.08||
+fig_diet_data_sources_fish_only|stem|5a453aed9feecdb3|49c997c7d8fb7b2d|dd0646f6e4db3cae|1980526197||t19569.5779537978s|ea673777adc75a84|46231|rds|local|vector|||0.18||
+fig_ind_nut_conso_all_diets_all_prey_with_factice_runif|stem|f1c11d91f364f65b|4924011ace3b0a92|1d9a0ac92aba462c|-1555375171||t19570.6706531886s|8c5554d29be8f4a2|1230029|rds|local|vector|||0.8||
+fig_ind_nut_release_per_diet|stem|88b4c1e697433c40|89682de47a8d730a|e9882e4215688ed2|-974085751||t19569.5615675759s|49bef5027d79e2ca|1717168|rds|local|vector|||0.21||
+fig_ind_nut_release_per_diet_fish_Ker|stem|99429214435cd485|fb5beeda6d8e0d78|241f180d146dbd48|-1200571220||t19570.5124748741s|4c13495796885806|966546|rds|local|vector|||0.08||
+fig_ind_nut_release_per_diet_fish_only|stem|7eb107fc956cc080|841cfadfc74d3c8a|7ea18d06f56daead|-1184202075||t19570.351177409s|eaf89158f9281e5e|943402|rds|local|vector|||0.09||
+fig_ind_nut_release_rel_norm|stem|f92fb55394cc1fd2|5bafd95b4fad55c9|2bc86de2406d0c1d|1232981454||t19569.6809060753s|23568820e6f09ac7|1205852|rds|local|vector|||0.89||
+fig_ind_nut_release_rel_norm_all_prey|stem|95d76ca4ea6a84c0|2f0d2b61eb4f2ee1|fb30196b43ec6625|-1074164209||t19570.6685084147s|2e6a0b0a0f7dbcd5|1023708|rds|local|vector|||0.3||
+fig_ind_nut_release_rel_norm_all_prey_with_factice|stem|26b327317e7fa071|59128cfd62bb9f26|f3bde83d28f5cd19|-9810697||t19570.6192078629s||1232865|rds|local|vector|||0.28||objet model_output_all_prey_with_factice introuvable
+fig_ind_nut_release_rel_norm_all_prey_with_factice_reFe|stem|6853acc0b748807c|06a7003157b5644e|4a2bec71c8309e9a|277682244||t19570.6430008697s|340ea59fb921652d|1236568|rds|local|vector|||1.42||
+fig_ind_nut_release_rel_norm_all_prey_with_factice_rnorm|stem|cbe9affb02e851db|12ad169d162d33d2|42db36e7545eeaee|-841052249||t19570.7155320077s|9cc0eb4f0c825301|1273376|rds|local|vector|||0.37||
+fig_ind_nut_release_rel_norm_all_prey_with_factice_rnorm_Fe|stem|c5d624ee17750bfb|5f28731c2d183717|0c7e7d1c9730606c|-885764599||t19570.7155254638s|94c5339d4dde3b96|1273986|rds|local|vector|||0.62||
+fig_ind_nut_release_rel_norm_all_prey_with_factice_runif|stem|0df3671636df6579|22dc241ba14ba401|6505943d4768715d|1735094966||t19570.6685347285s|afede9a7df15cb6d|1233012|rds|local|vector|||0.25||
+fig_ind_nut_release_rel_norm_all_prey_with_factice_runif_Fe|stem|1c149ebb8c8c17cc|aaffbc88db66ac63|42430b38da71af11|582492345||t19570.6706609428s|03282a121c69c5e2|1239572|rds|local|vector|||0.38||
+fig_ind_nut_release_rel_norm_fish_ceph|stem|c97b9a3cd7cae20b|5bafd95b4fad55c9|4819f258ab9d33bd|837713536||t19570.351157366s|14bc86289f3be68b|997144|rds|local|vector|||0.29||
+fig_ind_nut_release_rel_norm_fish_Ker|stem|4383723d03d3f09b|1678ecafb60b900a|667a26909b32a630|-1529676471||t19570.6685017684s|ae453820b891771f|1006378|rds|local|vector|||0.68||
+fig_ind_nut_release_rel_norm_fish_only|stem|a90a82240b5721a7|550716d0302a2b5b|5a70d19090b293b8|1484316139||t19570.3511817587s|a0a75afdebe92be3|986381|rds|local|vector|||0.22||
+fig_ind_nut_release_rel_norm_per_diet_all_prey_with_factice|stem|38c0500de9b6bb24|58cf8a127003f1a0|3238a95271b13f1f|-1600737952||t19570.6216384713s|929117102bec4a9f|1231363|rds|local|vector|||1.78||
+fig_ind_nut_release_rel_norm_per_diet_all_prey_with_factice_runif|stem|0df3671636df6579|b5002bbc495e6e29|d852d64d7574cb38|1901103742||t19570.6685193964s|afede9a7df15cb6d|1233012|rds|local|vector|||0.73||
 fig_model_output|stem|e839d1bd37d1b14a|3cc0084685b56f5a|6dc8e4c626a28034|-791191274||t19566.4999670964s|04ab1c635cc1b135|2605426|rds|local|vector|||0.92||
+fig_nut_conso_ind_relative_all_diets|function|d7f6f23374276d56|||||||||||||||
 fig_nut_release_diets|function|99387dfe97aa5646|||||||||||||||
-fig_nut_release_ind_diets|function|99387dfe97aa5646|||||||||||||||
-fig_nut_release_pop_diets|function|2ff568e679a2124f|||||||||||||||
-fig_pop_nut_release_per_diet|stem|4c02589c5f96e9a8|13e997c8853e94e1|2de98ff2f6f0a272|-1370471710||t19566.507442069s|99c2d35598b35a8b|2599348|rds|local|vector|||0.32||
-fig_quant_diet_data_prey_analysed|function|be66e48e31baa703|||||||||||||||
-fig_quant_diet_data_prey_analysed_fam|function|64879eb0f8bd82b9|||||||||||||||
+fig_nut_release_ind_diets|function|70992ca058b1a836|||||||||||||||
+fig_nut_release_ind_relative|function|fb8786c198fe0660|||||||||||||||
+fig_nut_release_ind_relative_all_diets|function|d75c0bc52d7182cb|||||||||||||||
+fig_nut_release_ind_relative_per_diet|function|cc9cfc448ab1d7b7|||||||||||||||
+fig_nut_release_pop_diets|function|26a85222d535f9a8|||||||||||||||
+fig_nut_scat_compo_relative_norm|function|7cdef169ffebadd0|||||||||||||||
+fig_pop_nut_release_per_diet|stem|a0fc123d815f74e2|13e997c8853e94e1|4fb43340608f97be|-1370471710||t19569.5691042595s|24586d750a460551|1745141|rds|local|vector|||2.31||
+fig_pop_nut_release_per_diet_all_prey|stem|abe77b1bf9d92260|504101cbe6e9232c|c5a6b87fdee74e29|-799771722||t19570.6048614329s|94a61130a1e75a08|1007005|rds|local|vector|||0.92||
+fig_pop_nut_release_per_diet_all_prey_with_factice|stem|2835071c4270aec8|4fcf97b746e3e2d6|e79fce9f1f715451|-767104717||t19570.6091957159s|1999b8eb188d2e2a|1216213|rds|local|vector|||1.95||
+fig_pop_nut_release_per_diet_all_prey_with_factice_runif|stem|c32e7a6a8cc226dc|1fb53ee7365f871b|912d1ad9dfd0030a|991275746||t19570.6685294846s|4e95fe6736ad430b|1216357|rds|local|vector|||0.64||
+fig_pop_nut_release_per_diet_fish_ceph|stem|2938e97c9e2f36f2|731719b4995430ad|0cf0d5e925bc6178|2021594449||t19570.3511664695s|daa4cbb8267716d7|980340|rds|local|vector|||0.6||
+fig_pop_nut_release_per_diet_fish_Ker|stem|d4d71f9164a7f154|83edfb73280689c0|168681ddb9bca3c5|-1510553934||t19570.6048463104s|604fdd0f56acd74a|992636|rds|local|vector|||2.42||
+fig_pop_nut_release_per_diet_fish_only|stem|3f9eac9117d1d162|4b016d5eddc153fc|99fa0ad291ac0003|800964843||t19570.3511745296s|dc85fa8f064daad8|969675|rds|local|vector|||0.53||
+fig_quant_diet_data_prey_analysed|function|cba08f615de8a2f5|||||||||||||||
+fig_quant_diet_data_prey_analysed_fam|function|771b245a7ff216bf|||||||||||||||
+fig_scat_compo_rel_norm|stem|8bf0e4da1f5a6b58|dd63cfcb1ef56ac7|1896aabc8ef24c3c|-1897037819||t19570.3511254712s|28e33295d0a63c81|50019|rds|local|vector|||0.52||
+fish_ceph_compo_data_boot_dw|stem|fd3a7ee6c2bfe1a2|1d868920a960f45d|8770460fb48e1452|-1947050723||t19570.3511294026s||440934|rds|local|vector|||0.08||objet fish_ceph_compo_data_ready introuvable
+fish_ceph_compo_data_boot_ww|stem|29939a7eeba01c1a|7083aea09c86de94|9381d3f2ea295e8d|1458931332||t19570.3511385775s|6b56cb0f8c38afa2|202646|rds|local|vector|||0.19|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Taxa, Nutrient   dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
+fish_ceph_compo_data_ready|stem|26a96a8296ed6e4e|22a9532c019e51ff|7a3a5acc86967d93|1520564062||t19570.3511191044s|03f84284e1106add|18035|rds|local|vector|||0.02||
 fish_compo_data_boot|stem|cf734e1300352d07|155518637ef51b6a|e178a6baeaf9feae|289055623||t19566.3125167438s|34fed624dfa7deed|585946|rds|local|vector|||0.11||
-fish_compo_data_boot_dw|stem|2a9237d62bbd5a64|155518637ef51b6a|e178a6baeaf9feae|-1160382872||t19566.3608095977s|f09340c4395a6e8d|587023|rds|local|vector|||0.11||
-fish_compo_data_boot_ww|stem|a2638e34af8f693e|b9cb1486deae0ca5|b80d5011d894cc70|1217100765||t19566.360815497s|e835eaf09ede3ffe|153030|rds|local|vector|||0.39|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Family, Species, Genus, Taxa, Nutrient   dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
-fish_compo_data_ready|stem|bb05e8673ce1b9fd|f4e461fa9f07b08b|1d6347d0b5a5fb8d|377146726||t19566.3104200246s|aa94e8b1d91c5ee7|30474|rds|local|vector|||0.14||
-format_data|function|26cade8be3b92043|||||||||||||||
+fish_compo_data_boot_dw|stem|1a159b271b5b64c5|155518637ef51b6a|8c10303c78a9f9cf|-1160382872||t19569.581452919s|8955962f4d3e6eaa|420010|rds|local|vector|||0.06||
+fish_compo_data_boot_dw_fish_ceph|stem|1f95eb6836c5acfa|f768da7817e7add9|32b50fc9976865e2|1674341554||t19569.6284651157s|db2821eeeb1bbff3|439976|rds|local|vector|||0.22||
+fish_compo_data_boot_dw_fish_only|stem|4d48a1a99c456e63|01e93271a9fe2677|1dc787d15ab42092|-1817966617||t19569.6065247957s|a7a95f6751742c9f|418520|rds|local|vector|||0.05||
+fish_compo_data_boot_ww|stem|79edd044a391c1f8|b9cb1486deae0ca5|463377fc609cbe31|1217100765||t19569.5814620904s|0bf2a4b018b85e8b|153139|rds|local|vector|||0.39|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Family, Species, Se, Zn, Genus, Taxa, Nutrient    dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L. 1m22mcols is now required when using unnest.36mi39m Please use cols  cP, Ni, Mn, Fe, Cu, Co.|
+fish_compo_data_boot_ww_fish_ceph|stem|7c5a09a1945643bd|85d8d2aba0dd6eab|e2ca5c8b428f4605|1783067396||t19569.6288969458s|aca88f0234a5fe14|166188|rds|local|vector|||0.48|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Taxa, Nutrient   dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
+fish_compo_data_boot_ww_fish_only|stem|ac24b12898222d52|f86fae34dfab14e8|22cafb8ca60e0dca|1983243128||t19569.6288852256s|0c452f0b88c09b8f|153846|rds|local|vector|||0.8|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Taxa, Nutrient   dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
+fish_compo_data_ready|stem|875fc0793fbc1688|f4e461fa9f07b08b|6f4ca1c73d14a344|377146726||t19569.5814185911s|7b709db24b501b3d|20048|rds|local|vector|||0.17||
+fish_compo_data_ready_fish_ceph|stem|c2eb9d2ebf0e5962|22a9532c019e51ff|83e868ba7f567cd3|-179296646||t19569.6278912985s|da3c77b0796823d4|20263|rds|local|vector|||0.19||
+fish_compo_data_ready_fish_only|stem|2712a53e85b3663d|127b4048179122b2|e4d062d03f67f96a|480599818||t19569.6215480161s|26d9683e39781981|19885|rds|local|vector|||0.05||
+fish_Ker_compo_data_boot_dw|stem|2e289fd33eb215d9|eb1a248a76a7ab1c|a98016265767f146|-1968920823||t19570.5056003132s|6df5500bfafb4a2c|373927|rds|local|vector|||0.03||
+fish_Ker_compo_data_boot_ww|stem|2d19e6403302809d|371d32033f7a6ec7|1d3265ac5a5b8221|517528923||t19570.5056075871s|f40810eb76e8a4a2|150848|rds|local|vector|||0.23|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Order, Taxa, Nutrient    dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
+fish_Ker_compo_data_ready|stem|b69d800c383c4ddd|0288043108455112|13930d4932cac8e3|1354137712||t19570.5103980563s|dd41ec55740121c8|16021|rds|local|vector|||0.08||
+fish_only_compo_data_boot_dw|stem|98443ce74051a501|11e53440e9e23f0b|973d67dfe178e915|-948956283||t19570.3511271707s|cdfbab5bf124e2f7|350487|rds|local|vector|||0.01||
+fish_only_compo_data_boot_ww|stem|da96458847e6ccdb|5c728be884211dc1|9a50cfc5b4ca8a12|2070871891||t19570.3511340938s|0e309e7bff1b8e1f|142948|rds|local|vector|||0.14|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Taxa, Nutrient   dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
+fish_only_compo_data_ready|stem|c71a0fc0feee00d4|ed7094bc90cd3aa2|781d3ae033637bae|605335637||t19570.3511101806s||15672|rds|local|vector|||0.09||objet res_compo_fish_Ker introuvable
+format_data|function|8f72f02131699033|||||||||||||||
 kleiber|function|fa859ff4cff6053c|||||||||||||||
 load_xl|function|9a51ae54bd45d9d4|||||||||||||||
-model_output|stem|ee63eb56cb182a64|a8cbc21f77fce9d6|3b088975559dea92|90343381||t19566.4795614713s|df887bfdd3d3c072|2535487|rds|local|vector|||0.09||
-prepare_compo_data|function|def0cbd223df206c|||||||||||||||
-res_compo_fish|stem|c429ac1a7a6b2b87|153df017b61b7605|4bfe5eb7df52ff9e|320489928||t19566.2925126046s|ebc6b1350a8c6dea|29038|rds|local|vector|||0.21||
-res_compo_fish_file|stem|db399f4acc66db3b|cc85a010a4e2c69a|ef46db3751d8e999|-1067148306|data/res_compo_fish.xlsx|t19551.3672940622s|7cde8f029ef9f2bd|114426|file|local|vector|||0||
-res_compo_fish_raw|stem|e276ea162b935e81|2237e3cda53c822b|2700d7f467715a8f|-322030643||t19566.2925100457s|238af839bc055af4|44485|rds|local|vector|||0.05||
-res_compo_scats|stem|14717845b0ea6f16|d981c8c958872bfe|52365b6a367b7080|-1632829949||t19564.5711649019s|ead58f01417eaf92|11195|rds|local|vector|||0.02||
+model_output|stem|329deab43620ad95|a8cbc21f77fce9d6|1e91ba09d225b51c|90343381||t19569.560798771s|d71868085bfa88d7|1650319|rds|local|vector|||0.17||
+model_output_all_prey|stem|6b7353785a1e8760|4d2e866be5b865ff|ca72573f5cb2c608|673615071||t19570.5111798664s|9c3686254aba1889|911664|rds|local|vector|||0.02||
+model_output_all_prey_with_factice|stem|07ac8ea4166057ed|722782f3058b41a9|39aada52dc6e3f38|-746300331||t19570.6091692786s|8ddd71fa1ec2bc15|1120904|rds|local|vector|||0.08||
+model_output_all_prey_with_factice_reFe|stem|f3ed69a6b0f69b99|8e2f59d08436968a|677657a6af8d365d|-604469238||t19570.6429798399s|fcc387aff3944c7b|1129041|rds|local|vector|||0.1||
+model_output_all_prey_with_factice_rnorm|stem|5fce3fb4e8da6bb5|ea77b0f3e9ed6817|43ae10eec17e4365|1028253188||t19570.7155155383s|ff355e8e3a7eccb2|1161906|rds|local|vector|||0.04||
+model_output_all_prey_with_factice_rnorm_Fe|stem|481b881fbbab8078|a4e4f0c93f0d40e6|15a4d9b80c237e56|-1746311183||t19570.7155135404s|4a0488cfa3f1a7d6|1164912|rds|local|vector|||0.03||
+model_output_all_prey_with_factice_runif|stem|bfcc16fa465815f5|a8ebf7c3be1db48c|dcf7d90ac9b3b380|-352147142||t19570.6684913568s|f060bafaebafb805|1121043|rds|local|vector|||0.03||
+model_output_all_prey_with_factice_runif_Fe|stem|1f174466bbf2ad64|bea02c08eeb9557d|9dade8889fe0ba00|972002849||t19570.6519219867s|135e87f394999005|1129229|rds|local|vector|||0.03||
+model_output_fish_ceph|stem|dab18cb50ff25f4b|5a39dbf1c8028dde|c1ea351331e19250|1891190862||t19570.3511505024s|6782600f39938bc0|885722|rds|local|vector|||0.02||
+model_output_fish_Ker|stem|24ac35c01af7a821|569c65c890edfa7a|a0b68ec5eaea035b|1750290217||t19570.5111774683s|6da6257b11ad3dfb|898337|rds|local|vector|||0.16||
+model_output_fish_only|stem|287b6902484d1aec|cdcae86c152c24b5|8d8401fab0d73872|-1497984436||t19570.3511521431s|c508d939bb2095fc|874354|rds|local|vector|||0.04||
+prepare_compo_data|function|bf9b1006a5cd9e34|||||||||||||||
+prepare_compo_data_fish_ceph|function|89f259b7aee6103e|||||||||||||||
+prepare_compo_data_fish_only|function|f4dbf0865aa846ac|||||||||||||||
+prepare_compo_data_prey|function|fda32592d8715f2f|||||||||||||||
+res_compo_fish|stem|f4cd00fd7ffa17bb|153df017b61b7605|89d7e2b3badd2244|320489928||t19570.2813797978s|53a4df6b97e791c0|17065|rds|local|vector|||0.08||
+res_compo_fish_file|stem|db399f4acc66db3b|cc85a010a4e2c69a|ef46db3751d8e999|-1067148306|data/res_compo_fish.xlsx|t19569.5486006925s|7cde8f029ef9f2bd|114426|file|local|vector|||0||
+res_compo_fish_Ker|stem|75e9ddf54a56d1f4|c70dc6e29a6653c0|993a858bc38b61b4|-228966537||t19570.3511090982s|7b766dc0a473be4f|14998|rds|local|vector|||0.22||
+res_compo_fish_Ker_file|stem|db399f4acc66db3b|88c052b5b229ed38|ef46db3751d8e999|-907338768|data/res_compo_fish_Kerguelen.xlsx|t19569.5486006925s|7cde8f029ef9f2bd|114426|file|local|vector|||0||
+res_compo_fish_Ker_raw|stem|e276ea162b935e81|22f0e97983d8b0c4|db22ea940313f03c|1831086071||t19570.339405112s|238af839bc055af4|44485|rds|local|vector|||0.05||
+res_compo_fish_raw|stem|e276ea162b935e81|2237e3cda53c822b|2700d7f467715a8f|-322030643||t19569.5543280616s|238af839bc055af4|44485|rds|local|vector|||0.11||
+res_compo_prey|stem|5ca259368b4484ce|88caa11f24e94743|12baed27a95a15c7|-1594815601||t19570.5103967249s|245d8a4abb13332f|17787|rds|local|vector|||0.5||
+res_compo_prey_file|stem|a0faf2f491f55533|c0c532d400de5c61|ef46db3751d8e999|-125563546|data/res_compo_prey.xlsx|t19570.510213163s|c310605b35c35fd8|129409|file|local|vector|||0||
+res_compo_prey_raw|stem|c77a915ca71380c2|4a193811511c098e|8e3f1ec2cc4d16da|-587632760||t19570.5103904924s|81e020a565f49c73|49209|rds|local|vector|||0.21||
+res_compo_scats|stem|053c23ea1018a89d|9054bbf69dfd7a5c|8cdde4a9cbc73027|-1632829949||t19570.3511099365s|e0dd1c3af7894cca|3056|rds|local|vector|||0.01||
 res_compo_scats_file|stem|59ae31ed2ec019c6|85718b586e8fcff4|ef46db3751d8e999|1495599521|data/res_compo_scats.xlsx|t19398.1744194502s|eb8fd1b42247d7a7|67799|file|local|vector|||0||
+res_compo_scats_raw|stem|14717845b0ea6f16|d981c8c958872bfe|52365b6a367b7080|1158707757||t19569.6755827825s|ead58f01417eaf92|11195|rds|local|vector|||0.04||
 run_model|function|c2c0aa5a55cc9a7b|||||||||||||||
-set_up_fish_compo|function|71370b9b7f2ccdf5|||||||||||||||
+set_up_fish_compo|function|cd9eeec2964c97d0|||||||||||||||
+set_up_prey_compo|function|f63996743fae48ba|||||||||||||||
+set_up_scat_compo|function|5f6a2ec56076200a|||||||||||||||
+set_up_scats_compo|function|04f8dab6a506b7e6|||||||||||||||
 summary_diet_data|function|0debd134e4f65a4c|||||||||||||||
 summary_fish_samples|function|0a7b40a95c673075|||||||||||||||
 summary_scat_samples|function|ef325a3b8403d89d|||||||||||||||
-tab_nut_release_pop_diets|function|7c76429f676aded1|||||||||||||||
-table_pop_nut_release_per_diet|stem|6453f677b6c5f34c|56373674f5a4fc76|0bdf84a9c0677d83|969980760||t19566.5104890304s|03832ab6e3e56188|870|rds|local|vector|||0.73||
+tab_nut_release_pop_diets|function|af48c880564dda13|||||||||||||||
+table_pop_nut_release_per_diet|stem|4170dd97b22342de|56373674f5a4fc76|a24e6057dc6a51b3|969980760||t19569.5615594452s|64730204cc281796|683|rds|local|vector|||0.16||
+table_pop_nut_release_per_diet_fish_Ker|stem|1fd4a2f3661cc364|a3f83948d205123c|ce08024b1009bb58|1971704707||t19570.5124717327s|100201a91a60a60f|603|rds|local|vector|||0.08||
+table_pop_nut_release_per_diet_fish_only|stem|e8f3faa05831b549|493eb222a687ee37|9b6eb53a94a3519a|-1949331163||t19570.3511828968s|100201a91a60a60f|603|rds|local|vector|||0.08||

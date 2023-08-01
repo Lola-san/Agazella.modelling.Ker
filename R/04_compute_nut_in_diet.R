@@ -15,41 +15,92 @@
 #'
 # for the composition dataset, add lines with all samples for categories where 
 # prey was only identified to level Genus/Family/Taxa
-prepare_compo_data <- function(compo_fish) {
-  compo_fish |>
-    dplyr::mutate(Genus = stringr::str_split_i(Species, " ", 1),
-                  Taxa = "Fish") |>
-    dplyr::bind_rows(# "Gymnoscopelus spp"
-      compo_fish |>
-        dplyr::mutate(Genus = stringr::str_split_i(Species, " ", 1),
-                      Taxa = "Fish") |>
-        dplyr::filter(Genus == "Gymnoscopelus") |>
-        dplyr::mutate(Species = NA), 
-      # "Myctophidae spp"
-      compo_fish |>
-        dplyr::mutate(Genus = stringr::str_split_i(Species, " ", 1),
-                      Taxa = "Fish") |>
-        dplyr::filter(Family == "Myctophidae") |>
-        dplyr::mutate(Species = NA, 
-                      Genus = NA), 
-      # "Fish spp"
-      compo_fish |>
-        dplyr::mutate(Genus = stringr::str_split_i(Species, " ", 1),
-                      Taxa = "Fish") |>
-        dplyr::mutate(Species = NA, 
-                      Genus = NA, 
-                      Family = NA))  
+prepare_compo_data_prey <- function(compo_prey, 
+                                    location_restriction # "Kerguelen" or "all"
+                                    ) {
+  
+  if (location_restriction == "Kerguelen") {
+    compo_prey <- compo_prey |>
+      dplyr::filter(Location == "Kerguelen") |>
+      dplyr::bind_rows(
+        # "Gymnoscopelus spp"
+        compo_prey |>
+          dplyr::filter(Location == "Kerguelen",
+                        Genus == "Gymnoscopelus") |>
+          dplyr::mutate(Species = as.character(NA)), 
+        # "Myctophidae spp"
+        compo_prey |>
+          dplyr::filter(Location == "Kerguelen",
+                        Family == "Myctophidae") |>
+          dplyr::mutate(Species = as.character(NA), 
+                        Genus = as.character(NA)), 
+        # "Fish spp"
+        compo_prey |>
+          dplyr::filter(Location == "Kerguelen",
+                        Taxa == "Fish") |>
+          dplyr::mutate(Species = as.character(NA), 
+                        Genus = as.character(NA), 
+                        Family = as.character(NA), 
+                        Order = as.character(NA)), 
+        # "Perciformes spp" (not Perciformes spp in diet data but we don't have
+        # neither the species nor the family that is included in the diet)
+        compo_prey |>
+          dplyr::filter(Location == "Kerguelen",
+                        Order == "Perciformes") |>
+          dplyr::mutate(Species = as.character(NA), 
+                        Genus = as.character(NA), 
+                        Family = as.character(NA))) 
+  } else if (location_restriction == "all") {
+    compo_prey <- compo_prey |>
+      # Change Cephalopod/Ommastrephidae/Illex coindetti or Todaropsis eblanae
+      # to Cephalopod/Ommastrephidae because we'll use them for the ceph 
+      # species we don't have in Kerguelen dataset
+      dplyr::mutate(Species = dplyr::case_when(Family == "Ommastrephidae" ~ as.character(NA),
+                                               TRUE ~ Species),  
+                    Genus = dplyr::case_when(Family == "Ommastrephidae" ~ as.character(NA),
+                                             TRUE ~ Genus)) |>
+      dplyr::bind_rows(
+        # "Gymnoscopelus spp"
+        compo_prey |>
+          dplyr::filter(Genus == "Gymnoscopelus") |>
+          dplyr::mutate(Species = as.character(NA)), 
+        # "Myctophidae spp"
+        compo_prey |>
+          dplyr::filter(Family == "Myctophidae") |>
+          dplyr::mutate(Species = as.character(NA), 
+                        Genus = as.character(NA)), 
+        # "Fish spp"
+        compo_prey |>
+          dplyr::filter(Taxa == "Fish") |>
+          dplyr::mutate(Species = as.character(NA), 
+                        Genus = as.character(NA), 
+                        Family = as.character(NA), 
+                        Order = as.character(NA)), 
+        # "Perciformes spp" (not Perciformes spp in diet data but we don't have
+        # neither the species nor the family that is included in the diet)
+        compo_prey |>
+          dplyr::filter(Order == "Perciformes") |>
+          dplyr::mutate(Species = as.character(NA), 
+                        Genus = as.character(NA), 
+                        Family = as.character(NA)) 
+        ) 
+  }
+  
+  compo_prey |>
+    dplyr::select(c(Code_sample, Species, Genus, Family, Order, Taxa, 
+                    Fe, Zn, Cu, Mn, Se, Co))
 }
+
 
 #'
 #'
 #'
 #'
 # bootstrapp composition data per Species or group of species 
-bootstrap_compo_data <- function(compo_fish, 
+bootstrap_compo_data <- function(compo_prey, 
                                  nsim) {
-  compo_fish |>
-    dplyr::group_by(Species, Genus, Family, Taxa) |>
+  compo_prey |>
+    dplyr::group_by(Species, Genus, Family, Order, Taxa) |>
     dplyr::slice_sample(n = nsim, replace = TRUE)  
 }
 
@@ -59,16 +110,17 @@ bootstrap_compo_data <- function(compo_fish,
 #'
 #'
 # change dry weight to wet weight concentrations 
-compot_data_ww <- function(compo_fish_boot) {
-  compo_fish_boot |>
-    tidyr::pivot_longer(cols = c(As:Zn), 
+compot_data_ww <- function(compo_prey_boot) {
+  compo_prey_boot |>
+    tidyr::pivot_longer(cols = c(Fe:Co), 
                         names_to = "Nutrient", 
                         values_to = "concentration_mg_kg_dw") |>
     # given a water content of 80% for all fish
     dplyr::mutate(concentration_mg_kg_ww = 0.2*concentration_mg_kg_dw) |>
     dplyr::select(-concentration_mg_kg_dw) |>
     tidyr::pivot_wider(names_from = Nutrient, 
-                       values_from = concentration_mg_kg_ww)
+                       values_from = concentration_mg_kg_ww) |>
+    tidyr::unnest(c(Fe, Zn, Cu, Mn, Se, Co))
 }
 
 #'
@@ -76,39 +128,34 @@ compot_data_ww <- function(compo_fish_boot) {
 #'
 #'
 # compute nutrient content in diet 
-compute_nut_in_diet <- function(diet_data_input,
-                                compo_fish_boot_ww 
+compute_nut_in_diet_fish_Ker <- function(diet_data_input,
+                                compo_fish_Ker_boot_ww 
 ) {
   diet_data_input |>
     dplyr::mutate(nut_diet_sp = seq_along(diet) |>
                     purrr::map(~ purrr::pluck(diet, .) |>
                                  # add column with %W in diet associated to each prey_group, for each pred (ie.line)
-                                 dplyr::left_join(y = compo_fish_boot_ww,
+                                 dplyr::left_join(y = compo_fish_Ker_boot_ww,
                                                   by = c("Species", "Genus", 
-                                                         "Family", "Taxa")) |>
-                                 dplyr::mutate(As = As*(W/100),
-                                               Ca = Ca*(W/100),
-                                               Co = Co*(W/100),
+                                                         "Family", 
+                                                         "Order", "Taxa")) |>
+                                 dplyr::mutate(Fe = Fe*(W/100),
+                                               Zn = Zn*(W/100),
                                                Cu = Cu*(W/100),
-                                               Fe = Fe*(W/100),
-                                               K = K*(W/100),
-                                               Mg = Mg*(W/100),
                                                Mn = Mn*(W/100),
-                                               Na = Na*(W/100),
-                                               Ni = Ni*(W/100),
-                                               P = P*(W/100),
                                                Se = Se*(W/100),
-                                               Zn = Zn*(W/100), 
-                                               name = dplyr::case_when(is.na(Family) ~ Taxa, 
+                                               Co = Co*(W/100), 
+                                               name = dplyr::case_when(is.na(Order) ~ Taxa,
+                                                                       is.na(Family) ~ Order,  
                                                                        is.na(Genus) ~ Family, 
                                                                        is.na(Species) ~ Genus,
                                                                        !is.na(Species) ~ Species)) |>
-                                 dplyr::select(-c(Code_sample, W, Species, Genus, Family, Taxa)) |>
-                                 tidyr::nest(nut = c("As":"Zn")) |>
+                                 dplyr::select(c(Fe, Zn, Cu, Mn, Se, Co, name)) |>
+                                 tidyr::nest(nut = c("Fe":"Co")) |>
                                  tidyr::pivot_wider(names_from = name,
                                                     values_from = nut)),
                   nut_diet_full = # different number of species depending on diet data
-                    dplyr::case_when(# Cherel et. al 1997: 10 species
+                    dplyr::case_when(# Cherel et. al 1997: 11 species
                       Year_collection == 1994 ~ seq_along(nut_diet_sp) |>
                                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
@@ -119,8 +166,9 @@ compute_nut_in_diet <- function(diet_data_input,
                                                     purrr::pluck(nut_diet_sp, ., 7, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 8, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 9, 1) +
-                                                    purrr::pluck(nut_diet_sp, ., 10, 1)),
-                      # Lea et. al 2002, year collection 1998 : 17 species
+                                                    purrr::pluck(nut_diet_sp, ., 10, 1) +
+                                                    purrr::pluck(nut_diet_sp, ., 11, 1)),
+                      # Lea et. al 2002, year collection 1998 : 18 species
                                      Year_collection == 1998 ~ seq_along(nut_diet_sp) |>
                                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
@@ -138,8 +186,9 @@ compute_nut_in_diet <- function(diet_data_input,
                                                     purrr::pluck(nut_diet_sp, ., 14, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 15, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 16, 1) +
-                                                    purrr::pluck(nut_diet_sp, ., 17, 1)),
-                      # Lea et. al 2002, year collection 1999 : 14 species
+                                                    purrr::pluck(nut_diet_sp, ., 17, 1) +
+                                                    purrr::pluck(nut_diet_sp, ., 18, 1)),
+                      # Lea et. al 2002, year collection 1999 : 15 species
                                      Year_collection == 1999 ~ seq_along(nut_diet_sp) |>
                                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
@@ -154,7 +203,8 @@ compute_nut_in_diet <- function(diet_data_input,
                                                     purrr::pluck(nut_diet_sp, ., 11, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 12, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 13, 1) +
-                                                    purrr::pluck(nut_diet_sp, ., 14, 1)),
+                                                    purrr::pluck(nut_diet_sp, ., 14, 1) +
+                                                    purrr::pluck(nut_diet_sp, ., 15, 1)),
                       # Lea et. al 2002, year collection 2000 : 13 species
                                      Year_collection == 2000 ~ seq_along(nut_diet_sp) |>
                                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
@@ -170,6 +220,122 @@ compute_nut_in_diet <- function(diet_data_input,
                                                     purrr::pluck(nut_diet_sp, ., 11, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 12, 1) +
                                                     purrr::pluck(nut_diet_sp, ., 13, 1))) )
+}
+
+
+#'
+#'
+#'
+#'
+# compute nutrient content in diet 
+compute_nut_in_diet_all_prey <- function(diet_data_input,
+                                          compo_prey_boot_ww 
+) {
+  diet_data_input |>
+    dplyr::mutate(nut_diet_sp = seq_along(diet) |>
+                    purrr::map(~ purrr::pluck(diet, .) |>
+                                 # add column with %W in diet associated to each prey_group, for each pred (ie.line)
+                                 dplyr::left_join(y = compo_prey_boot_ww,
+                                                  by = c("Species", "Genus", 
+                                                         "Family", 
+                                                         "Order", "Taxa")) |>
+                                 dplyr::mutate(Fe = Fe*(W/100),
+                                               Zn = Zn*(W/100),
+                                               Cu = Cu*(W/100),
+                                               Mn = Mn*(W/100),
+                                               Se = Se*(W/100),
+                                               Co = Co*(W/100), 
+                                               name = dplyr::case_when(is.na(Order) ~ Taxa,
+                                                                       is.na(Family) ~ Order, 
+                                                                       is.na(Genus) ~ Family, 
+                                                                       is.na(Species) ~ Genus,
+                                                                       !is.na(Species) ~ Species)) |>
+                                 dplyr::select(c(Fe, Zn, Cu, Mn, Se, Co, name)) |>
+                                 tidyr::nest(nut = c("Fe":"Co")) |>
+                                 tidyr::pivot_wider(names_from = name,
+                                                    values_from = nut)),
+                  nut_diet_full = # different number of species depending on diet data
+                    dplyr::case_when(# Cherel et. al 1997: 11 species
+                      Year_collection == 1994 ~ seq_along(nut_diet_sp) |>
+                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 3, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 4, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 5, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 6, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 7, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 8, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 9, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 10, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 11, 1)),
+                      # Lea et. al 2002, year collection 1998 : 19 species
+                      Year_collection == 1998 ~ seq_along(nut_diet_sp) |>
+                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 3, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 4, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 5, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 6, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 7, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 8, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 9, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 10, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 11, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 12, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 13, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 14, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 15, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 16, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 17, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 18, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 19, 1)),
+                      # Lea et. al 2002, year collection 1999 : 16 species
+                      Year_collection == 1999 ~ seq_along(nut_diet_sp) |>
+                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 3, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 4, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 5, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 6, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 7, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 8, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 9, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 10, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 11, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 12, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 13, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 14, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 15, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 16, 1)),
+                      # Lea et. al 2002, year collection 2000 : 14 species
+                      Year_collection == 2000 ~ seq_along(nut_diet_sp) |>
+                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 3, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 4, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 5, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 6, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 7, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 8, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 9, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 10, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 11, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 12, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 13, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 14, 1)),
+                      # Factice diet #1, year collection 2023: 11 species
+                      Year_collection == 2023 ~ seq_along(nut_diet_sp) |>
+                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 3, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 4, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 5, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 6, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 7, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 8, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 9, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 10, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 11, 1))) )
 }
 
 

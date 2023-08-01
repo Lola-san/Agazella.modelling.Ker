@@ -85,20 +85,21 @@ summary_fish_samples <- function(fish_tab,
 #'
 # select only nutrient of interest, get rid of technical outliers/contaminated
 # samples and set statistical outliers to higher quantiles values
-set_up_fish_compo <- function(compo_results_fish) {
+set_up_prey_compo <- function(compo_results_prey) {
   
   # for statistical outliers
   # calculate quantiles 
-  all_quant <- compo_results_fish |>
+  all_quant <- compo_results_prey |>
     # exclude unwanted samples 
     dplyr::filter(!(Code_sample %in% c("2010PII_MACRCAR_CHA103_MC07",
                                        "2005_GYMNFRA_GF11",
                                        "2005_STOMSP_SS09",
                                        "2005_NOTOCOA_NC03",
-                                       "2005_PARAGRA_PG06"))) |>
+                                       "2005_PARAGRA_PG06", 
+                                       "HYPE_LAN_Spitz2010"))) |>
     # get rid of unneeded nutrient
-    dplyr::select(c(Code_sample, Fe, Zn, Ni)) |> 
-    tidyr::pivot_longer(cols = c("Fe":"Ni"), 
+    dplyr::select(c(Code_sample, Fe, Zn, Se)) |> 
+    tidyr::pivot_longer(cols = c("Fe":"Se"), 
                         names_to = "Nutrient", 
                         values_to = "concentration_mg_g_dw") |>
     dplyr::group_by(Nutrient) |>
@@ -107,26 +108,47 @@ set_up_fish_compo <- function(compo_results_fish) {
                        values_from = high_quant)
   
   quant_zn <- all_quant$Zn
-  quant_ni <- all_quant$Ni
   quant_fe <- all_quant$Fe
+  quant_se <- all_quant$Se
   
   
   # set up the table 
-  compo_results_fish |> 
+  compo_results_prey |> 
     # technical outliers/possibly contaminated samples
     dplyr::filter(!(Code_sample %in% c("2005_PROTAND_PA03",
                                        "2010PII_ARCTRIS_CHA94_AR01"))) |>
     # get rid of unwanted nutrients (+ with only trace)
-    dplyr::select(-c(Mo, V, Ag, Cr, Pb, Cd, Sr)) |>
+    dplyr::select(-c(Mo, V, Ag, Cr, Pb, Cd, Sr, 
+                     As, Ca, K, Mg, Na, P, 
+                     Ni)) |>
     # statistical outliers
     dplyr::mutate(Fe = dplyr::case_when(Code_sample %in% c("2005_STOMSP_SS09",
                                                            "2005_NOTOCOA_NC03",
                                                            "2005_PARAGRA_PG06") ~ quant_fe, 
                                         TRUE ~ Fe),
-                  Ni = dplyr::case_when(Code_sample == "2010PII_MACRCAR_CHA103_MC07" ~ quant_ni,
-                                        TRUE ~ Ni), 
                   Zn = dplyr::case_when(Code_sample == "2005_GYMNFRA_GF11" ~ quant_zn,
-                                        TRUE ~ Zn))
+                                        TRUE ~ Zn), 
+                  Se = dplyr::case_when(Code_sample == "HYPE_LAN_Spitz2010" ~ quant_se,
+                                        TRUE ~ Se), 
+                  Genus = stringr::str_split_i(Species, " ", 1))
+  
+}
+
+
+#'
+#'
+#'
+#'
+# select only nutrient of interest, get rid of technical outliers/contaminated
+set_up_scats_compo <- function(compo_results_scats) {
+  
+  
+  compo_results_scats |>
+    # for technical outliers
+    dplyr::filter(!(Code_sample %in% c("CN12", "CN02"))) |>
+    # get rid of unwanted nutrients (+ with only trace)
+    dplyr::select(c(Code_sample, 
+                    Fe, Zn, Cu, Mn, Se, Co))
   
 }
 
