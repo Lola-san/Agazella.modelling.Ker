@@ -3,7 +3,7 @@
 # Lola Gilbert lola.gilbert@univ-lr.fr
 #
 # July 2023
-# 03_prepare_diet_input_data.R
+# 01.3_prepare_diet_input_data.R
 #
 ################################################################################
 
@@ -29,13 +29,25 @@ add_factice_diets <- function(diet_tab_KerW) {
                         "Factice diet 1", NA, NA, "Myctophidae", "Myctophiformes", "Fish", 5, 1,
                         "Factice diet 1", "Champsocephalus gunnari", "Champsocephalus", "Channichthyidae", "Perciformes", "Fish", 5, 1,
                         "Factice diet 1", "Icichthys australis", "Icichthys", "Centrolophidae", "Perciformes", "Fish", 10, 0,
-                        "Factice diet 1", "Martialia hyadesi", "Martialia", "Ommastrephidae", "Oegopsida", "Cephalopod", 10, 0) |>
+                        "Factice diet 1", "Martialia hyadesi", "Martialia", "Ommastrephidae", "Oegopsida", "Cephalopod", 10, 0, 
+                        "Factice diet 2 (ceph+)", "Protomyctophum tenisoni", "Protomyctophum", "Myctophidae", "Myctophiformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", "Protomyctophum bolini", "Protomyctophum", "Myctophidae", "Myctophiformes", "Fish", 0.1, 1, 
+                        "Factice diet 2 (ceph+)", "Protomyctophum choriodon", "Protomyctophum", "Myctophidae", "Myctophiformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", "Gymnoscopelus piabilis", "Gymnoscopelus", "Myctophidae", "Myctophiformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", "Gymnoscopelus nicholsi", "Gymnoscopelus", "Myctophidae", "Myctophiformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", NA, "Gymnoscopelus", "Myctophidae", "Myctophiformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", "Electrona subaspera", "Electrona", "Myctophidae", "Myctophiformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", NA, NA, "Myctophidae", "Myctophiformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", "Champsocephalus gunnari", "Champsocephalus", "Channichthyidae", "Perciformes", "Fish", 0.1, 1,
+                        "Factice diet 2 (ceph+)", "Icichthys australis", "Icichthys", "Centrolophidae", "Perciformes", "Fish", 0.1, 0,
+                        "Factice diet 2 (ceph+)", "Martialia hyadesi", "Martialia", "Ommastrephidae", "Oegopsida", "Cephalopod", 99, 0) |>
           dplyr::mutate(`%W` = as.character(`%W`), 
                         `%N` = NA, 
                         `%SSFO or %FO` = NA, 
                         n = NA, 
                         Location = NA, 
-                        Year_collection = 2023, 
+                        Year_collection = dplyr::case_when(Source == "Factice diet 1" ~ 2023, 
+                                                                  Source == "Factice diet 2 (ceph+)" ~ 2024), 
                         Site = NA 
                         ) |>
           dplyr::select(c(Species, Genus, Family, Order, Taxa, 
@@ -213,12 +225,24 @@ add_metabolic_data_r_truncnorm <- function(diet_tab_input_nested,
                                nsim, 
                                # set mean release rate for each 
                                # trace nutrient
-                               meanFe = 0.8,  
+                               meanFe = 0.8, 
+                               a_Fe = 0.7, 
+                               b_Fe = 0.9,
                                meanZn = 0.8, 
+                               a_Zn = 0.7, 
+                               b_Zn = 0.9,
                                meanCu = 0.8, 
+                               a_Cu = 0.7, 
+                               b_Cu = 0.9,
                                meanMn = 0.8, 
-                               meanSe = 0.8, 
-                               meanCo = 0.8) {
+                               a_Mn = 0.7, 
+                               b_Mn = 0.9,
+                               meanSe = 0.8,
+                               a_Se = 0.7, 
+                               b_Se = 0.9, 
+                               meanCo = 0.8,
+                               a_Co = 0.7, 
+                               b_Co = 0.9) {
   diet_tab_input_nested |>
     dplyr::mutate(BM = seq_along(diet) |>
                     purrr::map(~ tibble::as_tibble_col(truncnorm::rtruncnorm(n = nsim, 
@@ -242,33 +266,33 @@ add_metabolic_data_r_truncnorm <- function(diet_tab_input_nested,
                     purrr::map(~ tibble::tibble(Fe = truncnorm::rtruncnorm(n = nsim,  
                                                                            mean = meanFe, 
                                                                            sd = 0.2, 
-                                                                           a = 0.7, 
-                                                                           b = 0.99),
+                                                                           a = a_Fe, 
+                                                                           b = b_Fe),
                                                 Zn = truncnorm::rtruncnorm(n = nsim,  
                                                                            mean = meanZn, 
                                                                            sd = 0.2, 
-                                                                           a = 0.3, 
-                                                                           b = 0.5),
+                                                                           a = a_Zn, 
+                                                                           b = b_Zn),
                                                 Cu = truncnorm::rtruncnorm(n = nsim,  
                                                                            mean = meanCu, 
-                                                                           sd = 0.1, 
-                                                                           a = 0.5, 
-                                                                           b = 0.9),
+                                                                           sd = 0.2, 
+                                                                           a = a_Cu, 
+                                                                           b = b_Cu),
                                                 Mn = truncnorm::rtruncnorm(n = nsim,  
                                                                            mean = meanMn, 
-                                                                           sd = 0.05, 
-                                                                           a = 0.95, 
-                                                                           b = 1),
+                                                                           sd = 0.2,
+                                                                           a = a_Mn, 
+                                                                           b = b_Mn),
                                                 Se = truncnorm::rtruncnorm(n = nsim,  
                                                                            mean = meanSe, 
-                                                                           sd = 0.1, 
-                                                                           a = 0.3, 
-                                                                           b = 0.5),
+                                                                           sd = 0.2, 
+                                                                           a = a_Se, 
+                                                                           b = b_Se),
                                                 Co = truncnorm::rtruncnorm(n = nsim,  
                                                                            mean = meanCo, 
-                                                                           sd = 0.1, 
-                                                                           a = 0.9, 
-                                                                           b = 0.99)))) 
+                                                                           sd = 0.2, 
+                                                                           a = a_Co, 
+                                                                           b = b_Co)))) 
   
 }
 

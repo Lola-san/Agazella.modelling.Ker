@@ -18,8 +18,11 @@ lapply(list.files(here::here("R"),
 
 
 list(
+  
+  ################ FIRST ANALYSIS : can known diet be used to ##################
+  ##############estimate relative composition of scats observed ? ##############
   #################### DATA : SAMPLES ##########################################
-  # script 01_data_samples.R
+  # script 01.1_data_samples.R
   
   ##### 1 - on fish species analysed
   # define and load data on samples of fish
@@ -166,29 +169,81 @@ list(
   #################### SHOW OUTPUT #############################################
   # script 06_see_outputs.R
 
-  tar_target(fig_ind_nut_release_per_diet_fish_Ker,
-             fig_nut_release_ind_diets(model_output_fish_Ker)),
-  tar_target(fig_pop_nut_release_per_diet_fish_Ker,
-             fig_nut_release_pop_diets(model_output_fish_Ker,
-                                       "fish_Ker_n1000")),
-  tar_target(fig_pop_nut_release_per_diet_all_prey,
-             fig_nut_release_pop_diets(model_output_all_prey,
-                                       "all_prey_n1000")),
-  tar_target(table_pop_nut_release_per_diet_fish_Ker,
-             tab_nut_release_pop_diets(model_output_fish_Ker)),
-
-
-  tar_target(fig_ind_nut_release_rel_norm_fish_Ker,
-             fig_nut_release_ind_relative_all_diets(model_output_fish_Ker,
+  # individual relase
+  # absolute release per daily ration, per diet 
+  tar_target(fig_ind_nut_release_abs_per_diet_fish_Ker,
+             fig_nut_release_ind_abs_per_diet(model_output_fish_Ker, 
+                                       "fish_Ker")),
+  tar_target(fig_ind_nut_release_abs_per_diet_all_prey,
+             fig_nut_release_ind_abs_per_diet(model_output_all_prey, 
+                                              "all_prey")),
+  # absolute release per daily ration, across all diets
+  tar_target(fig_ind_nut_release_abs_all_diets_fish_Ker,
+             fig_nut_release_ind_abs_all_diets(model_output_fish_Ker, 
                                           "fish_Ker")),
-  tar_target(fig_ind_nut_release_rel_norm_all_prey,
+  tar_target(fig_ind_nut_release_abs_all_diets_all_prey,
+             fig_nut_release_ind_abs_all_diets(model_output_all_prey, 
+                                               "all_prey")),
+  # relative release per daily ration, per diet
+  tar_target(fig_ind_nut_release_rel_per_diet_fish_Ker,
+             fig_nut_release_ind_relative_per_diet(model_output_fish_Ker,
+                                                    "fish_Ker")),
+  tar_target(fig_ind_nut_release_rel_per_diet_all_prey,
+             fig_nut_release_ind_relative_per_diet(model_output_all_prey,
+                                                   "all_prey")),
+  # relative release per daily ration, across all diets
+  tar_target(fig_ind_nut_release_rel_all_diets_fish_Ker,
+             fig_nut_release_ind_relative_all_diets(model_output_fish_Ker,
+                                                    "fish_Ker")),
+  tar_target(fig_ind_nut_release_rel_all_diets_all_prey,
              fig_nut_release_ind_relative_all_diets(model_output_all_prey,
-                                       "all_prey")),
-  tar_target(fig_scat_compo_rel_norm,
-             fig_nut_scat_compo_relative_norm(res_compo_scats)), 
+                                                    "all_prey")),
+  
+  # relative proportion of nutrient consumed
+  tar_target(fig_ind_nut_conso_all_diets_all_prey_runif,
+             fig_nut_conso_ind_relative_all_diets(model_output_all_prey,
+                                                  "all_prey_n1000_runif")),
+  tar_target(fig_ind_nut_conso_per_diet_all_prey_runif,
+             fig_nut_conso_ind_relative_per_diet(model_output_all_prey,
+                                                 "all_prey_n1000_runif")),
+  
+  # release for 1000 individuals
+  tar_target(fig_pop_nut_release_per_diet_fish_Ker,
+             fig_nut_release_pop_per_diet(model_output_fish_Ker,
+                                       "fish_Ker_n1000")),
+  tar_target(table_pop_nut_release_per_diet_fish_Ker,
+             tab_nut_release_pop_per_diet(model_output_fish_Ker)),
+  tar_target(fig_pop_nut_release_per_diet_all_prey,
+             fig_nut_release_pop_per_diet(model_output_all_prey,
+                                       "all_prey_n1000")),
+
+  # relative composition of scats
+  tar_target(fig_scat_compo_rel,
+             fig_nut_scat_compo_relative(res_compo_scats)),
+  tar_target(fig_scat_compo_rel_sites,
+             fig_nut_scat_compo_relative_sites(res_compo_scats)),
+  # relative composition of scats, comparison with other pinnipeds
+  tar_target(fig_scat_compo_rel_compa_pinnipeds,
+             fig_nut_scat_compo_relative_comp_pinn(res_compo_scats)), 
+  
+  ########### with cluster from chap3
+  # define and load results of composition of scats 
+  tar_target(res_compo_scats_clust_file,
+             "data/clust_attribution_scats_tot_PCs_k2.xlsx", 
+             format = "file"),
+  tar_target(res_compo_clust_scats_raw, load_xl(res_compo_scats_clust_file)),
+  # clean the file with samples and nutrients 
+  tar_target(res_compo_clust_scats, 
+             set_up_scats_compo_clust(res_compo_clust_scats_raw)),
+  # see compo relative in the two clusters
+  tar_target(fig_scat_compo_rel_clust,
+             fig_nut_scat_compo_relative_clust(res_compo_clust_scats)),
   
   
   ############### TRY FACTICE FIETS ############################################
+  ############### And different nutrient release rates #########################
+  
+  ############ 1 - factice diets
   tar_target(diet_data_with_factice, 
              add_factice_diets(data_diet_sp_Ker_W)),
   
@@ -210,15 +265,57 @@ list(
   tar_target(diet_data_nested_withmeta_all_prey_with_factice_runif,
              add_metabolic_data_r_unif(diet_data_nested_all_prey_with_factice,
                                 nsim = 1000)),
-  tar_target(diet_data_nested_withmeta_all_prey_with_factice_runif_Fe,
+  
+  # pool with diet data
+  tar_target(diet_compo_data_pooled_all_prey_with_factice_runif,
+             compute_nut_in_diet_all_prey(diet_data_nested_withmeta_all_prey_with_factice_runif,
+                                          all_prey_compo_data_boot_ww)),
+  
+  # run_model.R
+  tar_target(model_output_all_prey_with_factice_runif,
+             run_model(diet_compo_data_pooled_all_prey_with_factice_runif,
+                       nsim = 1e3)),
+  
+  # relative proportion of nutrient consumed
+  tar_target(fig_ind_nut_conso_all_diets_all_prey_with_factice_runif,
+             fig_nut_conso_ind_relative_all_diets(model_output_all_prey_with_factice_runif,
+                                                  "all_prey_with_factice_n1000_runif")),
+  tar_target(fig_ind_nut_conso_per_diet_all_prey_with_factice_runif,
+             fig_nut_conso_ind_relative_per_diet(model_output_all_prey_with_factice_runif,
+                                                  "all_prey_with_factice_n1000_runif")),
+  
+  # relative proportion of nutrient released for one individual
+  tar_target(fig_ind_nut_release_rel_per_diet_all_prey_with_factice_runif,
+             fig_nut_release_ind_relative_per_diet(model_output_all_prey_with_factice_runif,
+                                                   "all_prey_with_factice_runif")),
+  tar_target(fig_ind_nut_release_rel_per_diet_stack_all_prey_with_factice_runif,
+             fig_nut_release_ind_relative_per_diet_stack(model_output_all_prey_with_factice_runif,
+                                                         "all_prey_with_factice_runif")),
+  tar_target(fig_ind_nut_release_rel_all_diets_all_prey_with_factice_runif,
+             fig_nut_release_ind_relative_all_diets(model_output_all_prey_with_factice_runif,
+                                                    "all_prey_with_factice_runif")),
+  
+  # nutrient released for a population of 1000 individuals
+  tar_target(fig_pop_nut_release_per_diet_all_prey_with_factice_runif,
+             fig_nut_release_pop_per_diet(model_output_all_prey_with_factice_runif,
+                                       "all_prey_with_factice_n1000_runif")),
+  
+  
+  
+  ####### 2 - different nutrient release rates
+  tar_target(diet_data_nested_withmeta_all_prey_with_factice_runif_settings,
              add_metabolic_data_r_unif(diet_data_nested_all_prey_with_factice,
                                 nsim = 1000, 
                                 # set maximum and minimum release rate for each 
                                 # trace nutrient
-                                minFe = 0.99, 
-                                maxFe = 1, 
-                                minZn = 0.6, 
-                                maxZn = 0.7, 
+                                minFe = 0.90, 
+                                maxFe = 0.95, 
+                                minZn = 0.4, 
+                                maxZn = 0.6, 
+                                minCu = 0.7, 
+                                maxCu = 0.9, 
+                                minMn = 0.95, 
+                                maxMn = 1, 
                                 minSe = 0.6, 
                                 maxSe = 0.7, 
                                 minCo = 0.8, 
@@ -226,71 +323,110 @@ list(
   tar_target(diet_data_nested_withmeta_all_prey_with_factice_rnorm,
              add_metabolic_data_r_truncnorm(diet_data_nested_all_prey_with_factice,
                                             nsim = 1000)),
-  tar_target(diet_data_nested_withmeta_all_prey_with_factice_rnorm_Fe,
+  tar_target(diet_data_nested_withmeta_all_prey_with_factice_rnorm_settings,
              add_metabolic_data_r_truncnorm(diet_data_nested_all_prey_with_factice,
                                        nsim = 1000, 
                                        # set mean release rate for each 
                                        # trace nutrient
-                                       meanFe = 0.98,
-                                       meanZn = 0.35,
-                                       meanCu = 0.55,
-                                       meanSe = 0.35,
-                                       meanMn = 0.99,
-                                       meanCo = 0.98)),
+                                       meanFe = 0.98, 
+                                       a_Fe = 0.8, 
+                                       b_Fe = 0.99,
+                                       meanZn = 0.5, 
+                                       a_Zn = 0.3, 
+                                       b_Zn = 0.6,
+                                       meanCu = 0.8, 
+                                       a_Cu = 0.7, 
+                                       b_Cu = 0.9,
+                                       meanMn = 0.98, 
+                                       a_Mn = 0.9, 
+                                       b_Mn = 1,
+                                       meanSe = 0.8,
+                                       a_Se = 0.7, 
+                                       b_Se = 0.9, 
+                                       meanCo = 0.8,
+                                       a_Co = 0.7, 
+                                       b_Co = 0.9)),
 
   # pool with diet data
-  tar_target(diet_compo_data_pooled_all_prey_with_factice_runif,
-             compute_nut_in_diet_all_prey(diet_data_nested_withmeta_all_prey_with_factice_runif,
-                                          all_prey_compo_data_boot_ww)),
-  tar_target(diet_compo_data_pooled_all_prey_with_factice_runif_Fe,
-             compute_nut_in_diet_all_prey(diet_data_nested_withmeta_all_prey_with_factice_runif_Fe,
+  tar_target(diet_compo_data_pooled_all_prey_with_factice_runif_settings,
+             compute_nut_in_diet_all_prey(diet_data_nested_withmeta_all_prey_with_factice_runif_settings,
                                           all_prey_compo_data_boot_ww)),
   tar_target(diet_compo_data_pooled_all_prey_with_factice_rnorm,
              compute_nut_in_diet_all_prey(diet_data_nested_withmeta_all_prey_with_factice_rnorm,
                                           all_prey_compo_data_boot_ww)),
-  tar_target(diet_compo_data_pooled_all_prey_with_factice_rnorm_Fe,
-             compute_nut_in_diet_all_prey(diet_data_nested_withmeta_all_prey_with_factice_rnorm_Fe,
+  tar_target(diet_compo_data_pooled_all_prey_with_factice_rnorm_settings,
+             compute_nut_in_diet_all_prey(diet_data_nested_withmeta_all_prey_with_factice_rnorm_settings,
                                           all_prey_compo_data_boot_ww)),
 
   # run_model.R
-  tar_target(model_output_all_prey_with_factice_runif,
-             run_model(diet_compo_data_pooled_all_prey_with_factice_runif,
-                       nsim = 1e3)),
-  tar_target(model_output_all_prey_with_factice_runif_Fe,
-             run_model(diet_compo_data_pooled_all_prey_with_factice_runif_Fe,
+  tar_target(model_output_all_prey_with_factice_runif_settings,
+             run_model(diet_compo_data_pooled_all_prey_with_factice_runif_settings,
                        nsim = 1e3)),
   tar_target(model_output_all_prey_with_factice_rnorm,
              run_model(diet_compo_data_pooled_all_prey_with_factice_rnorm,
                        nsim = 1e3)),
-  tar_target(model_output_all_prey_with_factice_rnorm_Fe,
-             run_model(diet_compo_data_pooled_all_prey_with_factice_rnorm_Fe,
+  tar_target(model_output_all_prey_with_factice_rnorm_settings,
+             run_model(diet_compo_data_pooled_all_prey_with_factice_rnorm_settings,
                        nsim = 1e3)),
   
-  # relative proportion of nutrient consumed
-  tar_target(fig_ind_nut_conso_all_diets_all_prey_with_factice_runif,
-             fig_nut_conso_ind_relative_all_diets(model_output_all_prey_with_factice_runif,
-                                       "all_prey_with_factice_n1000_runif")),
-  
-  # relative proportion of nutrient released
-  tar_target(fig_pop_nut_release_per_diet_all_prey_with_factice_runif,
-             fig_nut_release_pop_diets(model_output_all_prey_with_factice_runif,
-                                       "all_prey_with_factice_n1000_runif")),
-  
-  tar_target(fig_ind_nut_release_rel_norm_all_prey_with_factice_runif,
-             fig_nut_release_ind_relative_all_diets(model_output_all_prey_with_factice_runif,
-                                          "all_prey_with_factice_runif")),
-  tar_target(fig_ind_nut_release_rel_norm_all_prey_with_factice_runif_Fe,
-             fig_nut_release_ind_relative_all_diets(model_output_all_prey_with_factice_runif_Fe,
-                                                    "all_prey_with_factice_runif_Fe")),
-  tar_target(fig_ind_nut_release_rel_norm_all_prey_with_factice_rnorm,
+  # relative proportion of nutrient released for one individual
+  tar_target(fig_ind_nut_release_rel_all_prey_with_factice_runif_settings,
+             fig_nut_release_ind_relative_all_diets(model_output_all_prey_with_factice_runif_settings,
+                                                    "all_prey_with_factice_runif_settings")),
+  tar_target(fig_ind_nut_release_rel_all_prey_with_factice_rnorm,
              fig_nut_release_ind_relative_all_diets(model_output_all_prey_with_factice_rnorm,
                                                     "all_prey_with_factice_rnorm")),
-  tar_target(fig_ind_nut_release_rel_norm_all_prey_with_factice_rnorm_Fe,
-             fig_nut_release_ind_relative_all_diets(model_output_all_prey_with_factice_rnorm_Fe,
-                                                    "all_prey_with_factice_rnorm_Fe")),
+  tar_target(fig_ind_nut_release_rel_all_prey_with_factice_rnorm_settings,
+             fig_nut_release_ind_relative_all_diets(model_output_all_prey_with_factice_rnorm_settings,
+                                                    "all_prey_with_factice_rnorm_settings")), 
   
-  tar_target(fig_ind_nut_release_rel_norm_per_diet_all_prey_with_factice_runif,
-             fig_nut_release_ind_relative_per_diet(model_output_all_prey_with_factice_runif,
-                                                    "all_prey_with_factice_runif"))
+  
+  
+  ################ SECOND ANALYSIS : how much dry matter do  ###################
+  ######################## the two colonies release ? ##########################
+  #################### DATA : SAMPLES ##########################################
+  # script 02.1_prepare_pop_input_data.R
+  
+  tar_target(pop_initial_count_data,
+             Ker_col_count_data()), 
+  tar_target(pop_data_with_indi_data,
+             pop_data_for_simulations(pop_initial_count_data, 
+                                      nsim = 1000)), 
+  
+  # script 02.2_compute_dm_produced.R
+  
+  tar_target(output_dm_produced,
+             run_dm_estimate(pop_data_with_indi_data)), 
+  
+  # script 02.3_output_dm_produced.R
+  
+  tar_target(dm_produced_per_site_period,
+             dm_per_site_period(output_dm_produced)), 
+  
+  # script 02.4_scat_compo.R
+  
+  tar_target(output_dm_produced_with_scat_compo_data,
+             add_bootstrap_scat_data(output_dm_produced,
+                                     res_compo_scats)),
+  tar_target(output_nut_release,
+             compute_nut_release(output_dm_produced_with_scat_compo_data)), 
+  
+  # script 02.5_output_nut_release.R
+  
+  tar_target(barplot_nut_release_per_site_tot_period,
+             nut_per_site_tot_period(output_nut_release)), 
+  
+  ################ THIRD ANALYSIS : scenarios of evolution  ####################
+  ################# of diets: how would it affect totals ? #####################
+  #################### DATA : SAMPLES ##########################################
+  
+  # PCA and clustering, script 03.1_clustering_scats_sites.R
+  
+  tar_target(list_pca_sites,
+             pca_coda(res_compo_scats))
+  
+  
+  
+  
 )
 

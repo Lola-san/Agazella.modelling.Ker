@@ -335,6 +335,19 @@ compute_nut_in_diet_all_prey <- function(diet_data_input,
                                      purrr::pluck(nut_diet_sp, ., 8, 1) +
                                      purrr::pluck(nut_diet_sp, ., 9, 1) +
                                      purrr::pluck(nut_diet_sp, ., 10, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 11, 1)),
+                      # Factice diet #1, year collection 2023: 11 species
+                      Year_collection == 2024 ~ seq_along(nut_diet_sp) |>
+                        purrr::map(~ purrr::pluck(nut_diet_sp, ., 1, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 2, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 3, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 4, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 5, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 6, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 7, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 8, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 9, 1) +
+                                     purrr::pluck(nut_diet_sp, ., 10, 1) +
                                      purrr::pluck(nut_diet_sp, ., 11, 1))) )
 }
 

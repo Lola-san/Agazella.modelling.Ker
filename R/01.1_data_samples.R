@@ -3,7 +3,7 @@
 # Lola Gilbert lola.gilbert@univ-lr.fr
 #
 # July 2023
-# 01_diet_data.R
+# 01.1_data_samples.R
 #
 ################################################################################
 
@@ -149,6 +149,24 @@ set_up_scats_compo <- function(compo_results_scats) {
     # get rid of unwanted nutrients (+ with only trace)
     dplyr::select(c(Code_sample, 
                     Fe, Zn, Cu, Mn, Se, Co))
+  
+}
+
+
+#'
+#'
+#'
+#'
+# select only nutrient of interest, get rid of technical outliers/contaminated
+set_up_scats_compo_clust <- function(compo_results_scats) {
+  
+  
+  compo_results_scats |>
+    # for technical outliers
+    dplyr::filter(!(Code_sample %in% c("CN12", "CN02"))) |>
+    # get rid of unwanted nutrients (+ with only trace)
+    dplyr::select(c(Code_sample, cluster,
+                    Fe, Zn, Cu, Mn, Se, Ni, Co))
   
 }
 
