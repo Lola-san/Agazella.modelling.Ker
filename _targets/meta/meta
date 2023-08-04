@@ -1,5 +1,7 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 add_bootstrap_scat_data|function|b7214bb7c156c026|||||||||||||||
+add_bootstrap_scat_data_scenarios|function|381fc4ffc1dd3df3|||||||||||||||
+add_bootstrap_scat_data_scenarios_Fe|function|82a55acdf050250b|||||||||||||||
 add_energetic_data|function|ff979f0cc53fde4c|||||||||||||||
 add_factice_diets|function|b7e5b85741641593|||||||||||||||
 add_metabolic_data|function|06ec211e953e048e|||||||||||||||
@@ -8,9 +10,26 @@ add_metabolic_data_r_unif|function|06ec211e953e048e|||||||||||||||
 all_prey_compo_data_boot_dw|stem|d19bf87e810a38e6|1cbbf07f59e27e65|c22f8a9271ed6fc8|-1718517248||t19570.5104020167s|188d36ba3cb5d7e8|458647|rds|local|vector|||0.03||
 all_prey_compo_data_boot_ww|stem|6957aa148b231733|6b9c5fafbb8eee80|f2d215d0e97a0369|-1115667684||t19570.5104078431s|cc95b08a03adce61|207116|rds|local|vector|||0.3|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Order, Taxa, Nutrient    dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
 all_prey_compo_data_ready|stem|c3c8bd10ea2627b5|a8011183d4f1700d|13930d4932cac8e3|725982993||t19570.5103984642s|46ea112dadeafa47|18367|rds|local|vector|||0.01||
+barplot_compo_clust_per_scat|function|f408caed29e96f49|||||||||||||||
+barplot_compo_rel_clust_per_scat|function|503a6ade76456c2c|||||||||||||||
 barplot_nut_release_per_site_tot_period|stem|2fd5fd4bf29f56e2|7701c623505df4fa|a2f2ec0f962587fc|1429005804||t19572.599632445s|8cbe1afa12de9337|100|rds|local|vector|||2.44||
-biplot_pca_coda|function|70c240847350ec94|||||||||||||||
+biplot_pca_all_scats|stem|a3c95c20d86b4503|7be49932339d8cfb|e4933e25b9158d6b|10522465||t19573.4565000237s|7e237f4fd77044db|91|rds|local|vector|||0.72||
+biplot_pca_coda|function|418908e871e1345d|||||||||||||||
+biplot_pca_sites|stem|56a2b37fcf96b8ac|139e7b90931764bb|8b8e17951d6986bb|-670303058||t19573.456504893s|a8ba6ff4ca38aa83|87|rds|local|vector|||0.38||
 bootstrap_compo_data|function|3c5299955e130dda|||||||||||||||
+boxplot_compo_clust|function|6c042b1740c5b572|||||||||||||||
+clust_compo_PCs|function|96c5feecd540476e|||||||||||||||
+clust_dendro_scats|function|9d2a4465cf9881c6|||||||||||||||
+clust_PC_all_scats|stem|9d3a1a2fda95688f|51c4a5f1e37294ce|4d42805400812ae5|-1227279463||t19573.5661644461s|d515d59480b625ca|158|rds|local|vector|||3.07||
+clust_PC_all_scats_barplot_per_scat|stem|91c35a4e5c41998a|ec803dfe7ee73ef7|f27aca1f4cc62e5b|1484938037||t19573.5662679815s|f43a1dad04e131de|98|rds|local|vector|||5.64||
+clust_PC_all_scats_boxplot|stem|4883d6fb01ccf171|cc7bbb33e909a75f|dc4b84f74d4b733c|840602660||t19573.5662022414s|f43a1dad04e131de|98|rds|local|vector|||1.43||
+clust_PC_dendro_all_scats|stem|38e94001e9a79cfb|aff7ac3fea602b62|ad3c7adfc074c719|-73185452||t19573.5661855962s|b2129b1ae72103bd|97|rds|local|vector|||1.75||
+clust_PC_dendro_sites|stem|9c8070bfed6ce4fb|cec0d4a183ce33d8|4471d81d6c042479|1197775011||t19573.4950093207s|7d689a0df52fd58a|90|rds|local|vector|||0.92||
+clust_PC_sites|stem|822101b3edb1403d|8673215f9ed62c7e|948605d70f25ae4c|1276894065||t19573.4607296768s|a52a1b9948dbd8e0|209|rds|local|vector|||2.68||
+clust_PC_sites_all_scat|stem|38e94001e9a79cfb|fe326c4938404673|d4cd2228d3402305|-538605759||t19573.4648805702s|b2129b1ae72103bd|97|rds|local|vector|||0.33||
+clust_PC_sites_barplot_per_scat|stem|bcaa200f46a2e6c0|106149bb0673a30e|6c583fe087fa7397|1070378024||t19573.5227437615s|8cbe1afa12de9337|100|rds|local|vector|||2.84||
+clust_PC_sites_boxplot|stem|5cb59c2f6d3009c7|be34b0b7d7fd2859|db44b2382c0af654|-1258026109||t19573.5271897295s|8cbe1afa12de9337|100|rds|local|vector|||1.16||
+clust_PC_sites_dendro|stem|9c8070bfed6ce4fb|cec0d4a183ce33d8|8745b676eb321989|-970841377||t19573.4648764737s|7d689a0df52fd58a|90|rds|local|vector|||0.92||
 clust_scat_sites|function|82287762e1c72d17|||||||||||||||
 compot_data_ww|function|6d48e1f546912229|||||||||||||||
 compute_nut_in_diet|function|59bd94bade125f54|||||||||||||||
@@ -19,6 +38,7 @@ compute_nut_in_diet_fish_ceph|function|a052d5ce9526ca32|||||||||||||||
 compute_nut_in_diet_fish_Ker|function|0594f1937121c8f6|||||||||||||||
 compute_nut_in_diet_fish_only|function|60a20c2c0e0e6348|||||||||||||||
 compute_nut_release|function|aa44d68277b869ce|||||||||||||||
+compute_nut_release_scenarios|function|92ba1f60a92a32a9|||||||||||||||
 data_diet|stem|71fb01acce94683d|1f96fea6734eb524|e61c1e7a95f116e8|103864542||t19570.4007331332s|35c61ffe2c0cccd0|5324|rds|local|vector|||0.05||
 data_diet_file|stem|2dc8e5c2bc1d0672|d69ab4f86b75a00c|ef46db3751d8e999|1897204843|data/data_diet_Agazella.xlsx|t19570.3985419604s|77057010db8c27d4|40417|file|local|vector|||0||
 data_diet_sp_analysed|stem|f13f452a2a93fe95|f20e1183645a9f15|1941edd7d754ba88|-765180180||t19564.5755345269s|401327ea5d655241|2374|rds|local|vector|||0.16||
@@ -188,9 +208,12 @@ fish_only_compo_data_boot_ww|stem|da96458847e6ccdb|5c728be884211dc1|9a50cfc5b4ca
 fish_only_compo_data_ready|stem|c71a0fc0feee00d4|ed7094bc90cd3aa2|781d3ae033637bae|605335637||t19570.3511101806s||15672|rds|local|vector|||0.09||objet res_compo_fish_Ker introuvable
 format_data|function|8f72f02131699033|||||||||||||||
 ind_dm_produced|stem|037bcae7944d1669|a665a6ffdfc2a457|e87c295baedeed5c|-558814603||t19572.4651171295s|31d8be29e4c62376|91947921|rds|local|vector|||3.75||
+input_data_with_scenarios|stem|9e790eda6fd0d058|c4bc66591dcea91d|a1f55413ea7c4984|-1791165906||t19573.6095075827s|dabb11d42922d9e4|141466932|rds|local|vector|||60.44||
+input_data_with_scenarios_Fe|stem|e3081a2bb5fdd99a|ffef2e623a7f60d2|858c4a40303bc9a3|-687849507||t19573.6389917529s|149877630b959de2|301544301|rds|local|vector|||353.44||
+input_data_with_scenariosFe|stem||293b70bcb52ffc88|212b4de4fd33349f|-1954981423||t19573.6178021281s||0|rds|local|vector|||0||impossible de trouver la fonction add_bootstrap_scat_data_scenariosFe
 Ker_col_count_data|function|eba0a083117fe92b|||||||||||||||
 kleiber|function|fa859ff4cff6053c|||||||||||||||
-list_pca_sites|stem|7da1c58d6c40fd91|3c499477586ed004|900e06e41373a455|-531927259||t19572.6872453212s|b210629fe35d4c91|3538|rds|local|vector|||5.56||
+list_pca_sites|stem|371102a45fb27046|60b546773d5e2bba|97206ed78684eb7d|-531927259||t19573.4260310005s|41700efce5602ad8|3555|rds|local|vector|||0.06||
 load_xl|function|9a51ae54bd45d9d4|||||||||||||||
 model_output|stem|329deab43620ad95|a8cbc21f77fce9d6|1e91ba09d225b51c|90343381||t19569.560798771s|d71868085bfa88d7|1650319|rds|local|vector|||0.17||
 model_output_all_prey|stem|6b7353785a1e8760|4d2e866be5b865ff|ca72573f5cb2c608|673615071||t19570.5111798664s|9c3686254aba1889|911664|rds|local|vector|||0.02||
@@ -211,7 +234,9 @@ nut_per_site_totperiod|function|e405ef08fa7c573b|||||||||||||||
 output_dm_produced|stem|fea0ac09d7da4acf|0e9b912f85df6bbb|c70f7d4ed6e594ce|-1166556377||t19572.5205317142s|da96731412ad1141|114142259|rds|local|vector|||7.06||
 output_dm_produced_with_scat_compo_data|stem|15622a62f7f65d5c|92966628380377dd|a3b44604f9a2e76b|852223810||t19572.563049729s|5fc947e08e66f53f|134178789|rds|local|vector|||11.81||
 output_nut_release|stem|198506bbf8d7ae86|fcad41d2f8b91e0d|8f129aca4a6524f7|1958393433||t19572.5786732263s|1d223a89bce38e73|354671187|rds|local|vector|||130.72||
-pca_coda|function|86eb64edc7f68910|||||||||||||||
+output_nut_release_with_scenarios_Fe|stem|b90ba5f2d6c0521c|3f4bdded8ad2b3a5|eba2c934d1d6943a|169224420||t19573.643204444s|8fe344d6935ff9ea|631866224|rds|local|vector|||189.46||
+pca_all_scats|stem|60a8c88ea5ab8776|e72cfb04e2b4ffad|97206ed78684eb7d|-1713337059||t19573.4260300748s|6c9c8f5be19b9e66|3108|rds|local|vector|||9.25||
+pca_coda|function|a0293c0185178c1d|||||||||||||||
 pop_data_for_simulations|function|e39f6577226a77fc|||||||||||||||
 pop_data_with_indi_data|stem|6f805b65a0e2a66f|cda86d8261946817|8803f93baabc4fc1|-645222071||t19572.4828491084s|d73a0905b439b950|52485568|rds|local|vector|||8.13||
 pop_dm_estimate|function|b1f50fcce87a9829|||||||||||||||

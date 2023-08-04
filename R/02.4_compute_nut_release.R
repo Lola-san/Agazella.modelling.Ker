@@ -3,7 +3,7 @@
 # Lola Gilbert lola.gilbert@univ-lr.fr
 #
 # August 2023
-# 02.4_scats_compo.R
+# 02.4_compute_nut_release.R
 #
 ################################################################################
 
