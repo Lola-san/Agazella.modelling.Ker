@@ -479,6 +479,10 @@ list(
                                  res_compo_scats,
                                  "all")), 
   
+  tar_target(table_clust_percent_sites,
+             table_compo_clust_per_site(clust_PC_sites,
+                                        res_compo_scats)), 
+  
   
   ### with scenarios of different ratios of scats of different "types"
   
@@ -491,7 +495,12 @@ list(
   
   # script 03.3_compute_nut_release_scenarios.R
   tar_target(output_nut_release_with_scenarios_Fe,
-             compute_nut_release_scenarios(input_data_with_scenarios_Fe)) 
+             compute_nut_release_scenarios(input_data_with_scenarios_Fe)),
+  
+  # script 03.4_output_nut_release_scenarios.R
+  tar_target(barplot_nut_release_with_scenarios_Fe,
+             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_Fe,
+                                               nut = "Fe"))
   
   
   

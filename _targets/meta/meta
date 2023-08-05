@@ -13,6 +13,7 @@ all_prey_compo_data_ready|stem|c3c8bd10ea2627b5|a8011183d4f1700d|13930d4932cac8e
 barplot_compo_clust_per_scat|function|f408caed29e96f49|||||||||||||||
 barplot_compo_rel_clust_per_scat|function|503a6ade76456c2c|||||||||||||||
 barplot_nut_release_per_site_tot_period|stem|2fd5fd4bf29f56e2|7701c623505df4fa|a2f2ec0f962587fc|1429005804||t19572.599632445s|8cbe1afa12de9337|100|rds|local|vector|||2.44||
+barplot_nut_release_with_scenarios_Fe|stem|4ad06910cc4f88d3|cabd60dd9c025dab|49f40ed911128efa|111780320||t19574.6747891588s|5ccb3d41d74b2974|116|rds|local|vector|||5.64||
 biplot_pca_all_scats|stem|a3c95c20d86b4503|7be49932339d8cfb|e4933e25b9158d6b|10522465||t19573.4565000237s|7e237f4fd77044db|91|rds|local|vector|||0.72||
 biplot_pca_coda|function|418908e871e1345d|||||||||||||||
 biplot_pca_sites|stem|56a2b37fcf96b8ac|139e7b90931764bb|8b8e17951d6986bb|-670303058||t19573.456504893s|a8ba6ff4ca38aa83|87|rds|local|vector|||0.38||
@@ -38,7 +39,7 @@ compute_nut_in_diet_fish_ceph|function|a052d5ce9526ca32|||||||||||||||
 compute_nut_in_diet_fish_Ker|function|0594f1937121c8f6|||||||||||||||
 compute_nut_in_diet_fish_only|function|60a20c2c0e0e6348|||||||||||||||
 compute_nut_release|function|aa44d68277b869ce|||||||||||||||
-compute_nut_release_scenarios|function|92ba1f60a92a32a9|||||||||||||||
+compute_nut_release_scenarios|function|41966d59dc53225e|||||||||||||||
 data_diet|stem|71fb01acce94683d|1f96fea6734eb524|e61c1e7a95f116e8|103864542||t19570.4007331332s|35c61ffe2c0cccd0|5324|rds|local|vector|||0.05||
 data_diet_file|stem|2dc8e5c2bc1d0672|d69ab4f86b75a00c|ef46db3751d8e999|1897204843|data/data_diet_Agazella.xlsx|t19570.3985419604s|77057010db8c27d4|40417|file|local|vector|||0||
 data_diet_sp_analysed|stem|f13f452a2a93fe95|f20e1183645a9f15|1941edd7d754ba88|-765180180||t19564.5755345269s|401327ea5d655241|2374|rds|local|vector|||0.16||
@@ -230,11 +231,12 @@ model_output_fish_Ker|stem|24ac35c01af7a821|569c65c890edfa7a|a0b68ec5eaea035b|17
 model_output_fish_only|stem|287b6902484d1aec|cdcae86c152c24b5|8d8401fab0d73872|-1497984436||t19570.3511521431s|c508d939bb2095fc|874354|rds|local|vector|||0.04||
 nut_per_site_period|function|0a56b0b215573131|||||||||||||||
 nut_per_site_tot_period|function|d981d13633ed4b4d|||||||||||||||
+nut_per_site_tot_period_scenarios|function|2b7c849375771c6d|||||||||||||||
 nut_per_site_totperiod|function|e405ef08fa7c573b|||||||||||||||
 output_dm_produced|stem|fea0ac09d7da4acf|0e9b912f85df6bbb|c70f7d4ed6e594ce|-1166556377||t19572.5205317142s|da96731412ad1141|114142259|rds|local|vector|||7.06||
 output_dm_produced_with_scat_compo_data|stem|15622a62f7f65d5c|92966628380377dd|a3b44604f9a2e76b|852223810||t19572.563049729s|5fc947e08e66f53f|134178789|rds|local|vector|||11.81||
 output_nut_release|stem|198506bbf8d7ae86|fcad41d2f8b91e0d|8f129aca4a6524f7|1958393433||t19572.5786732263s|1d223a89bce38e73|354671187|rds|local|vector|||130.72||
-output_nut_release_with_scenarios_Fe|stem|b90ba5f2d6c0521c|3f4bdded8ad2b3a5|eba2c934d1d6943a|169224420||t19573.643204444s|8fe344d6935ff9ea|631866224|rds|local|vector|||189.46||
+output_nut_release_with_scenarios_Fe|stem|38b0f857b2817181|3f4bdded8ad2b3a5|111ed1e4be07c8ff|169224420||t19574.6746819568s|a53c383aaeed0e88|1513843755|rds|local|vector|||1229.65||
 pca_all_scats|stem|60a8c88ea5ab8776|e72cfb04e2b4ffad|97206ed78684eb7d|-1713337059||t19573.4260300748s|6c9c8f5be19b9e66|3108|rds|local|vector|||9.25||
 pca_coda|function|a0293c0185178c1d|||||||||||||||
 pop_data_for_simulations|function|e39f6577226a77fc|||||||||||||||
@@ -274,6 +276,8 @@ summary_fish_samples|function|0a7b40a95c673075|||||||||||||||
 summary_scat_samples|function|ef325a3b8403d89d|||||||||||||||
 tab_nut_release_pop_diets|function|af48c880564dda13|||||||||||||||
 tab_nut_release_pop_per_diet|function|44c71b960032a7df|||||||||||||||
+table_clust_percent_sites|stem|ce6deab98923dd02|7ae149204c6e75ef|a2ce81570ab9c037|-1121295511||t19574.6443877798s|dd0e3f2005515a03|385|rds|local|vector|||1.13|1m22mReturning more or less than 1 row per summarise group was deprecated indplyr 1.1.0.36mi39m Please use reframe instead.36mi39m When switching from summarise to reframe, remember that reframe  always returns an ungrouped data frame and adjust accordingly.. 1m22mReturning more or less than 1 row per summarise group was deprecated indplyr 1.1.0.36mi39m Please use reframe instead.36mi39m When switching from summarise to reframe, remember that reframe  always returns an ungrouped data frame and adjust accordingly.|
+table_compo_clust_per_site|function|fe5ebbf37982b93d|||||||||||||||
 table_pop_nut_release_per_diet|stem|4170dd97b22342de|56373674f5a4fc76|a24e6057dc6a51b3|969980760||t19569.5615594452s|64730204cc281796|683|rds|local|vector|||0.16||
 table_pop_nut_release_per_diet_fish_Ker|stem|2b637b2301444d7f|ef7eb1429d303aa9|7f6318750f0d1991|1971704707||t19571.4529418905s|314e3e90e73bbe7f|613|rds|local|vector|||0.18||
 table_pop_nut_release_per_diet_fish_only|stem|e8f3faa05831b549|493eb222a687ee37|9b6eb53a94a3519a|-1949331163||t19570.3511828968s|100201a91a60a60f|603|rds|local|vector|||0.08||

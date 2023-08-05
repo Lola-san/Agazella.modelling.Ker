@@ -1121,3 +1121,45 @@ boxplot_compo_clust <- function(res_clust,
   
   
 }
+
+
+
+#'
+#'
+#'
+#'
+# function to show elemental composition of samples from the different clusters
+table_compo_clust_per_site <- function(list_res_clust_sites,
+                                       scat_compo_tib
+) {
+  
+  clust_vec_CN <- list_res_clust_sites$CN$cluster
+  clust_vec_PS <- list_res_clust_sites$PS$cluster
+    
+  table <- rbind(scat_compo_tib |>
+      dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                            stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+      dplyr::filter(site == "Cap Noir") |>
+      dplyr::mutate(cluster = clust_vec_CN, 
+                    ntot = dplyr::n_distinct(Code_sample)) |>
+      dplyr::group_by(site, cluster) |>
+    dplyr::summarise(n = dplyr::n_distinct(Code_sample), 
+                     clust_ratio = 100*(n/ntot)) |>
+      dplyr::distinct(), 
+    scat_compo_tib |>
+      dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                            stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+      dplyr::filter(site == "Pointe Suzanne") |>
+      dplyr::mutate(cluster = clust_vec_PS, 
+                    ntot = dplyr::n_distinct(Code_sample)) |>
+      dplyr::group_by(site, cluster) |>
+      dplyr::summarise(n = dplyr::n_distinct(Code_sample), 
+                       clust_ratio = 100*(n/ntot)) |>
+      dplyr::distinct())
+  
+  openxlsx::write.xlsx(table, 
+                       file = "output/sites/clust_percent_sites.xlsx")
+
+  table 
+  
+}
