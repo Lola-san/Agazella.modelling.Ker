@@ -63,3 +63,33 @@ dm_per_site_period <- function(output_dm_tib) {
                   height = 4, width = 9
   )
 }
+
+
+
+#'
+#'
+#'
+#'
+#'
+# function to compute Mann-Whitney U Test to assess difference between 
+# concentration of fish in different habitats 
+MWtest_test_dm_sites_tot_period <- function(output_dm_tib) {
+  
+  table_test <- output_dm_tib |>
+    dplyr::select(Site, release_dm_pop_tot_period) |>
+    dplyr::group_by(Site) |>
+    tidyr::unnest(release_dm_pop_tot_period) |>
+    dplyr::select(Site, release_dm_pop_tot_period) |>
+    tidyr::pivot_wider(names_from = Site,
+                       values_from = release_dm_pop_tot_period,
+                       values_fn = list) |>
+    tidyr::unnest(cols = c(`Cap Noir`, `Pointe Suzanne`)) |>
+    dplyr::mutate(t_PS_CN = dplyr::case_when(`Pointe Suzanne` > `Cap Noir` ~ 1,
+                                                 TRUE ~ 0)
+    ) |>
+    dplyr::summarise(test_dm_sites = mean(t_PS_CN))
+  
+  openxlsx::write.xlsx(table_test, 
+                       file = paste0("output/sites/test_differences_sites_dm.xlsx"))
+  
+}

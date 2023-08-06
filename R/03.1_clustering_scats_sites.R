@@ -658,10 +658,10 @@ clust_dendro_scats <- function(res_pca,
                                       label = label, 
                                       colour = cluster),
                          hjust = 1, size = 4) +
-      ggplot2::scale_color_manual(values = c("1" = "#D8AF39FF",
-                                             "2" = "#AE93BEFF",
-                                             "3" = "#3D4F7DFF", 
-                                             "4" = "#B4DAE5FF")) +
+      ggplot2::scale_color_manual(values = c("1" = "#44A57CFF",
+                                             "2" = "#1D2645FF",
+                                             "3" = "#D8AF39FF", 
+                                             "4" = "#AE93BEFF")) +
       ggplot2::coord_flip() +
       ggplot2::ylim(-2, 25) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = "Cluster",
@@ -707,10 +707,10 @@ clust_dendro_scats <- function(res_pca,
                                       label = label, 
                                       colour = cluster),
                          hjust = 1, size = 4) +
-      ggplot2::scale_color_manual(values = c("1" = "#D8AF39FF",
-                                             "2" = "#AE93BEFF",
-                                             "3" = "#3D4F7DFF", 
-                                             "4" = "#B4DAE5FF")) +
+      ggplot2::scale_color_manual(values = c("1" = "#44A57CFF",
+                                             "2" = "#1D2645FF",
+                                             "3" = "#D8AF39FF", 
+                                             "4" = "#AE93BEFF")) +
       ggplot2::coord_flip() +
       ggplot2::ylim(-2, 25) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = "Cluster",
@@ -753,10 +753,10 @@ clust_dendro_scats <- function(res_pca,
                                       label = label, 
                                       colour = cluster),
                          hjust = 1, size = 4) +
-      ggplot2::scale_color_manual(values = c("1" = "#D8AF39FF",
-                                             "2" = "#AE93BEFF",
-                                             "3" = "#3D4F7DFF", 
-                                             "4" = "#B4DAE5FF")) +
+      ggplot2::scale_color_manual(values = c("1" = "#44A57CFF",
+                                             "2" = "#1D2645FF",
+                                             "3" = "#D8AF39FF", 
+                                             "4" = "#AE93BEFF")) +
       ggplot2::coord_flip() +
       ggplot2::ylim(-2, 25) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = "Cluster",
@@ -807,13 +807,14 @@ barplot_compo_rel_clust_per_scat <- function(res_clust,
                     Code_sample = factor(Code_sample, 
                                          levels = c(
                                            # clust 1
-                                           "CN27", "CN26", "CN23", "CN29", "CN16", 
-                                           "CN22", "CN15", "CN13", "CN09", "CN20", 
-                                           "CN18", "CN14", "CN11", "CN01", 
+                                           "CN20", "CN18", "CN14", "CN11", "CN01",
                                            # clust 2
                                            "CN17", "CN07", "CN19", "CN08", "CN25", 
                                            "CN05", "CN04", "CN06", "CN03",
                                            # clust 3
+                                           "CN27", "CN26", "CN23", "CN29", "CN16", 
+                                           "CN22", "CN15", "CN13", "CN09",  
+                                           # clust 4
                                            "CN24", "CN21", "CN10", "CN28"
                                          ))) |> 
       ggplot2::ggplot() +
@@ -822,10 +823,10 @@ barplot_compo_rel_clust_per_scat <- function(res_clust,
                         stat = "identity", 
                         position = ggplot2::position_dodge(1)) +
       ggplot2::facet_wrap(~ Code_sample) + 
-      ggplot2::scale_fill_manual(values = c("1" = "#D8AF39FF",
-                                            "2" = "#AE93BEFF",
-                                            "3" = "#3D4F7DFF", 
-                                            "4" = "#B4DAE5FF")) +
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("Cap Noir") +
       ggplot2::ylab("Relative proportion in scats") +
       ggplot2::xlab("Nutrient") +
@@ -864,15 +865,17 @@ barplot_compo_rel_clust_per_scat <- function(res_clust,
                                          levels = c(
                                            # clust 1
                                            "PS20", "PS01", "PS18", "PS17", 
-                                           "PS07", "PS28", "PS12", "PS08", "PS21",
-                                           "PS25",
+                                           "PS07", "PS28", "PS12", "PS08", 
+                                           "PS21", "PS25",
                                            # clust 2
-                                           "PS29", "PS02", "PS23", "PS09", "PS05",
-                                           "PS04", "PS06", "PS27", "PS19", "PS15", 
-                                           "PS31", "PS16", "PS14", "PS30", "PS13",
+                                           "PS29", "PS02", "PS23", "PS09", 
+                                           "PS05", "PS04", "PS06", "PS27", 
                                            # clust 3
-                                           "PS26", "PS10", "PS24", 
-                                           "PS22", "PS11", "PS03" 
+                                           "PS26", "PS10", "PS24", "PS22", 
+                                           "PS11", "PS03", 
+                                           # clust 4
+                                           "PS19", "PS15", "PS31", "PS16", 
+                                           "PS14", "PS30", "PS13"
                                          ))) |> 
       ggplot2::ggplot() +
       ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
@@ -880,10 +883,10 @@ barplot_compo_rel_clust_per_scat <- function(res_clust,
                         stat = "identity", 
                         position = ggplot2::position_dodge(1)) +
       ggplot2::facet_wrap(~ Code_sample) + 
-      ggplot2::scale_fill_manual(values = c("1" = "#D8AF39FF",
-                                            "2" = "#AE93BEFF",
-                                            "3" = "#3D4F7DFF", 
-                                            "4" = "#B4DAE5FF")) +
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("Pointe Suzanne") +
       ggplot2::ylab("Relative proportion in scats") +
       ggplot2::xlab("Nutrient") +
@@ -944,10 +947,10 @@ barplot_compo_rel_clust_per_scat <- function(res_clust,
                         stat = "identity", 
                         position = ggplot2::position_dodge(1)) +
       ggplot2::facet_wrap(~ Code_sample) + 
-      ggplot2::scale_fill_manual(values = c("1" = "#D8AF39FF",
-                                            "2" = "#AE93BEFF",
-                                            "3" = "#3D4F7DFF", 
-                                            "4" = "#B4DAE5FF")) +
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("All scats") +
       ggplot2::ylab("Relative proportion in scats") +
       ggplot2::xlab("Nutrient") +
@@ -1007,10 +1010,10 @@ boxplot_compo_clust <- function(res_clust,
                                          fill = factor(cluster)), 
                             position = ggplot2::position_dodge(1)) +
       ggplot2::facet_wrap(~ Nutrient, scales = "free_y") + 
-      ggplot2::scale_fill_manual(values = c("1" = "#D8AF39FF",
-                                            "2" = "#AE93BEFF",
-                                            "3" = "#3D4F7DFF", 
-                                            "4" = "#B4DAE5FF")) +
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("Cap Noir") +
       ggplot2::ylab("Absolute concentration in scats (mg per kg dry weight)") +
       ggplot2::xlab("Cluster") +
@@ -1050,10 +1053,10 @@ boxplot_compo_clust <- function(res_clust,
                                          fill = factor(cluster)), 
                             position = ggplot2::position_dodge(1)) +
       ggplot2::facet_wrap(~ Nutrient, scales = "free_y") + 
-      ggplot2::scale_fill_manual(values = c("1" = "#D8AF39FF",
-                                            "2" = "#AE93BEFF",
-                                            "3" = "#3D4F7DFF", 
-                                            "4" = "#B4DAE5FF")) +
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("Pointe Suzanne") +
       ggplot2::ylab("Absolute concentration in scats (mg per kg dry weight)") +
       ggplot2::xlab("Cluster") +
@@ -1094,10 +1097,10 @@ boxplot_compo_clust <- function(res_clust,
                                          fill = factor(cluster)), 
                             position = ggplot2::position_dodge(1)) +
       ggplot2::facet_wrap(~ Nutrient, scales = "free_y") + 
-      ggplot2::scale_fill_manual(values = c("1" = "#D8AF39FF",
-                                            "2" = "#AE93BEFF",
-                                            "3" = "#3D4F7DFF", 
-                                            "4" = "#B4DAE5FF")) +
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("All scats") +
       ggplot2::ylab("Absolute concentration in scats (mg per kg dry weight)") +
       ggplot2::xlab("Cluster") +
@@ -1161,5 +1164,180 @@ table_compo_clust_per_site <- function(list_res_clust_sites,
                        file = "output/sites/clust_percent_sites.xlsx")
 
   table 
+  
+}
+
+
+#'
+#'
+#'
+#'
+# function to show elemental composition of samples from the different clusters
+table_stats_clust_per_site <- function(list_res_clust_sites,
+                                       scat_compo_tib
+) {
+  
+  clust_vec_CN <- list_res_clust_sites$CN$cluster
+  clust_vec_PS <- list_res_clust_sites$PS$cluster
+  
+  table <- rbind(scat_compo_tib |>
+                   dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                                         stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+                   dplyr::filter(site == "Cap Noir") |>
+                   dplyr::mutate(cluster = clust_vec_CN) |>
+                   tidyr::pivot_longer(cols = c(Fe:Co), 
+                                       names_to = "Nutrient", 
+                                       values_to = "conc_mg_kg_dw") |>
+                   dplyr::group_by(site, cluster, Nutrient) |>
+                   dplyr::summarise(mean = round(mean(conc_mg_kg_dw), 3), 
+                                    sd = round(sd(conc_mg_kg_dw), 3)) |>
+                   tidyr::pivot_wider(names_from = Nutrient, 
+                                      values_from = c(mean, sd), 
+                                      names_sep = "_"), 
+                 scat_compo_tib |>
+                   dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                                         stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+                   dplyr::filter(site == "Pointe Suzanne") |>
+                   dplyr::mutate(cluster = clust_vec_PS) |>
+                   tidyr::pivot_longer(cols = c(Fe:Co), 
+                                       names_to = "Nutrient", 
+                                       values_to = "conc_mg_kg_dw") |>
+                   dplyr::group_by(site, cluster, Nutrient) |>
+                   dplyr::summarise(mean = round(mean(conc_mg_kg_dw), 3), 
+                                    sd = round(sd(conc_mg_kg_dw), 3)) |>
+                   tidyr::pivot_wider(names_from = Nutrient, 
+                                      values_from = c(mean, sd), 
+                                      names_sep = "_"))
+  
+  openxlsx::write.xlsx(table, 
+                       file = "output/sites/clust_compo_sites.xlsx")
+  
+  table 
+  
+}
+
+
+#'
+#'
+#'
+#'
+#'
+# function to compute Mann-Whitney U Test to assess difference between 
+# concentration of fish in different clusters 
+MWtest_clust_k4 <- function(list_res_clust_sites,
+                            scat_compo_tib) {
+  
+  # assign each sample to its cluster
+  clust_vec_CN <- list_res_clust_sites$CN$cluster
+  clust_vec_PS <- list_res_clust_sites$PS$cluster
+  
+  scat_compo_tib_CN <- scat_compo_tib |>
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+    dplyr::filter(site == "Cap Noir") |>
+    dplyr::mutate(cluster = clust_vec_CN) |>
+    tidyr::pivot_longer(cols = c(Fe:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") 
+  
+  scat_compo_tib_PS <- scat_compo_tib |>
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+    dplyr::filter(site == "Pointe Suzanne") |>
+    dplyr::mutate(cluster = clust_vec_PS) |>
+    tidyr::pivot_longer(cols = c(Fe:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") 
+  
+  
+  nut_vec <- unique(scat_compo_tib_CN$Nutrient)
+  
+  list_outputs <- list()
+  
+  for (nut in nut_vec) {
+    
+    table_CN <- scat_compo_tib_CN |>
+      dplyr::filter(Nutrient == nut)
+    
+    table_PS <- scat_compo_tib_PS |>
+      dplyr::filter(Nutrient == nut)
+    
+    table_CN$cluster <- factor(table_CN$cluster)
+    table_PS$cluster <- factor(table_PS$cluster)
+    
+    table_CN <- table_CN |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = conc_mg_kg_dw) 
+    
+    clust1_CN <- na.omit(table_CN$`1`)
+    clust2_CN <- na.omit(table_CN$`2`)
+    clust3_CN <- na.omit(table_CN$`3`)
+    clust4_CN <- na.omit(table_CN$`4`)
+    
+    table_PS <- table_PS |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = conc_mg_kg_dw) 
+    
+    clust1_PS <- na.omit(table_PS$`1`)
+    clust2_PS <- na.omit(table_PS$`2`)
+    clust3_PS <- na.omit(table_PS$`3`)
+    clust4_PS <- na.omit(table_PS$`4`)
+    
+    nut_test <- rbind(data.frame(Site = "Cap Noir",
+                                 Nutrient = rep(nut, 6), 
+                                 Cluster_comp_1 = c("1", "1", "1",
+                                              "2", "2", 
+                                              "3"), 
+                           Cluster_comp_2 = c("2", "3", "4",
+                                              "3", "4", 
+                                              "4"), 
+                           alpha_MW = c(wilcox.test(clust1_CN, clust2_CN)[[3]],
+                                        wilcox.test(clust1_CN, clust3_CN)[[3]],
+                                        wilcox.test(clust1_CN, clust4_CN)[[3]],
+                                        
+                                        wilcox.test(clust2_CN, clust3_CN)[[3]],
+                                        wilcox.test(clust2_CN, clust4_CN)[[3]],
+                                        
+                                        wilcox.test(clust3_CN, clust4_CN)[[3]])), 
+                      data.frame(Site = "Pointe Suzanne",
+                                 Nutrient = rep(nut, 6), 
+                                 Cluster_comp_1 = c("1", "1", "1",
+                                                    "2", "2", 
+                                                    "3"), 
+                                 Cluster_comp_2 = c("2", "3", "4",
+                                                    "3", "4", 
+                                                    "4"), 
+                                 alpha_MW = c(wilcox.test(clust1_PS, clust2_PS)[[3]],
+                                              wilcox.test(clust1_PS, clust3_PS)[[3]],
+                                              wilcox.test(clust1_PS, clust4_PS)[[3]],
+                                              
+                                              wilcox.test(clust2_PS, clust3_PS)[[3]],
+                                              wilcox.test(clust2_PS, clust4_PS)[[3]],
+                                              
+                                              wilcox.test(clust3_PS, clust4_PS)[[3]])))
+    
+    list_outputs <- append(list_outputs, list(nut_test))
+  }
+  
+  
+  df_test <- data.frame(Site = NA, 
+                        Nutrient = NA, 
+                        Cluster_comp_1 = NA,
+                        Cluster_comp_2 = NA,
+                        alpha_MW = NA)
+  
+  for (i in 1:length(nut_vec)) {
+    df_test <- rbind(df_test, list_outputs[[i]])
+  }
+  
+  # delete first line of NAs
+  df_test <- df_test[-1,] |>
+    tidyr::pivot_wider(names_from = Nutrient, 
+                       values_from = alpha_MW)
+
+  
+  openxlsx::write.xlsx(df_test, 
+                       file = "output/sites/Mann_Whitney_test_clust_compo_sites.xlsx")
+  
   
 }

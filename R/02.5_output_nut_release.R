@@ -87,3 +87,70 @@ nut_per_site_tot_period <- function(output_nut_release_tib) {
                   height = 4, width = 10
   )
 }
+
+
+
+
+#'
+#'
+#'
+#'
+#'
+# function to compute Mann-Whitney U Test to assess difference between 
+# concentration of fish in different habitats 
+MWtest_test_nut_sites_tot_period <- function(output_nut_release_tib) {
+  
+  table_test_scat_per_site <- output_nut_release_tib |>
+    dplyr::select(Site, 
+                  release_nut_pop_tot_period_sites) |>
+    tidyr::unnest(release_nut_pop_tot_period_sites) |>
+    tidyr::pivot_longer(cols = c(Fe:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "tot_pop_release_period_mg") |> 
+    dplyr::mutate(Nutrient = factor(Nutrient, 
+                                    levels = c("Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co"))) |>
+    dplyr::select(Site, Nutrient, tot_pop_release_period_mg) |>
+    tidyr::pivot_wider(names_from = Site,
+                       values_from = tot_pop_release_period_mg,
+                       values_fn = list) |>
+    tidyr::unnest(cols = c(`Cap Noir`, `Pointe Suzanne`)) |>
+    dplyr::mutate(t_PS_CN = dplyr::case_when(`Pointe Suzanne` > `Cap Noir` ~ 1,
+                                             TRUE ~ 0)) |>
+    dplyr::group_by(Nutrient) |>
+    dplyr::summarise(test_nut_sites = mean(t_PS_CN)) |>
+    tidyr::pivot_wider(names_from = Nutrient, 
+                       values_from = test_nut_sites)
+  
+  openxlsx::write.xlsx(table_test_scat_per_site, 
+                       file = paste0("output/sites/test_differences_sites_nut_scat_per_site.xlsx"))
+  
+  
+  table_test_all_scats <- output_nut_release_tib |>
+    dplyr::select(Site, 
+                  release_nut_pop_tot_period_all_scats) |>
+    tidyr::unnest(release_nut_pop_tot_period_all_scats) |>
+    tidyr::pivot_longer(cols = c(Fe:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "tot_pop_release_period_mg") |> 
+    dplyr::mutate(Nutrient = factor(Nutrient, 
+                                    levels = c("Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co"))) |>
+    dplyr::select(Site, Nutrient, tot_pop_release_period_mg) |>
+    tidyr::pivot_wider(names_from = Site,
+                       values_from = tot_pop_release_period_mg,
+                       values_fn = list) |>
+    tidyr::unnest(cols = c(`Cap Noir`, `Pointe Suzanne`)) |>
+    dplyr::mutate(t_PS_CN = dplyr::case_when(`Pointe Suzanne` > `Cap Noir` ~ 1,
+                                             TRUE ~ 0)) |>
+    dplyr::group_by(Nutrient) |>
+    dplyr::summarise(test_nut_sites = mean(t_PS_CN)) |>
+    tidyr::pivot_wider(names_from = Nutrient, 
+                       values_from = test_nut_sites)
+  
+  openxlsx::write.xlsx(table_test_all_scats, 
+                       file = paste0("output/sites/test_differences_sites_nut_all_scats.xlsx"))
+  
+}
