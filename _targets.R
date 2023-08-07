@@ -386,86 +386,112 @@ list(
   ######################## the two colonies release ? ##########################
   #################### DATA : SAMPLES ##########################################
   # script 02.1_prepare_pop_input_data.R
+  # define and load data on samples of fish
+  tar_target(data_counts_file,
+             "data/counts_A.gazella_Ker_2022-2023.xlsx", 
+             format = "file"),
+  tar_target(data_counts_raw, load_xl(data_counts_file)),
+  tar_target(pop_counts_summary,
+             Ker_summarise_count_data(data_counts_raw)), 
   
   tar_target(pop_initial_count_data,
-             Ker_col_count_data()), 
+              simulate_count_data(pop_counts_summary)),
   tar_target(pop_data_with_indi_data,
-             pop_data_for_simulations(pop_initial_count_data, 
-                                      nsim = 1000)), 
-  
+             pop_data_for_simulations(pop_initial_count_data,
+                                      nsim = 1000)),
+
   # script 02.2_compute_dm_produced.R
-  
+
   tar_target(output_dm_produced,
-             run_dm_estimate(pop_data_with_indi_data)), 
-  
+             run_dm_estimate(pop_data_with_indi_data)),
+
   # script 02.3_output_dm_produced.R
-  
+
   tar_target(dm_produced_per_site_period,
-             dm_per_site_period(output_dm_produced)), 
+             dm_per_site_period(output_dm_produced)),
   tar_target(table_test_dm_release_per_site_tot_period,
-             MWtest_test_dm_sites_tot_period(output_dm_produced)), 
-  
+             MWtest_test_dm_sites_tot_period(output_dm_produced)),
+
   # script 02.4_scat_compo.R
-  
+
   tar_target(output_dm_produced_with_scat_compo_data,
              add_bootstrap_scat_data(output_dm_produced,
                                      res_compo_scats)),
   tar_target(output_nut_release,
-             compute_nut_release(output_dm_produced_with_scat_compo_data)), 
-  
+             compute_nut_release(output_dm_produced_with_scat_compo_data)),
+
   # script 02.5_output_nut_release.R
-  
+
   tar_target(barplot_nut_release_per_site_tot_period,
-             nut_per_site_tot_period(output_nut_release)), 
+             nut_per_site_tot_period(output_nut_release)),
   tar_target(table_test_nut_release_per_site_tot_period,
              MWtest_test_nut_sites_tot_period(output_nut_release)),
-  
+
   ################ THIRD ANALYSIS : scenarios of evolution  ####################
   ################# of diets: how would it affect totals ? #####################
   #################### DATA : SAMPLES ##########################################
-  
+
   # PCA and clustering, script 03.1_clustering_scats_sites.R
-  
+
   tar_target(list_pca_sites,
-             pca_coda(res_compo_scats, 
-                      "sites")), 
+             pca_coda(res_compo_scats,
+                      "sites")),
   tar_target(pca_all_scats,
-             pca_coda(res_compo_scats, 
-                      "all")), 
+             pca_coda(res_compo_scats,
+                      "all")),
   tar_target(biplot_pca_sites,
-             biplot_pca_coda(list_pca_sites, 
+             biplot_pca_coda(list_pca_sites,
                              "sites",
-                             res_compo_scats)), 
+                             res_compo_scats)),
   tar_target(biplot_pca_all_scats,
-             biplot_pca_coda(pca_all_scats, 
+             biplot_pca_coda(pca_all_scats,
                              "all",
-                             res_compo_scats)), 
+                             res_compo_scats)),
   tar_target(clust_PC_sites,
              clust_compo_PCs(list_pca_sites,
                              "sites",
-                             pcomp = c(1, 2), 
-                             k = c(4, 4, 2), 
-                             method = "ward.D2")), 
+                             pcomp = c(1, 2),
+                             k = c(4, 4, 2),
+                             method = "ward.D2")),
   tar_target(clust_PC_all_scats,
-             clust_compo_PCs(pca_all_scats, 
+             clust_compo_PCs(pca_all_scats,
                              "all",
-                             pcomp = c(1, 2), 
-                             k = c(3, 3, 4), 
-                             method = "ward.D2")), 
+                             pcomp = c(1, 2),
+                             k = c(3, 3, 4),
+                             method = "ward.D2")),
   tar_target(clust_PC_dendro_sites,
              clust_dendro_scats(list_pca_sites,
-                                res_compo_scats, 
+                                res_compo_scats,
                                 type = "sites",
                                 method = "ward.D2",
-                                pcomp = c(1, 2), 
+                                pcomp = c(1, 2),
                                 k = c(4, 4, 3))),
   tar_target(clust_PC_dendro_all_scats,
              clust_dendro_scats(pca_all_scats,
-                                res_compo_scats, 
+                                res_compo_scats,
                                 type = "all",
                                 method = "ward.D2",
-                                pcomp = c(1, 2), 
-                                k = c(3, 3, 4))),  
+                                pcomp = c(1, 3),
+                                k = c(3, 3, 8))),
+  
+  
+  tar_target(clust_PC_findk_table_sites,
+             clust_find_k_table_PCs(list_pca_sites,
+                                    method = "ward.D2",
+                                    k_range = c(2:10),
+                                    type = "sites")),
+  tar_target(clust_PC_findk_means_plot_sites,
+             means_clust_find_k_val(clust_PC_findk_table_sites,
+                                    type = "sites")),
+  tar_target(clust_PC_findk_table_all_scats,
+             clust_find_k_table_PCs(pca_all_scats,
+                                method = "ward.D2",
+                                k_range = c(2:10),
+                                type = "all")),
+  tar_target(clust_PC_findk_means_plot_all_scats,
+             means_clust_find_k_val(clust_PC_findk_table_all_scats,
+                                    type = "all")),
+  
   tar_target(clust_PC_sites_barplot_per_scat,
              barplot_compo_rel_clust_per_scat(clust_PC_sites,
                                               res_compo_scats,
@@ -481,21 +507,21 @@ list(
   tar_target(clust_PC_all_scats_boxplot,
              boxplot_compo_clust(clust_PC_all_scats,
                                  res_compo_scats,
-                                 "all")), 
-  
+                                 "all")),
+
   tar_target(table_clust_percent_sites,
              table_compo_clust_per_site(clust_PC_sites,
-                                        res_compo_scats)), 
+                                        res_compo_scats)),
   tar_target(table_stats_percent_sites,
              table_stats_clust_per_site(clust_PC_sites,
                                         res_compo_scats)),
   tar_target(table_test_clust_sites,
              MWtest_clust_k4(clust_PC_sites,
                              res_compo_scats)),
-  
-  
+
+
   ### with scenarios of different ratios of scats of different "types"
-  
+
   # script 03.2_set_up_nut_release_scenarios.R
   tar_target(input_data_with_scenarios_clust1Zn,
              add_bootstrap_scat_data_scenarios(output_nut_release,
@@ -517,7 +543,7 @@ list(
                                                res_compo_scats,
                                                clust_PC_sites,
                                                clust_test = 4)),
-  
+
   # script 03.3_compute_nut_release_scenarios.R
   tar_target(output_nut_release_with_scenarios_clust1Zn,
              compute_nut_release_scenarios(input_data_with_scenarios_clust1Zn)),
@@ -527,7 +553,7 @@ list(
              compute_nut_release_scenarios(input_data_with_scenarios_clust3Cu)),
   tar_target(output_nut_release_with_scenarios_clust4Se,
              compute_nut_release_scenarios(input_data_with_scenarios_clust4Se)),
-  
+
   # script 03.4_output_nut_release_scenarios.R
   tar_target(plot_nut_release_with_scenarios_clust1Zn,
              nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_clust1Zn,

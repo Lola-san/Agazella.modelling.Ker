@@ -568,7 +568,6 @@ clust_compo_PCs <- function(res_pca,
     
     } else if (type == "all") {
 
-    ########################### CAP NOIR #########################################
     # extract the data i.e coordinates of individuals on the PCs
     data.act <- as.data.frame(res_pca$scores[, pcomp])
     
@@ -600,6 +599,338 @@ clust_compo_PCs <- function(res_pca,
     clust_output
   }
   
+  
+  
+}
+
+
+#'
+#'
+#'
+#'
+# function to perform clustering with different cluster nb and plot 
+# different validating values of the outputs
+clust_find_k_table_PCs <- function(res_pca,
+                                   k_range = c(2:10),
+                                   method, 
+                                   type # either "sites" or "all"
+) {
+  
+  if (type == "sites") {
+    pcomp <- c(1:2)
+    
+    
+    res_pca_CN <- res_pca$CN
+    res_pca_PS <- res_pca$PS
+    
+    ########################### CAP NOIR #########################################
+    # extract the data i.e coordinates of individuals on the PCs
+    data.act_CN <- as.data.frame(res_pca_CN$scores[, pcomp])
+    
+    # define distance matrix
+    d_CN <- dist(data.act_CN)
+    
+    # perform clustering
+    tree_CN <- stats::hclust(d_CN, method = method)
+    
+    list_outputs_CN <- list()
+    
+    for (i in k_range) {
+      # cut the tree in k clusters 
+      clust_output <- data.frame(cluster = cutree(tree = tree_CN, k = i))
+      
+      # compute validity measures
+      clust_stats <- fpc::cluster.stats(as.dist(d_CN), clust_output$cluster)
+      
+      # and save them
+      ki_df <- data.frame(k = clust_stats$cluster.number, 
+                          method = method, 
+                          size = clust_stats$cluster.size,
+                          separation = round(clust_stats$separation, 3),
+                          average.distance = round(clust_stats$average.distance, 3), 
+                          median.distance = round(clust_stats$median.distance, 3),
+                          avg.silwidth = round(as.data.frame(clust_stats$clus.avg.silwidths)[,1], 
+                                               3), 
+                          average.toother = round(clust_stats$average.toother, 3), 
+                          min.clust.size = clust_stats$min.cluster.size)
+      
+      list_outputs_CN <- append(list_outputs_CN, list(ki_df))
+    } 
+    
+    df0_CN <- data.frame(k = NA, 
+                      method = NA,
+                      size = NA,
+                      separation = NA,
+                      average.distance = NA, 
+                      median.distance = NA,
+                      avg.silwidth = NA, 
+                      average.toother = NA, 
+                      min.clust.size = NA)
+    
+    for (i in 1:length(k_range)) {
+      df0_CN <- rbind(df0_CN, list_outputs_CN[[i]])
+    }
+    
+    # delete first line of NAs
+    df.to.plot_CN <- df0_CN[-1,]
+    
+    openxlsx::write.xlsx(df.to.plot_CN, 
+                         file = "output/sites/clust_PCs_findk_validity_measures_CN.xlsx")
+    
+    
+    ########################### POINTE SUZANNE ###################################
+    # extract the data i.e coordinates of individuals on the PCs
+    data.act_PS <- as.data.frame(res_pca_PS$scores[, pcomp])
+    
+    # define distance matrix
+    d_PS <- dist(data.act_PS)
+    
+    # perform clustering
+    tree_PS <- stats::hclust(d_PS, method = method)
+    
+    list_outputs_PS <- list()
+    
+    for (i in k_range) {
+      # cut the tree in k clusters 
+      clust_output <- data.frame(cluster = cutree(tree = tree_PS, k = i))
+      
+      # compute validity measures
+      clust_stats <- fpc::cluster.stats(as.dist(d_PS), clust_output$cluster)
+      
+      # and save them
+      ki_df <- data.frame(k = clust_stats$cluster.number, 
+                          method = method, 
+                          size = clust_stats$cluster.size,
+                          separation = round(clust_stats$separation, 3),
+                          average.distance = round(clust_stats$average.distance, 3), 
+                          median.distance = round(clust_stats$median.distance, 3),
+                          avg.silwidth = round(as.data.frame(clust_stats$clus.avg.silwidths)[,1], 
+                                               3), 
+                          average.toother = round(clust_stats$average.toother, 3), 
+                          min.clust.size = clust_stats$min.cluster.size)
+      
+      list_outputs_PS <- append(list_outputs_PS, list(ki_df))
+    } 
+    
+    df0_PS <- data.frame(k = NA, 
+                         method = NA,
+                         size = NA,
+                         separation = NA,
+                         average.distance = NA, 
+                         median.distance = NA,
+                         avg.silwidth = NA, 
+                         average.toother = NA, 
+                         min.clust.size = NA)
+    
+    for (i in 1:length(k_range)) {
+      df0_PS <- rbind(df0_PS, list_outputs_PS[[i]])
+    }
+    
+    # delete first line of NAs
+    df.to.plot_PS <- df0_PS[-1,]
+    
+    openxlsx::write.xlsx(df.to.plot_PS, 
+                         file = "output/sites/clust_PCs_findk_validity_measures_PS.xlsx")
+    
+    list(CN = df.to.plot_CN, PS = df.to.plot_PS)
+    
+  } else if (type == "all") {
+    
+    pcomp <- c(1:3)
+    
+    
+    # extract the data i.e coordinates of individuals on the PCs
+    data.act <- as.data.frame(res_pca$scores[, pcomp])
+    
+    # define distance matrix
+    d <- dist(data.act)
+    
+    # perform clustering
+    tree <- stats::hclust(d, method = method)
+    
+    list_outputs <- list()
+    
+    for (i in k_range) {
+      # cut the tree in k clusters 
+      clust_output <- data.frame(cluster = cutree(tree = tree, k = i))
+      
+      # compute validity measures
+      clust_stats <- fpc::cluster.stats(as.dist(d), clust_output$cluster)
+      
+      # and save them
+      ki_df <- data.frame(k = clust_stats$cluster.number, 
+                          method = method, 
+                          size = clust_stats$cluster.size,
+                          separation = round(clust_stats$separation, 3),
+                          average.distance = round(clust_stats$average.distance, 3), 
+                          median.distance = round(clust_stats$median.distance, 3),
+                          avg.silwidth = round(as.data.frame(clust_stats$clus.avg.silwidths)[,1], 
+                                               3), 
+                          average.toother = round(clust_stats$average.toother, 3), 
+                          min.clust.size = clust_stats$min.cluster.size)
+      
+      list_outputs <- append(list_outputs, list(ki_df))
+      
+    }
+    
+    df0 <- data.frame(k = NA, 
+                      method = NA,
+                      size = NA,
+                      separation = NA,
+                      average.distance = NA, 
+                      median.distance = NA,
+                      avg.silwidth = NA, 
+                      average.toother = NA, 
+                      min.clust.size = NA)
+    
+    for (i in 1:length(k_range)) {
+      df0 <- rbind(df0, list_outputs[[i]])
+    }
+    
+    # delete first line of NAs
+    df.to.plot <- df0[-1,]
+    
+    openxlsx::write.xlsx(df.to.plot, 
+                         file = "output/sites/clust_PCs_findk_validity_measures_all_scats.xlsx")
+    
+    df.to.plot
+    
+    
+  } 
+  
+  
+  
+}
+
+
+
+
+#'
+#'
+#'
+#'
+# function to show means of validating values of the outputs
+# for different numbers of clusters
+means_clust_find_k_val <- function(find_k_output, 
+                                   type # "sites" or "all"
+                                   ) {
+  
+ 
+  
+  if (type == "sites") {
+    # set color palette 
+    
+    diff <- length(unique(find_k_output$CN$k)) - 7
+    
+    possible_col <- c("#CD4F38FF", "#3D4F7DFF", 
+                      "#657060FF", "#EAD890FF") 
+    
+    pal <- c(ghibli::ghibli_palettes$YesterdayMedium, 
+             possible_col[1:diff])
+    
+    ############################### CAP NOIR ###################################
+    find_k_output_CN <- find_k_output$CN
+    
+    find_k_output_CN |>
+      dplyr::mutate(k = as.factor(k)) |>
+      tidyr::pivot_longer(cols = c("separation":"min.clust.size"), 
+                          names_to = "validity.variable", 
+                          values_to = "value") |>
+      dplyr::group_by(k, validity.variable) |>
+      dplyr::summarize(mean = mean(value)) |>
+      ggplot2::ggplot(ggplot2::aes(x = k, y = mean, color = k)) +
+      ggplot2::geom_point() +
+      ggplot2::facet_wrap(~validity.variable, scale = "free") +
+      ggplot2::scale_color_manual(values = pal) +
+      ggplot2::ggtitle("Cap Noir") +
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.title.x = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     axis.text.x = ggplot2::element_text(size = 15),
+                     axis.text.y = ggplot2::element_text(size = 15),
+                     axis.title.y = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     strip.text.x = ggplot2::element_text(size = 15),
+                     title = ggplot2::element_text(size = 17, 
+                                                   face = "bold"),
+                     legend.position = "none")
+    # save plot 
+    ggplot2::ggsave("output/sites/findk_validity_measures_means_CN.jpg",
+                    scale = 1,
+                    height = 6, width = 8)
+    
+    ########################### POINTE SUZANNE #################################
+    
+    find_k_output_PS <- find_k_output$PS
+    
+    find_k_output_PS |>
+      dplyr::mutate(k = as.factor(k)) |>
+      tidyr::pivot_longer(cols = c("separation":"min.clust.size"), 
+                          names_to = "validity.variable", 
+                          values_to = "value") |>
+      dplyr::group_by(k, validity.variable) |>
+      dplyr::summarize(mean = mean(value)) |>
+      ggplot2::ggplot(ggplot2::aes(x = k, y = mean, color = k)) +
+      ggplot2::geom_point() +
+      ggplot2::facet_wrap(~validity.variable, scale = "free") +
+      ggplot2::scale_color_manual(values = pal) +
+      ggplot2::ggtitle("Pointe Suzanne") +
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.title.x = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     axis.text.x = ggplot2::element_text(size = 15),
+                     axis.text.y = ggplot2::element_text(size = 15),
+                     axis.title.y = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     strip.text.x = ggplot2::element_text(size = 15),
+                     title = ggplot2::element_text(size = 17, 
+                                                   face = "bold"),
+                     legend.position = "none")
+    # save plot 
+    ggplot2::ggsave("output/sites/findk_validity_measures_means_PS.jpg",
+                    scale = 1,
+                    height = 6, width = 8)
+    
+  } else if (type == "all") {
+    # set color palette 
+    
+    diff <- length(unique(find_k_output$k)) - 7
+    
+    possible_col <- c("#CD4F38FF", "#3D4F7DFF", 
+                      "#657060FF", "#EAD890FF") 
+    
+    pal <- c(ghibli::ghibli_palettes$YesterdayMedium, 
+             possible_col[1:diff])
+    
+    find_k_output |>
+      dplyr::mutate(k = as.factor(k)) |>
+      tidyr::pivot_longer(cols = c("separation":"min.clust.size"), 
+                          names_to = "validity.variable", 
+                          values_to = "value") |>
+      dplyr::group_by(k, validity.variable) |>
+      dplyr::summarize(mean = mean(value)) |>
+      ggplot2::ggplot(ggplot2::aes(x = k, y = mean, color = k)) +
+      ggplot2::geom_point() +
+      ggplot2::facet_wrap(~validity.variable, scale = "free") +
+      ggplot2::scale_color_manual(values = pal) +
+      ggplot2::ggtitle("All scats") +
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.title.x = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     axis.text.x = ggplot2::element_text(size = 15),
+                     axis.text.y = ggplot2::element_text(size = 15),
+                     axis.title.y = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     strip.text.x = ggplot2::element_text(size = 15),
+                     title = ggplot2::element_text(size = 17, 
+                                                   face = "bold"),
+                     legend.position = "none")
+    # save plot 
+    ggplot2::ggsave("output/sites/findk_validity_measures_means_all_scats.jpg",
+                    scale = 1,
+                    height = 6, width = 8)
+  }
+
   
   
 }
@@ -756,7 +1087,11 @@ clust_dendro_scats <- function(res_pca,
       ggplot2::scale_color_manual(values = c("1" = "#44A57CFF",
                                              "2" = "#1D2645FF",
                                              "3" = "#D8AF39FF", 
-                                             "4" = "#AE93BEFF")) +
+                                             "4" = "#AE93BEFF", 
+                                             "5" = "#5A6F80FF",
+                                             "6" = "#E75B64FF",
+                                             "7" = "#B4DAE5FF", 
+                                             "8" = "#E8C4A2FF")) +
       ggplot2::coord_flip() +
       ggplot2::ylim(-2, 25) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = "Cluster",
