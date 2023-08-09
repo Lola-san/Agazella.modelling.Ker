@@ -119,7 +119,7 @@ set_up_prey_compo <- function(compo_results_prey) {
                                        "2010PII_ARCTRIS_CHA94_AR01"))) |>
     # get rid of unwanted nutrients (+ with only trace)
     dplyr::select(-c(Mo, V, Ag, Cr, Pb, Cd, Sr, 
-                     As, Ca, K, Mg, Na, P, 
+                     As, Ca, K, Mg, Na, P,
                      Ni)) |>
     # statistical outliers
     dplyr::mutate(Fe = dplyr::case_when(Code_sample %in% c("2005_STOMSP_SS09",
@@ -145,7 +145,9 @@ set_up_scats_compo <- function(compo_results_scats) {
   
   compo_results_scats |>
     # for technical outliers
-    dplyr::filter(!(Code_sample %in% c("CN12", "CN02"))) |>
+    dplyr::filter(!(Code_sample %in% c("CN12", "CN02", 
+                                       "PS06", "PS27"
+                                       ))) |>
     # get rid of unwanted nutrients (+ with only trace)
     dplyr::select(c(Code_sample, 
                     Fe, Zn, Cu, Mn, Se, Co))

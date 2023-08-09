@@ -82,7 +82,7 @@ simulate_count_data <- function(counts_summmarise_adults_tib) {
 pop_data_for_simulations <- function(pop_count_tib, 
                                      nsim) {
   
-  pop_count_tib |>
+  tib_both_sites <- pop_count_tib |>
     dplyr::mutate(pop_count = seq_along(initial_counts) |>
                     purrr::map(~ tibble::tibble(simu_count = round(runif(n = nsim,  
                                                                          min = purrr::pluck(initial_counts, ., "min_count"), 
@@ -123,6 +123,11 @@ pop_data_for_simulations <- function(pop_count_tib,
                     purrr::map(~ tibble::as_tibble_col(runif(n = purrr::pluck(simu_count, .),  
                                                              min = 0.20, 
                                                              max = 0.40))))
+  
+  list(CN = tib_both_sites |> 
+         dplyr:: filter(Site == "Cap Noir"), 
+       PS = tib_both_sites |> 
+         dplyr:: filter(Site == "Pointe Suzanne"))
   
 }
 

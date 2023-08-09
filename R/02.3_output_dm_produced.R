@@ -12,9 +12,10 @@
 #'
 #'
 #
-dm_per_site_period <- function(output_dm_tib) {
+dm_per_site_period <- function(list_output_dm) {
   
-  output_dm_tib |>
+  
+  rbind(list_output_dm$CN, list_output_dm$PS) |>
     dplyr::group_by(Site) |>
     tidyr::pivot_longer(cols = c(release_dm_pop_tot_period, 
                                  release_dm_pop_on_land_period, 
@@ -73,9 +74,9 @@ dm_per_site_period <- function(output_dm_tib) {
 #'
 # function to compute Mann-Whitney U Test to assess difference between 
 # concentration of fish in different habitats 
-MWtest_test_dm_sites_tot_period <- function(output_dm_tib) {
+MWtest_test_dm_sites_tot_period <- function(list_output_dm) {
   
-  table_test <- output_dm_tib |>
+  table_test <- rbind(list_output_dm$CN, list_output_dm$PS) |>
     dplyr::select(Site, release_dm_pop_tot_period) |>
     dplyr::group_by(Site) |>
     tidyr::unnest(release_dm_pop_tot_period) |>

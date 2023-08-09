@@ -160,7 +160,7 @@ format_data <- function(diet_tab_input) {
 add_metabolic_data_r_unif <- function(diet_tab_input_nested, 
                                nsim, 
                                # set maximum and minimum release rate for each 
-                               # trace nutrient
+                               # nutrient
                                minFe = 0.7, 
                                maxFe = 0.9, 
                                minZn = 0.7, 

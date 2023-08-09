@@ -396,40 +396,101 @@ list(
   
   tar_target(pop_initial_count_data,
               simulate_count_data(pop_counts_summary)),
-  tar_target(pop_data_with_indi_data,
+  tar_target(list_pop_data_with_indi_data, # now a list with data for the two sites 
              pop_data_for_simulations(pop_initial_count_data,
                                       nsim = 1000)),
 
   # script 02.2_compute_dm_produced.R
 
-  tar_target(output_dm_produced,
-             run_dm_estimate(pop_data_with_indi_data)),
+  tar_target(list_output_dm_produced,
+             run_dm_estimate(list_pop_data_with_indi_data)),
 
   # script 02.3_output_dm_produced.R
 
-  tar_target(dm_produced_per_site_period,
-             dm_per_site_period(output_dm_produced)),
+  tar_target(barplot_dm_produced_per_site_period,
+             dm_per_site_period(list_output_dm_produced)),
   tar_target(table_test_dm_release_per_site_tot_period,
-             MWtest_test_dm_sites_tot_period(output_dm_produced)),
+             MWtest_test_dm_sites_tot_period(list_output_dm_produced)),
 
-  # script 02.4_scat_compo.R
+  # script 02.4_compute_nut_release.R
 
-  tar_target(output_dm_produced_with_scat_compo_data,
-             add_bootstrap_scat_data(output_dm_produced,
+  tar_target(list_output_dm_produced_with_scat_compo_data,
+             add_bootstrap_scat_data(list_output_dm_produced,
                                      res_compo_scats)),
-  tar_target(output_nut_release,
-             compute_nut_release(output_dm_produced_with_scat_compo_data)),
+  tar_target(list_output_nut_release,
+             compute_nut_release(list_output_dm_produced_with_scat_compo_data)),
 
   # script 02.5_output_nut_release.R
 
   tar_target(barplot_nut_release_per_site_tot_period,
-             nut_per_site_tot_period(output_nut_release)),
+             nut_per_site_tot_period(list_output_nut_release)),
   tar_target(table_test_nut_release_per_site_tot_period,
-             MWtest_test_nut_sites_tot_period(output_nut_release)),
+             MWtest_test_nut_sites_tot_period(list_output_nut_release)),
 
   ################ THIRD ANALYSIS : scenarios of evolution  ####################
   ################# of diets: how would it affect totals ? #####################
-  #################### DATA : SAMPLES ##########################################
+  
+  ########## CLUSTERING
+  ######################## USING ALL NUTRIENTS #################################
+  ### without using a PCA to reduce dimensions
+  tar_target(clust_all_nut_findk_table_sites,
+             clust_find_k_table_full_tib(res_compo_scats,
+                                    method = "ward.D2",
+                                    k_range = c(2:10),
+                                    type = "sites")),
+  tar_target(clust_all_nut_findk_means_plot_sites,
+             means_clust_find_k_val_full_tib(clust_all_nut_findk_table_sites,
+                                             type = "sites")),
+  tar_target(clust_all_nut_findk_table_all_scats,
+             clust_find_k_table_full_tib(res_compo_scats,
+                                    method = "ward.D2",
+                                    k_range = c(2:10),
+                                    type = "all")),
+  tar_target(clust_all_nut_findk_means_plot_all_scats,
+             means_clust_find_k_val_full_tib(clust_all_nut_findk_table_all_scats,
+                                    type = "all")),
+  
+  tar_target(clust_all_nut_sites,
+             clust_compo_full_tib(res_compo_scats,
+                                  k = c(4, 3, 4),
+                                  method = "ward.D2",
+                                  type = "sites")),
+  tar_target(clust_all_nut_all_scats,
+             clust_compo_full_tib(res_compo_scats,
+                                  k = c(4, 4, 4),
+                                  method = "ward.D2",
+                                  type = "all")),
+  
+  # dendrogram ##### DID NOT FIND A WAY TO MAKE A DENDROGRAM WITH GGPLOT 
+  # WITH HCLUST OUTPUT OF RobComposition PACKAGE so it's not pretty
+  # but still we can identify samples in clusters...
+  tar_target(clust_all_nut_sites_dendro,
+             clust_compo_dendro_full_tib(clust_all_nut_sites,
+                                  res_compo_scats,
+                                  type = "sites")),
+  tar_target(clust_all_nut_all_scats_dendro,
+             clust_compo_dendro_full_tib(clust_all_nut_all_scats,
+                                         res_compo_scats,
+                                         type = "all")),
+  # boxplots
+  tar_target(clust_all_nut_sites_boxplot,
+             boxplot_compo_clust_full_tib(clust_all_nut_sites,
+                                 res_compo_scats,
+                                 "sites")),
+  tar_target(clust_all_nut_all_scats_boxplot,
+             boxplot_compo_clust_full_tib(clust_all_nut_all_scats,
+                                 res_compo_scats,
+                                 "all")), 
+  
+  # tables 
+   tar_target(table_stats_clusts_all_nut_sites,
+              table_stats_clust_per_site_full_tib(clust_all_nut_sites,
+                                         res_compo_scats)),
+   tar_target(table_test_clust_all_nut_sites,
+              MWtest_clust_k43_full_tib(clust_all_nut_sites,
+                              res_compo_scats)),
+  
+  ################ USING PCA FIRST TO REDUCE DIMENSIONS ########################
 
   # PCA and clustering, script 03.1_clustering_scats_sites.R
 
@@ -473,8 +534,8 @@ list(
                                 method = "ward.D2",
                                 pcomp = c(1, 3),
                                 k = c(3, 3, 8))),
-  
-  
+
+
   tar_target(clust_PC_findk_table_sites,
              clust_find_k_table_PCs(list_pca_sites,
                                     method = "ward.D2",
@@ -491,7 +552,7 @@ list(
   tar_target(clust_PC_findk_means_plot_all_scats,
              means_clust_find_k_val(clust_PC_findk_table_all_scats,
                                     type = "all")),
-  
+
   tar_target(clust_PC_sites_barplot_per_scat,
              barplot_compo_rel_clust_per_scat(clust_PC_sites,
                                               res_compo_scats,
@@ -520,64 +581,133 @@ list(
                              res_compo_scats)),
 
 
+
+ ###############################################################################
   ### with scenarios of different ratios of scats of different "types"
 
-  # script 03.2_set_up_nut_release_scenarios.R
-  tar_target(input_data_with_scenarios_clust1Zn,
-             add_bootstrap_scat_data_scenarios(output_nut_release,
+ # script 03.2_set_up_nut_release_scenarios.R
+ # first CAP NOIR
+  tar_target(input_data_with_scenarios_CN_clust1,
+             add_bootstrap_scat_data_scenarios(list_output_nut_release,
                                                res_compo_scats,
-                                               clust_PC_sites,
+                                               clust_all_nut_sites,
+                                               site = "Cap Noir",
                                                clust_test = 1)),
-  tar_target(input_data_with_scenarios_clust2Fe,
-             add_bootstrap_scat_data_scenarios(output_nut_release,
-                                               res_compo_scats,
-                                               clust_PC_sites,
-                                               clust_test = 2)),
-  tar_target(input_data_with_scenarios_clust3Cu,
-             add_bootstrap_scat_data_scenarios(output_nut_release,
-                                               res_compo_scats,
-                                               clust_PC_sites,
-                                               clust_test = 3)),
-  tar_target(input_data_with_scenarios_clust4Se,
-             add_bootstrap_scat_data_scenarios(output_nut_release,
-                                               res_compo_scats,
-                                               clust_PC_sites,
-                                               clust_test = 4)),
-
+ tar_target(input_data_with_scenarios_CN_clust2,
+            add_bootstrap_scat_data_scenarios(list_output_nut_release,
+                                              res_compo_scats,
+                                              clust_all_nut_sites,
+                                              site = "Cap Noir",
+                                              clust_test = 2)),
+ tar_target(input_data_with_scenarios_CN_clust3,
+            add_bootstrap_scat_data_scenarios(list_output_nut_release,
+                                              res_compo_scats,
+                                              clust_all_nut_sites,
+                                              site = "Cap Noir",
+                                              clust_test = 3)),
+ tar_target(input_data_with_scenarios_CN_clust4,
+            add_bootstrap_scat_data_scenarios(list_output_nut_release,
+                                              res_compo_scats,
+                                              clust_all_nut_sites,
+                                              site = "Cap Noir",
+                                              clust_test = 4)),
+ 
+ # and POINTE SUZANNE
+ tar_target(input_data_with_scenarios_PS_clust1,
+            add_bootstrap_scat_data_scenarios(list_output_nut_release,
+                                              res_compo_scats,
+                                              clust_all_nut_sites,
+                                              site = "Pointe Suzanne",
+                                              clust_test = 1)), 
+ tar_target(input_data_with_scenarios_PS_clust2,
+            add_bootstrap_scat_data_scenarios(list_output_nut_release,
+                                              res_compo_scats,
+                                              clust_all_nut_sites,
+                                              site = "Pointe Suzanne",
+                                              clust_test = 2)),
+ tar_target(input_data_with_scenarios_PS_clust3,
+            add_bootstrap_scat_data_scenarios(list_output_nut_release,
+                                              res_compo_scats,
+                                              clust_all_nut_sites,
+                                              site = "Pointe Suzanne",
+                                              clust_test = 3)), 
+ 
   # script 03.3_compute_nut_release_scenarios.R
-  tar_target(output_nut_release_with_scenarios_clust1Zn,
-             compute_nut_release_scenarios(input_data_with_scenarios_clust1Zn)),
-  tar_target(output_nut_release_with_scenarios_clust2Fe,
-             compute_nut_release_scenarios(input_data_with_scenarios_clust2Fe)),
-  tar_target(output_nut_release_with_scenarios_clust3Cu,
-             compute_nut_release_scenarios(input_data_with_scenarios_clust3Cu)),
-  tar_target(output_nut_release_with_scenarios_clust4Se,
-             compute_nut_release_scenarios(input_data_with_scenarios_clust4Se)),
+ # first CAP NOIR
+  tar_target(output_nut_release_with_scenarios_CN_clust1,
+             compute_nut_release_scenarios(input_data_with_scenarios_CN_clust1)),
+  tar_target(output_nut_release_with_scenarios_CN_clust2,
+             compute_nut_release_scenarios(input_data_with_scenarios_CN_clust2)),
+  tar_target(output_nut_release_with_scenarios_CN_clust3,
+             compute_nut_release_scenarios(input_data_with_scenarios_CN_clust3)),
+  tar_target(output_nut_release_with_scenarios_CN_clust4,
+             compute_nut_release_scenarios(input_data_with_scenarios_CN_clust4)),
+ 
+ # and POINTE SUZANNE
+ tar_target(output_nut_release_with_scenarios_PS_clust1,
+            compute_nut_release_scenarios(input_data_with_scenarios_PS_clust1)),
+ tar_target(output_nut_release_with_scenarios_PS_clust2,
+            compute_nut_release_scenarios(input_data_with_scenarios_PS_clust2)),
+ tar_target(output_nut_release_with_scenarios_PS_clust3,
+            compute_nut_release_scenarios(input_data_with_scenarios_PS_clust3)),
 
   # script 03.4_output_nut_release_scenarios.R
-  tar_target(plot_nut_release_with_scenarios_clust1Zn,
-             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_clust1Zn,
-                                               nut = "Zn")),
-  tar_target(plot_nut_release_with_scenarios_clust2Fe,
-             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_clust2Fe,
-                                               nut = "Fe")),
-  tar_target(plot_nut_release_with_scenarios_clust3Cu,
-             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_clust3Cu,
-                                               nut = "Cu")),
-  tar_target(plot_nut_release_with_scenarios_clust4Se,
-             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_clust4Se,
-                                               nut = "Se")),
-  # all together
-  tar_target(plot_nut_release_with_all_scenarios,
-             nut_per_site_tot_period_all_scenarios(output_nut_release_with_scenarios_clust1Zn,
-                                                   output_nut_release_with_scenarios_clust2Fe,
-                                                   output_nut_release_with_scenarios_clust3Cu,
-                                                   output_nut_release_with_scenarios_clust4Se)),
-  tar_target(table_test_nut_release_per_site_tot_period_all_scenarios,
-             MWtest_test_nut_sites_tot_period_all_scenarios(output_nut_release_with_scenarios_clust1Zn,
-                                                            output_nut_release_with_scenarios_clust2Fe,
-                                                            output_nut_release_with_scenarios_clust3Cu,
-                                                            output_nut_release_with_scenarios_clust4Se))
+ # first CAP NOIR
+  tar_target(plot_nut_release_with_scenarios_CN_clust1,
+             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_CN_clust1,
+                                               site = "Cap Noir",
+                                               clust_test = 1)),
+ tar_target(plot_nut_release_with_scenarios_CN_clust2,
+            nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_CN_clust2,
+                                              site = "Cap Noir",
+                                              clust_test = 2)),
+ tar_target(plot_nut_release_with_scenarios_CN_clust3,
+            nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_CN_clust3,
+                                              site = "Cap Noir",
+                                              clust_test = 3)),
+ tar_target(plot_nut_release_with_scenarios_CN_clust4,
+            nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_CN_clust4,
+                                              site = "Cap Noir",
+                                              clust_test = 4)),
+ 
+ # and POINTE SUZANNE
+ tar_target(plot_nut_release_with_scenarios_PS_clust1,
+            nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_PS_clust1,
+                                              site = "Pointe Suzanne",
+                                              clust_test = 1)),
+ tar_target(plot_nut_release_with_scenarios_PS_clust2,
+            nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_PS_clust2,
+                                              site = "Pointe Suzanne",
+                                              clust_test = 2)),
+ tar_target(plot_nut_release_with_scenarios_PS_clust3,
+            nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_PS_clust3,
+                                              site = "Pointe Suzanne",
+                                              clust_test = 3)), 
+ 
+ # all together
+  tar_target(plot_nut_release_with_all_scenarios_CN,
+             nut_per_site_tot_period_all_scenarios(list(output_nut_release_with_scenarios_CN_clust1, 
+                                                        output_nut_release_with_scenarios_CN_clust2,
+                                                        output_nut_release_with_scenarios_CN_clust3,
+                                                        output_nut_release_with_scenarios_CN_clust4),
+                                                   site = "Cap Noir")), 
+ tar_target(table_test_nut_release_with_all_scenarios_CN,
+            MWtest_test_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_CN_clust1, 
+                                                       output_nut_release_with_scenarios_CN_clust2,
+                                                       output_nut_release_with_scenarios_CN_clust3,
+                                                       output_nut_release_with_scenarios_CN_clust4),
+                                                  site = "Cap Noir")), 
+ 
+ tar_target(plot_nut_release_with_all_scenarios_PS,
+            nut_per_site_tot_period_all_scenarios(list(output_nut_release_with_scenarios_PS_clust1, 
+                                                       output_nut_release_with_scenarios_PS_clust2,
+                                                       output_nut_release_with_scenarios_PS_clust3),
+                                                  site = "Pointe Suzanne")), 
+ tar_target(table_test_nut_release_with_all_scenarios_PS,
+            MWtest_test_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_PS_clust1, 
+                                                                output_nut_release_with_scenarios_PS_clust2,
+                                                                output_nut_release_with_scenarios_PS_clust3),
+                                                           site = "Pointe Suzanne")) 
   
   
   

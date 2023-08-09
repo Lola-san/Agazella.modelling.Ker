@@ -12,9 +12,9 @@
 #'
 #'
 #
-nut_per_site_tot_period <- function(output_nut_release_tib) {
+nut_per_site_tot_period <- function(list_output_nut_release) {
   
-  rbind(output_nut_release_tib |>
+  rbind(rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
           dplyr::select(Site, 
                         release_nut_pop_tot_period_all_scats) |>
           tidyr::unnest(release_nut_pop_tot_period_all_scats) |>
@@ -34,7 +34,7 @@ nut_per_site_tot_period <- function(output_nut_release_tib) {
                            `80_quant` = quantile(tot_pop_release_period_mg, 
                                                  probs = c(0.8))*1e-6, 
                            max = max(tot_pop_release_period_mg)*1e-6), 
-        output_nut_release_tib |>
+        rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
           dplyr::select(Site, 
                         release_nut_pop_tot_period_sites) |>
           tidyr::unnest(release_nut_pop_tot_period_sites) |>
@@ -98,9 +98,10 @@ nut_per_site_tot_period <- function(output_nut_release_tib) {
 #'
 # function to compute Mann-Whitney U Test to assess difference between 
 # concentration of fish in different habitats 
-MWtest_test_nut_sites_tot_period <- function(output_nut_release_tib) {
+MWtest_test_nut_sites_tot_period <- function(list_output_nut_release) {
   
-  table_test_scat_per_site <- output_nut_release_tib |>
+  table_test_scat_per_site <- rbind(list_output_nut_release$CN, 
+                                    list_output_nut_release$PS) |>
     dplyr::select(Site, 
                   release_nut_pop_tot_period_sites) |>
     tidyr::unnest(release_nut_pop_tot_period_sites) |>
@@ -127,7 +128,8 @@ MWtest_test_nut_sites_tot_period <- function(output_nut_release_tib) {
                        file = paste0("output/sites/test_differences_sites_nut_scat_per_site.xlsx"))
   
   
-  table_test_all_scats <- output_nut_release_tib |>
+  table_test_all_scats <- rbind(list_output_nut_release$CN, 
+                                list_output_nut_release$PS) |>
     dplyr::select(Site, 
                   release_nut_pop_tot_period_all_scats) |>
     tidyr::unnest(release_nut_pop_tot_period_all_scats) |>
