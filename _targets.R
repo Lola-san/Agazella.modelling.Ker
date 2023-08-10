@@ -611,14 +611,40 @@ list(
                                               clust_all_nut_sites,
                                               site = "Cap Noir",
                                               clust_test = 4)),
- 
+ # check percentages obtained
+ tar_target(percent_cluster_with_scenarios_CN_clust1,
+            table_percent_cluster_after_scenarios(input_data_with_scenarios_CN_clust1,
+                                              res_compo_scats,
+                                              clust_all_nut_sites,
+                                              site = "Cap Noir",
+                                              clust_test = "1")),
+ tar_target(percent_cluster_with_scenarios_CN_clust2,
+            table_percent_cluster_after_scenarios(input_data_with_scenarios_CN_clust2,
+                                                  res_compo_scats,
+                                                  clust_all_nut_sites,
+                                                  site = "Cap Noir",
+                                                  clust_test = "2")),
+ tar_target(percent_cluster_with_scenarios_CN_clust3,
+            table_percent_cluster_after_scenarios(input_data_with_scenarios_CN_clust3,
+                                                  res_compo_scats,
+                                                  clust_all_nut_sites,
+                                                  site = "Cap Noir",
+                                                  clust_test = "3")),
+ tar_target(percent_cluster_with_scenarios_CN_clust4,
+            table_percent_cluster_after_scenarios(input_data_with_scenarios_CN_clust4,
+                                                  res_compo_scats,
+                                                  clust_all_nut_sites,
+                                                  site = "Cap Noir",
+                                                  clust_test = "4")),
+
+
  # and POINTE SUZANNE
  tar_target(input_data_with_scenarios_PS_clust1,
             add_bootstrap_scat_data_scenarios(list_output_nut_release,
                                               res_compo_scats,
                                               clust_all_nut_sites,
                                               site = "Pointe Suzanne",
-                                              clust_test = 1)), 
+                                              clust_test = 1)),
  tar_target(input_data_with_scenarios_PS_clust2,
             add_bootstrap_scat_data_scenarios(list_output_nut_release,
                                               res_compo_scats,
@@ -630,8 +656,27 @@ list(
                                               res_compo_scats,
                                               clust_all_nut_sites,
                                               site = "Pointe Suzanne",
-                                              clust_test = 3)), 
- 
+                                              clust_test = 3)),
+ # check percentages obtained
+ tar_target(percent_cluster_with_scenarios_PS_clust1,
+            table_percent_cluster_after_scenarios(input_data_with_scenarios_PS_clust1,
+                                                  res_compo_scats,
+                                                  clust_all_nut_sites,
+                                                  site = "Pointe Suzanne",
+                                                  clust_test = "1")),
+ tar_target(percent_cluster_with_scenarios_PS_clust2,
+            table_percent_cluster_after_scenarios(input_data_with_scenarios_PS_clust2,
+                                                  res_compo_scats,
+                                                  clust_all_nut_sites,
+                                                  site = "Pointe Suzanne",
+                                                  clust_test = "2")),
+ tar_target(percent_cluster_with_scenarios_PS_clust3,
+            table_percent_cluster_after_scenarios(input_data_with_scenarios_PS_clust3,
+                                                  res_compo_scats,
+                                                  clust_all_nut_sites,
+                                                  site = "Pointe Suzanne",
+                                                  clust_test = "3")),
+
   # script 03.3_compute_nut_release_scenarios.R
  # first CAP NOIR
   tar_target(output_nut_release_with_scenarios_CN_clust1,
@@ -642,7 +687,7 @@ list(
              compute_nut_release_scenarios(input_data_with_scenarios_CN_clust3)),
   tar_target(output_nut_release_with_scenarios_CN_clust4,
              compute_nut_release_scenarios(input_data_with_scenarios_CN_clust4)),
- 
+
  # and POINTE SUZANNE
  tar_target(output_nut_release_with_scenarios_PS_clust1,
             compute_nut_release_scenarios(input_data_with_scenarios_PS_clust1)),
@@ -669,7 +714,7 @@ list(
             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_CN_clust4,
                                               site = "Cap Noir",
                                               clust_test = 4)),
- 
+
  # and POINTE SUZANNE
  tar_target(plot_nut_release_with_scenarios_PS_clust1,
             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_PS_clust1,
@@ -682,32 +727,51 @@ list(
  tar_target(plot_nut_release_with_scenarios_PS_clust3,
             nut_per_site_tot_period_scenarios(output_nut_release_with_scenarios_PS_clust3,
                                               site = "Pointe Suzanne",
-                                              clust_test = 3)), 
- 
+                                              clust_test = 3)),
+
  # all together
   tar_target(plot_nut_release_with_all_scenarios_CN,
-             nut_per_site_tot_period_all_scenarios(list(output_nut_release_with_scenarios_CN_clust1, 
+             nut_per_site_tot_period_all_scenarios(list(output_nut_release_with_scenarios_CN_clust1,
                                                         output_nut_release_with_scenarios_CN_clust2,
                                                         output_nut_release_with_scenarios_CN_clust3,
                                                         output_nut_release_with_scenarios_CN_clust4),
-                                                   site = "Cap Noir")), 
+                                                   list(percent_cluster_with_scenarios_CN_clust1,
+                                                        percent_cluster_with_scenarios_CN_clust2,
+                                                        percent_cluster_with_scenarios_CN_clust3,
+                                                        percent_cluster_with_scenarios_CN_clust4),
+                                                   site = "Cap Noir")),
  tar_target(table_test_nut_release_with_all_scenarios_CN,
-            MWtest_test_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_CN_clust1, 
+            MWtest_test_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_CN_clust1,
                                                        output_nut_release_with_scenarios_CN_clust2,
                                                        output_nut_release_with_scenarios_CN_clust3,
                                                        output_nut_release_with_scenarios_CN_clust4),
-                                                  site = "Cap Noir")), 
- 
+                                                  site = "Cap Noir")),
+ tar_target(table_differences_mean_nut_release_with_all_scenarios_CN,
+            percent_diff_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_CN_clust1,
+                                                                output_nut_release_with_scenarios_CN_clust2,
+                                                                output_nut_release_with_scenarios_CN_clust3,
+                                                                output_nut_release_with_scenarios_CN_clust4),
+                                                           site = "Cap Noir")),
+
+
  tar_target(plot_nut_release_with_all_scenarios_PS,
-            nut_per_site_tot_period_all_scenarios(list(output_nut_release_with_scenarios_PS_clust1, 
+            nut_per_site_tot_period_all_scenarios(list(output_nut_release_with_scenarios_PS_clust1,
                                                        output_nut_release_with_scenarios_PS_clust2,
                                                        output_nut_release_with_scenarios_PS_clust3),
-                                                  site = "Pointe Suzanne")), 
+                                                  list(percent_cluster_with_scenarios_PS_clust1,
+                                                       percent_cluster_with_scenarios_PS_clust2,
+                                                       percent_cluster_with_scenarios_PS_clust3),
+                                                  site = "Pointe Suzanne")),
  tar_target(table_test_nut_release_with_all_scenarios_PS,
-            MWtest_test_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_PS_clust1, 
+            MWtest_test_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_PS_clust1,
                                                                 output_nut_release_with_scenarios_PS_clust2,
                                                                 output_nut_release_with_scenarios_PS_clust3),
-                                                           site = "Pointe Suzanne")) 
+                                                           site = "Pointe Suzanne")),
+ tar_target(table_differences_mean_nut_release_with_all_scenarios_PS,
+            percent_diff_nut_sites_tot_period_all_scenarios(list(output_nut_release_with_scenarios_PS_clust1,
+                                                                 output_nut_release_with_scenarios_PS_clust2,
+                                                                 output_nut_release_with_scenarios_PS_clust3),
+                                                            site = "Pointe Suzanne"))
   
   
   

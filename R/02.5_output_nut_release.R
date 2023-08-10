@@ -14,7 +14,8 @@
 #
 nut_per_site_tot_period <- function(list_output_nut_release) {
   
-  rbind(rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
+  rbind(# first with all scat samples mixed
+    rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
           dplyr::select(Site, 
                         release_nut_pop_tot_period_all_scats) |>
           tidyr::unnest(release_nut_pop_tot_period_all_scats) |>
@@ -33,7 +34,8 @@ nut_per_site_tot_period <- function(list_output_nut_release) {
                                                  probs = c(0.1))*1e-6,
                            `80_quant` = quantile(tot_pop_release_period_mg, 
                                                  probs = c(0.8))*1e-6, 
-                           max = max(tot_pop_release_period_mg)*1e-6), 
+                           max = max(tot_pop_release_period_mg)*1e-6),
+    # then with scat samples separated per site 
         rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
           dplyr::select(Site, 
                         release_nut_pop_tot_period_sites) |>
