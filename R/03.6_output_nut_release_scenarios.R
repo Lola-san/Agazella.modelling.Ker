@@ -26,20 +26,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_sites) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = "All scat samples from colony") |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with only scat samples from one enriched cluster - 100% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -47,20 +47,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("100% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 90% scat samples from one enriched cluster - 90% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -68,20 +68,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("90% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 80% scat samples from one enriched cluster - 80% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -89,20 +89,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("80% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 70% scat samples from one enriched cluster - 70% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -110,20 +110,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("70% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 60% scat samples from one enriched cluster - 60% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -131,20 +131,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("60% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 50% scat samples from one enriched cluster - 50% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -152,20 +152,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("50% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 40% scat samples from one enriched cluster - 40% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -173,20 +173,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("40% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 30% scat samples from one enriched cluster - 30% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -194,20 +194,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("30% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 20% scat samples from one enriched cluster - 20% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -215,20 +215,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("20% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 10% scat samples from one enriched cluster - 10% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -236,20 +236,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("10% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6),
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg)),
     # with 00% scat samples from one enriched cluster - 00% scenario
     output_nut_release_scenarios_tib |>
       dplyr::select(Site,
@@ -257,20 +257,20 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
       tidyr::pivot_longer(cols = c(Fe:Co),
                           names_to = "Nutrient",
-                          values_to = "tot_pop_release_period_mg") |>
+                          values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
                                       levels = c("Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("0% of scat samples from cluster ", clust_test)) |>
       dplyr::group_by(Site, scat_compo, Nutrient) |>
-      dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                       mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                       `10_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.1))*1e-6,
-                       `80_quant` = quantile(tot_pop_release_period_mg,
-                                             probs = c(0.8))*1e-6,
-                       max = max(tot_pop_release_period_mg)*1e-6)
+      dplyr::summarise(min = min(tot_pop_release_period_kg),
+                       mean = mean(tot_pop_release_period_kg), 
+                       `10_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.1)),
+                       `80_quant` = quantile(tot_pop_release_period_kg,
+                                             probs = c(0.8)),
+                       max = max(tot_pop_release_period_kg))
   ) |>
     dplyr::mutate(scat_compo = factor(scat_compo,
                                       levels = c("All scat samples from colony",
@@ -420,20 +420,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[1]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 90% scat samples from one enriched cluster - 90% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -441,20 +441,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[2]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 80% scat samples from one enriched cluster - 80% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -462,20 +462,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[3]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 70% scat samples from one enriched cluster - 70% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -483,20 +483,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[4]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 60% scat samples from one enriched cluster - 60% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -504,20 +504,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[5]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 50% scat samples from one enriched cluster - 50% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -525,20 +525,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[6]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 40% scat samples from one enriched cluster - 40% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -546,20 +546,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[7]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 30% scat samples from one enriched cluster - 30% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -567,20 +567,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[8]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 20% scat samples from one enriched cluster - 20% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -588,20 +588,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[9]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 10% scat samples from one enriched cluster - 10% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -609,20 +609,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[10]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6),
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg)),
       # with 00% scat samples from one enriched cluster - 00% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -630,20 +630,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
         tidyr::pivot_longer(cols = c(Fe:Co),
                             names_to = "Nutrient",
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
                                         levels = c("Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[11]) |>
         dplyr::group_by(Site, sub_scenario, Nutrient) |>
-        dplyr::summarise(min = min(tot_pop_release_period_mg)*1e-6,
-                         mean = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                         `10_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.1))*1e-6,
-                         `80_quant` = quantile(tot_pop_release_period_mg,
-                                               probs = c(0.8))*1e-6,
-                         max = max(tot_pop_release_period_mg)*1e-6)
+        dplyr::summarise(min = min(tot_pop_release_period_kg),
+                         mean = mean(tot_pop_release_period_kg), 
+                         `10_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.1)),
+                         `80_quant` = quantile(tot_pop_release_period_kg,
+                                               probs = c(0.8)),
+                         max = max(tot_pop_release_period_kg))
     ) |>
       dplyr::mutate(scenario = paste0("changing % of scat samples from cluster ", i)) |>
       dplyr::select(c(Site, scenario, sub_scenario, Nutrient, 
@@ -657,6 +657,7 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
   # delete first line of NA 
   df_compiled_tests <- df_compiled_tests[-1, ]
   
+  # table with stats for the baseline values
   mean_conc_table_with_all_scats <- list_output_scenarios[[2]] |>
     dplyr::select(Site, 
                   release_nut_pop_tot_period_sites) |>
@@ -664,10 +665,10 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
     tidyr::unnest(release_nut_pop_tot_period_sites) |>
     tidyr::pivot_longer(cols = c(Fe:Co), 
                         names_to = "Nutrient", 
-                        values_to = "tot_pop_release_period_mg") |> 
+                        values_to = "tot_pop_release_period_kg") |> 
     dplyr::group_by(Nutrient) |>
-    dplyr::summarise(mean_release_est = mean(tot_pop_release_period_mg)*1e-6, # from mg to kg
-                     median_release_est = median(tot_pop_release_period_mg)*1e-6) |> 
+    dplyr::summarise(mean_release_est = mean(tot_pop_release_period_kg), 
+                     median_release_est = median(tot_pop_release_period_kg)) |> 
   dplyr::mutate(Nutrient = factor(Nutrient, 
                                   levels = c("Fe", "Zn", 
                                              "Cu", "Mn", "Se",
@@ -757,7 +758,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_sites) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "all scat samples from colony"), 
       # with 00% scat samples from one enriched cluster - 00% scenario
       list_output_scenarios[[i]] |>
@@ -766,7 +767,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "0%"), 
       # with 10% scat samples from one enriched cluster - 10% scenario
       list_output_scenarios[[i]] |>
@@ -775,7 +776,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "10%"), 
       # with 20% scat samples from one enriched cluster - 20% scenario
       list_output_scenarios[[i]] |>
@@ -784,7 +785,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "20%"), 
       # with 30% scat samples from one enriched cluster - 30% scenario
       list_output_scenarios[[i]] |>
@@ -793,7 +794,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "30%"), 
       # with 40% scat samples from one enriched cluster - 40% scenario
       list_output_scenarios[[i]] |>
@@ -802,7 +803,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "40%"), 
       # with 50% scat samples from one enriched cluster - 50% scenario
       list_output_scenarios[[i]] |>
@@ -811,7 +812,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "50%"), 
       # with 60% scat samples from one enriched cluster - 60% scenario
       list_output_scenarios[[i]] |>
@@ -820,7 +821,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "60%"), 
       # with 70% scat samples from one enriched cluster - 70% scenario
       list_output_scenarios[[i]] |>
@@ -829,7 +830,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "70%"), 
       # with 80% scat samples from one enriched cluster - 80% scenario
       list_output_scenarios[[i]] |>
@@ -838,7 +839,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "80%"), 
       # with 90% scat samples from one enriched cluster - 90% scenario
       list_output_scenarios[[i]] |>
@@ -847,7 +848,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "90%"), 
       # with 100% scat samples from one enriched cluster - 100% scenario
       list_output_scenarios[[i]] |>
@@ -856,7 +857,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "100%")
     )  |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
@@ -864,7 +865,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
                                                  "Cu", "Mn", "Se",
                                                  "Co"))) |> 
       tidyr::pivot_wider(names_from = scenario,
-                         values_from = tot_pop_release_period_mg,
+                         values_from = tot_pop_release_period_kg,
                          values_fn = list) |>
       tidyr::unnest(cols = c(`all scat samples from colony`, `0%`, `10%`, `20%`,
                              `30%`, `40%`, `50%`, `60%`, `70%`, `80%`,
@@ -939,9 +940,9 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
     tidyr::unnest(release_nut_pop_tot_period_sites) |>
     tidyr::pivot_longer(cols = c(Fe:Co), 
                         names_to = "Nutrient", 
-                        values_to = "tot_pop_release_period_mg") |>
+                        values_to = "tot_pop_release_period_kg") |>
     dplyr::group_by(Site, Nutrient) |>
-    dplyr::summarise(mean_all_scats_kg = mean(tot_pop_release_period_mg)*1e-6)
+    dplyr::summarise(mean_all_scats_kg = mean(tot_pop_release_period_kg))
   
   
   df_compiled_mean_subscenarios <- data.frame(Site = NA, 
@@ -959,11 +960,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "0%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 10% scat samples from one enriched cluster - 10% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -971,11 +972,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "10%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 20% scat samples from one enriched cluster - 20% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -983,11 +984,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "20%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 30% scat samples from one enriched cluster - 30% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -995,11 +996,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "30%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 40% scat samples from one enriched cluster - 40% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -1007,11 +1008,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |>
+                            values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(scenario = i, 
                       subscenario = "40%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 50% scat samples from one enriched cluster - 50% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -1019,11 +1020,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "50%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 60% scat samples from one enriched cluster - 60% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -1031,11 +1032,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "60%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 70% scat samples from one enriched cluster - 70% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -1043,11 +1044,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "70%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 80% scat samples from one enriched cluster - 80% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -1055,11 +1056,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "80%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 90% scat samples from one enriched cluster - 90% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -1067,11 +1068,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "90%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6), 
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg)), 
       # with 100% scat samples from one enriched cluster - 100% scenario
       list_output_scenarios[[i]] |>
         dplyr::select(Site,
@@ -1079,11 +1080,11 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
         tidyr::pivot_longer(cols = c(Fe:Co), 
                             names_to = "Nutrient", 
-                            values_to = "tot_pop_release_period_mg") |> 
+                            values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
                       subscenario = "100%") |>
         dplyr::group_by(Site, scenario, subscenario, Nutrient) |>
-        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_mg)*1e-6)
+        dplyr::summarise(mean_subscenario_kg = mean(tot_pop_release_period_kg))
     ) 
     
     # compile with the rest 

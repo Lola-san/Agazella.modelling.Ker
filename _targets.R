@@ -217,29 +217,7 @@ list(
              fig_nut_release_pop_per_diet(model_output_all_prey,
                                           "all_prey_n1000")),
   
-  # relative composition of scats
-  tar_target(fig_scat_compo_rel,
-             fig_nut_scat_compo_relative(res_compo_scats)),
-  tar_target(fig_scat_compo_rel_sites,
-             fig_nut_scat_compo_relative_sites(res_compo_scats)),
-  # relative composition of scats, comparison with other pinnipeds
-  tar_target(fig_scat_compo_rel_compa_pinnipeds,
-             fig_nut_scat_compo_relative_comp_pinn(res_compo_scats)), 
-  
-  ########### with cluster from chap3
-  # define and load results of composition of scats 
-  tar_target(res_compo_scats_clust_file,
-             "data/clust_attribution_scats_tot_PCs_k2.xlsx", 
-             format = "file"),
-  tar_target(res_compo_clust_scats_raw, load_xl(res_compo_scats_clust_file)),
-  # clean the file with samples and nutrients 
-  tar_target(res_compo_clust_scats, 
-             set_up_scats_compo_clust(res_compo_clust_scats_raw)),
-  # see compo relative in the two clusters
-  tar_target(fig_scat_compo_rel_clust,
-             fig_nut_scat_compo_relative_clust(res_compo_clust_scats)),
-  
-  
+ 
   ############### TRY FACTICE FIETS ############################################
   ############### And different nutrient release rates #########################
   
@@ -424,11 +402,46 @@ list(
 
   tar_target(barplot_nut_release_per_site_tot_period,
              nut_per_site_tot_period(list_output_nut_release)),
+  tar_target(table_nut_release_per_site_period,
+             table_nut_per_site_sea_land_period(list_output_nut_release)),
   tar_target(table_test_nut_release_per_site_tot_period,
              MWtest_test_nut_sites_tot_period(list_output_nut_release)),
+  tar_target(table_summary_model_param,
+             table_model_param(list_output_nut_release)),
 
   ################ THIRD ANALYSIS : scenarios of evolution  ####################
   ################# of diets: how would it affect totals ? #####################
+  # nutrient composition of scats as in the dataset
+  tar_target(boxplot_scat_compo_in_sites,
+             boxplot_compo_scats_site(res_compo_scats)),
+  tar_target(boxplot_scat_compo_in_sites_FeZnCu_MnSeCo,
+             fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo(res_compo_scats)),
+  tar_target(table_summary_scat_compo_in_sites,
+             table_compo_scats_site(res_compo_scats)),
+  tar_target(table_test_scat_compo_sites,
+             MWtest_scats_compo_sites(res_compo_scats)),
+  
+  # relative composition of scats
+  tar_target(fig_scat_compo_rel,
+             fig_nut_scat_compo_relative(res_compo_scats)),
+  tar_target(fig_scat_compo_rel_sites,
+             fig_nut_scat_compo_relative_sites(res_compo_scats)),
+  # relative composition of scats, comparison with other pinnipeds
+  tar_target(fig_scat_compo_rel_compa_pinnipeds,
+             fig_nut_scat_compo_relative_comp_pinn(res_compo_scats)), 
+  
+  # ########### with cluster from chap3
+  # # define and load results of composition of scats 
+  # tar_target(res_compo_scats_clust_file,
+  #            "data/clust_attribution_scats_tot_PCs_k2.xlsx", 
+  #            format = "file"),
+  # tar_target(res_compo_clust_scats_raw, load_xl(res_compo_scats_clust_file)),
+  # # clean the file with samples and nutrients 
+  # tar_target(res_compo_clust_scats, 
+  #            set_up_scats_compo_clust(res_compo_clust_scats_raw)),
+  # # see compo relative in the two clusters
+  # tar_target(fig_scat_compo_rel_clust,
+  #            fig_nut_scat_compo_relative_clust(res_compo_clust_scats)),
   
   ########## CLUSTERING
   ######################## USING ALL NUTRIENTS #################################

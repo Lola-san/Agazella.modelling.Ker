@@ -121,8 +121,8 @@ pop_data_for_simulations <- function(pop_count_tib,
                                                              max = 140))),
                   time_on_land = seq_along(initial_counts) |> # % of time spent on land
                     purrr::map(~ tibble::as_tibble_col(runif(n = purrr::pluck(simu_count, .),  
-                                                             min = 0.20, 
-                                                             max = 0.40))))
+                                                             min = 0.15, 
+                                                             max = 0.35))))
   
   list(CN = tib_both_sites |> 
          dplyr:: filter(Site == "Cap Noir"), 

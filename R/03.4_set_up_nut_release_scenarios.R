@@ -3,7 +3,7 @@
 # Lola Gilbert lola.gilbert@univ-lr.fr
 #
 # August 2023
-# 03.2_set_up_nut_release_scenarios.R
+# 03.4_set_up_nut_release_scenarios.R
 #
 ################################################################################
 
@@ -18,7 +18,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                               list_res_clust_sites, 
                                               site, # either "Cap Noir" or "Pointe Suzanne"
                                               clust_test 
-                                              ) {
+) {
   
   if (site == "Cap Noir") {
     clust_vec <- list_res_clust_sites$CN$cluster
@@ -60,101 +60,101 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                      release_nut_pop_tot_period_all_scats)) |>
     dplyr::mutate(
       scat_boot_scenario100 = seq_along(release_dm_ind_daily) |>
-          purrr::map(~  scat_compo_tib |>
-                       # 100 % of clust_test in scat dataset in scat dataset
-                       dplyr::filter(cluster == clust_test) |>
-                       dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                           replace = TRUE) |>
-                       dplyr::select(-cluster)),  
+        purrr::map(~  scat_compo_tib |>
+                     # 100 % of clust_test in scat dataset in scat dataset
+                     dplyr::filter(cluster == clust_test) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE) |>
+                     dplyr::select(-cluster)),  
       scat_boot_scenario90 = seq_along(release_dm_ind_daily) |>
-          purrr::map(~  scat_compo_tib |>
-                       # 90 % of clust_test in scat dataset
-                       dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.9, 
-                                                               TRUE ~ 0.1/nb_cluster)) |>
-                       dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                           replace = TRUE, 
-                                           weight_by = weight) |> 
-                       dplyr::select(-c(cluster, weight))), 
+        purrr::map(~  scat_compo_tib |>
+                     # 90 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.9, 
+                                                             TRUE ~ 0.1/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
       scat_boot_scenario80 = seq_along(release_dm_ind_daily) |>
-          purrr::map(~  scat_compo_tib |>
-                       # 80 % of clust_test in scat dataset
-                       dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.8, 
-                                                               TRUE ~ 0.2/nb_cluster)) |>
-                       dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                           replace = TRUE, 
-                                           weight_by = weight) |> 
-                       dplyr::select(-c(cluster, weight))), 
-        scat_boot_scenario70 = seq_along(release_dm_ind_daily) |>
-            purrr::map(~  scat_compo_tib |>
-                         # 70 % of clust_test in scat dataset
-                         dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.7, 
-                                                                 TRUE ~ 0.3/nb_cluster)) |>
-                         dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                             replace = TRUE, 
-                                             weight_by = weight) |> 
-                         dplyr::select(-c(cluster, weight))), 
-          scat_boot_scenario60 = seq_along(release_dm_ind_daily) |>
-              purrr::map(~  scat_compo_tib |>
-                           # 60 % of clust_test in scat dataset
-                           dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.6, 
-                                                                   TRUE ~ 0.4/nb_cluster)) |>
-                           dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                               replace = TRUE, 
-                                               weight_by = weight) |> 
-                           dplyr::select(-c(cluster, weight))), 
-            scat_boot_scenario50 = seq_along(release_dm_ind_daily) |>
-                purrr::map(~  scat_compo_tib |>
-                             # 50 % of clust_test in scat dataset
-                             dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.5, 
-                                                                     TRUE ~ 0.5/nb_cluster)) |>
-                             dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                                 replace = TRUE, 
-                                                 weight_by = weight) |> 
-                             dplyr::select(-c(cluster, weight))), 
-              scat_boot_scenario40 = seq_along(release_dm_ind_daily) |>
-                  purrr::map(~  scat_compo_tib |>
-                               # 40 % of clust_test in scat dataset
-                               dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.4, 
-                                                                       TRUE ~ 0.6/nb_cluster)) |>
-                               dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                                   replace = TRUE, 
-                                                   weight_by = weight) |> 
-                               dplyr::select(-c(cluster, weight))), 
-                scat_boot_scenario30 = seq_along(release_dm_ind_daily) |>
-                    purrr::map(~  scat_compo_tib |>
-                                 # 30 % of clust_test in scat dataset
-                                 dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.3, 
-                                                                         TRUE ~ 0.7/nb_cluster)) |>
-                                 dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                                     replace = TRUE, 
-                                                     weight_by = weight) |> 
-                                 dplyr::select(-c(cluster, weight))), 
-                  scat_boot_scenario20 = seq_along(release_dm_ind_daily) |>
-                      purrr::map(~  scat_compo_tib |>
-                                   # 20 % of clust_test in scat dataset
-                                   dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.2, 
-                                                                           TRUE ~ 0.8/nb_cluster)) |>
-                                   dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                                       replace = TRUE, 
-                                                       weight_by = weight) |> 
-                                   dplyr::select(-c(cluster, weight))), 
-                    scat_boot_scenario10 = seq_along(release_dm_ind_daily) |>
-                        purrr::map(~  scat_compo_tib |>
-                                     # 10 % of clust_test in scat dataset
-                                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.1, 
-                                                                             TRUE ~ 0.9/nb_cluster)) |>
-                                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                                         replace = TRUE, 
-                                                         weight_by = weight) |> 
-                                     dplyr::select(-c(cluster, weight))), 
-                      scat_boot_scenario00 = seq_along(release_dm_ind_daily) |>
-                          purrr::map(~  scat_compo_tib |>
-                                       # 0 % of clust_test in scat dataset
-                                       dplyr::filter(cluster != clust_test) |>
-                                       dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
-                                                           replace = TRUE) |> 
-                                       dplyr::select(-cluster))
-      )
+        purrr::map(~  scat_compo_tib |>
+                     # 80 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.8, 
+                                                             TRUE ~ 0.2/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario70 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 70 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.7, 
+                                                             TRUE ~ 0.3/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario60 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 60 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.6, 
+                                                             TRUE ~ 0.4/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario50 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 50 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.5, 
+                                                             TRUE ~ 0.5/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario40 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 40 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.4, 
+                                                             TRUE ~ 0.6/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario30 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 30 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.3, 
+                                                             TRUE ~ 0.7/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario20 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 20 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.2, 
+                                                             TRUE ~ 0.8/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario10 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 10 % of clust_test in scat dataset
+                     dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.1, 
+                                                             TRUE ~ 0.9/nb_cluster)) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE, 
+                                         weight_by = weight) |> 
+                     dplyr::select(-c(cluster, weight))), 
+      scat_boot_scenario00 = seq_along(release_dm_ind_daily) |>
+        purrr::map(~  scat_compo_tib |>
+                     # 0 % of clust_test in scat dataset
+                     dplyr::filter(cluster != clust_test) |>
+                     dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
+                                         replace = TRUE) |> 
+                     dplyr::select(-cluster))
+    )
   
 }
 
@@ -678,5 +678,5 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
   }
   
   
-  }
+}
 
