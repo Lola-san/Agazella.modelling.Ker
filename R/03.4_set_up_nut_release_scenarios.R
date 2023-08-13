@@ -424,6 +424,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
         dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`, `4`))
     ) 
     
+    
+    
   } else if (site == "Pointe Suzanne") {
     clust_vec <- list_res_clust_sites$PS$cluster
     
@@ -677,6 +679,7 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
     
   }
   
+
   
 }
 

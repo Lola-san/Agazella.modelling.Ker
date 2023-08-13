@@ -129,7 +129,13 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
       dplyr::mutate(Nutrient = factor(Nutrient, 
                                       levels = c("Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
-                                                 "Co"))) |> 
+                                                 "Co")), 
+                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17500, 
+                                             Nutrient == "Zn" ~ 1175, 
+                                             Nutrient == "Cu" ~ 800, 
+                                             Nutrient == "Mn" ~ 400, 
+                                             Nutrient == "Se" ~ 125, 
+                                             Nutrient == "Co" ~ 12.5)) |> 
       ggplot2::ggplot() +
       ggplot2::geom_boxplot(ggplot2::aes(x = cluster, y = conc_mg_kg_dw, 
                                          fill = factor(cluster)), 
@@ -142,12 +148,13 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
       ggplot2::geom_hline(data = mean_conc_table_CN,
                           ggplot2::aes(yintercept = median_conc), 
                           color = "darkred") +
+      ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
       ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
                                             "2" = "#1D2645FF",
                                             "3" = "#D8AF39FF", 
                                             "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("Cap Noir") +
-      ggplot2::ylab("Absolute concentration in scats (mg per kg dry weight)") +
+      ggplot2::ylab("Absolute concentration in scats\n(mg per kg dry weight)") +
       ggplot2::xlab("Cluster") +
       ggplot2::theme_bw() +
       ggplot2::theme(axis.text.x = ggplot2::element_text(size = 15), 
@@ -162,7 +169,7 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                      legend.position = "none")
     ggplot2::ggsave("output/sites/clustering with all nutrients/clust_scat_compo_abs_all_nut_CapNoir.jpg",
                     scale = 1,
-                    height = 7, width = 8
+                    height = 6, width = 9
     )
     
     
@@ -198,7 +205,13 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
       dplyr::mutate(Nutrient = factor(Nutrient, 
                                       levels = c("Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
-                                                 "Co"))) |> 
+                                                 "Co")), 
+                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17500, 
+                                            Nutrient == "Zn" ~ 1175, 
+                                            Nutrient == "Cu" ~ 800, 
+                                            Nutrient == "Mn" ~ 400, 
+                                            Nutrient == "Se" ~ 125, 
+                                            Nutrient == "Co" ~ 12.5)) |> 
       ggplot2::ggplot() +
       ggplot2::geom_boxplot(ggplot2::aes(x = cluster, y = conc_mg_kg_dw, 
                                          fill = factor(cluster)), 
@@ -211,12 +224,13 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
       ggplot2::geom_hline(data = mean_conc_table_PS,
                           ggplot2::aes(yintercept = median_conc), 
                           color = "darkred") +
+      ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
       ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
                                             "2" = "#1D2645FF",
                                             "3" = "#D8AF39FF", 
                                             "4" = "#AE93BEFF")) +
       ggplot2::ggtitle("Pointe Suzanne") +
-      ggplot2::ylab("Absolute concentration in scats (mg per kg dry weight)") +
+      ggplot2::ylab("Absolute concentration in scats\n(mg per kg dry weight)") +
       ggplot2::xlab("Cluster") +
       ggplot2::theme_bw() +
       ggplot2::theme(axis.text.x = ggplot2::element_text(size = 15), 
@@ -231,7 +245,7 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                      legend.position = "none")
     ggplot2::ggsave("output/sites/clustering with all nutrients/clust_scat_compo_abs_all_nut_PSuzanne.jpg",
                     scale = 1,
-                    height = 8, width = 12
+                    height = 6, width = 9
     )
     
   } else if (type == "all") {
@@ -295,6 +309,161 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                     scale = 1,
                     height = 8, width = 12
     )
+    
+  }
+  
+  
+}
+
+
+#'
+#'
+#'
+#'
+#'
+# 
+barplot_nut_scat_compo_relative_clust <- function(clust_full_tib_output,
+                                                  scat_compo_tib,  
+                                                  type # "sites" if one/site or "all" if all together
+                                                  ) {
+  
+  if (type == "sites") {
+  # Cap Noir
+  clust_vec_CN <- clust_full_tib_output$CN$cluster
+
+  scat_compo_tib |>
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+    dplyr::filter(site == "Cap Noir") |>
+    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
+                  cluster = clust_vec_CN) |>
+    tidyr::pivot_longer(cols = c(Fe:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") |> 
+    dplyr::mutate(Nutrient = factor(Nutrient, 
+                                    levels = c("Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co")), 
+                  conc_relative = conc_mg_kg_dw/sum_nut) |> 
+    ggplot2::ggplot() +
+    ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
+                                   fill = factor(cluster)), 
+                      stat = "identity", 
+                      position = ggplot2::position_dodge(1)) +
+    ggplot2::facet_wrap(~ Code_sample) + 
+    ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                          "2" = "#1D2645FF",
+                                          "3" = "#D8AF39FF", 
+                                          "4" = "#AE93BEFF")) +
+    ggplot2::ggtitle("Cap Noir") +
+    ggplot2::ylab("Relative proportion in scats") +
+    ggplot2::xlab("Nutrient") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(size = 14), 
+                   axis.text.y = ggplot2::element_text(size = 14), 
+                   title = ggplot2::element_text(size = 17, 
+                                                 face = "bold"),
+                   axis.title.x = ggplot2::element_text(size = 16, 
+                                                        face = "bold"), 
+                   axis.title.y = ggplot2::element_text(size = 16, 
+                                                        face = "bold"),
+                   strip.text.x = ggplot2::element_blank(),
+                   legend.position = "none")
+  ggplot2::ggsave("output/sites/clustering with all nutrients/scat_compo_rel_comp__with clusters_CapNoir_Agazella.jpg",
+                  scale = 1,
+                  height = 6, width = 12
+  )
+  
+  # Pointe Suzanne
+  clust_vec_PS <- clust_full_tib_output$PS$cluster
+  
+  scat_compo_tib |>
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+    dplyr::filter(site == "Pointe Suz") |>
+    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
+                  cluster = clust_vec_PS) |>
+    tidyr::pivot_longer(cols = c(Fe:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") |> 
+    dplyr::mutate(Nutrient = factor(Nutrient, 
+                                    levels = c("Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co")), 
+                  conc_relative = conc_mg_kg_dw/sum_nut) |> 
+    ggplot2::ggplot() +
+    ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
+                                   fill = factor(cluster)), 
+                      stat = "identity", 
+                      position = ggplot2::position_dodge(1)) +
+    ggplot2::facet_wrap(~ Code_sample) + 
+    ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                          "2" = "#1D2645FF",
+                                          "3" = "#D8AF39FF", 
+                                          "4" = "#AE93BEFF")) +
+    ggplot2::ggtitle("Pointe Suzanne") +
+    ggplot2::ylab("Relative proportion in scats") +
+    ggplot2::xlab("Nutrient") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(size = 14), 
+                   axis.text.y = ggplot2::element_text(size = 14),
+                   title = ggplot2::element_text(size = 17, 
+                                                 face = "bold"),
+                   axis.title.x = ggplot2::element_text(size = 16, 
+                                                        face = "bold"), 
+                   axis.title.y = ggplot2::element_text(size = 16, 
+                                                        face = "bold"),
+                   strip.text.x = ggplot2::element_blank(),
+                   legend.position = "none")
+  ggplot2::ggsave("output/sites/clustering with all nutrients/scat_compo_rel_comp_with_clusters_PSuz_Agazella.jpg",
+                  scale = 1,
+                  height = 6, width = 12
+  )
+  
+  
+  } else if (type == "all") {
+    clust_vec_all <- clust_full_tib_output$cluster
+    
+    scat_compo_tib |>
+      dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
+                  cluster = clust_vec_all) |>
+      tidyr::pivot_longer(cols = c(Fe:Co), 
+                          names_to = "Nutrient", 
+                          values_to = "conc_mg_kg_dw") |> 
+      dplyr::mutate(Nutrient = factor(Nutrient, 
+                                      levels = c("Fe", "Zn", 
+                                                 "Cu", "Mn", "Se",
+                                                 "Co")), 
+                    conc_relative = conc_mg_kg_dw/sum_nut
+                    ) |> 
+      ggplot2::ggplot() +
+      ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
+                                     fill = factor(cluster)),
+                        stat = "identity", 
+                        position = ggplot2::position_dodge(1)) +
+      ggplot2::facet_wrap(~ Code_sample) + 
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
+      ggplot2::ylab("Relative proportion\nin scats") +
+      ggplot2::xlab("Nutrient") +
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 14), 
+                     axis.text.y = ggplot2::element_text(size = 14),
+                     title = ggplot2::element_text(size = 17, 
+                                                   face = "bold"),
+                     axis.title.x = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     axis.title.y = ggplot2::element_text(size = 16, 
+                                                          face = "bold"),
+                     strip.text.x = ggplot2::element_blank(),
+                     legend.position = "none")
+    ggplot2::ggsave("output/sites/clustering with all nutrients/scat_compo_rel_with_clusters_all_scats.jpg",
+                    scale = 1,
+                    height = 6, width = 12
+    )
+    
     
   }
   

@@ -405,7 +405,7 @@ list(
   tar_target(table_nut_release_per_site_period,
              table_nut_per_site_sea_land_period(list_output_nut_release)),
   tar_target(table_test_nut_release_per_site_tot_period,
-             MWtest_test_nut_sites_tot_period(list_output_nut_release)),
+             test_nut_sites_tot_period(list_output_nut_release)),
   tar_target(table_summary_model_param,
              table_model_param(list_output_nut_release)),
 
@@ -495,6 +495,15 @@ list(
                                  res_compo_scats,
                                  "all")), 
   
+  # barplot with relative composition per scat with cluster coloring
+  tar_target(clust_all_nut_sites_barplot_rel,
+             barplot_nut_scat_compo_relative_clust(clust_all_nut_sites,
+                                                   res_compo_scats,
+                                                   "sites")),
+  tar_target(clust_all_nut_all_scats_barplot_rel,
+             barplot_nut_scat_compo_relative_clust(clust_all_nut_all_scats,
+                                          res_compo_scats,
+                                          "all")), 
   # tables 
    tar_target(table_stats_clusts_all_nut_sites,
               table_stats_clust_per_site_full_tib(clust_all_nut_sites,
