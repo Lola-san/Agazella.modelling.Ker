@@ -130,12 +130,12 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                                       levels = c("Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co")), 
-                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17500, 
+                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17575, 
                                              Nutrient == "Zn" ~ 1175, 
                                              Nutrient == "Cu" ~ 800, 
-                                             Nutrient == "Mn" ~ 400, 
-                                             Nutrient == "Se" ~ 125, 
-                                             Nutrient == "Co" ~ 12.5)) |> 
+                                             Nutrient == "Mn" ~ 420, 
+                                             Nutrient == "Se" ~ 135, 
+                                             Nutrient == "Co" ~ 14)) |> 
       ggplot2::ggplot() +
       ggplot2::geom_boxplot(ggplot2::aes(x = cluster, y = conc_mg_kg_dw, 
                                          fill = factor(cluster)), 
@@ -206,12 +206,12 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                                       levels = c("Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co")), 
-                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17500, 
+                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17575, 
                                             Nutrient == "Zn" ~ 1175, 
                                             Nutrient == "Cu" ~ 800, 
-                                            Nutrient == "Mn" ~ 400, 
-                                            Nutrient == "Se" ~ 125, 
-                                            Nutrient == "Co" ~ 12.5)) |> 
+                                            Nutrient == "Mn" ~ 420, 
+                                            Nutrient == "Se" ~ 135, 
+                                            Nutrient == "Co" ~ 14)) |> 
       ggplot2::ggplot() +
       ggplot2::geom_boxplot(ggplot2::aes(x = cluster, y = conc_mg_kg_dw, 
                                          fill = factor(cluster)), 

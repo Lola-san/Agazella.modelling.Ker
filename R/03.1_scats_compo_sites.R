@@ -18,6 +18,18 @@
 # function to display boxplot of elemental composition per site
 boxplot_compo_scats_site <- function(scat_compo_tib) {
   
+  mean_median_tib <- scat_compo_tib |>
+    tidyr::pivot_longer(cols = c("Fe":"Co"), 
+                        names_to = "Nutrient", 
+                        values_to = "concentration_mg_kg_dw") |>
+    dplyr::mutate(Nutrient = factor(Nutrient, 
+                                    levels = c("Fe", "Zn", "Cu", 
+                                               "Mn", "Se","Co"))) |>
+    dplyr::group_by( Nutrient) |>
+    dplyr::summarise(mean = mean(concentration_mg_kg_dw), 
+                     median = median(concentration_mg_kg_dw))
+  
+  
   scat_compo_tib |>
     tidyr::pivot_longer(cols = c("Fe":"Co"), 
                         names_to = "Nutrient", 
@@ -32,14 +44,23 @@ boxplot_compo_scats_site <- function(scat_compo_tib) {
                                            "Pointe\nSuzanne"))) |>
     ggplot2::ggplot(ggplot2::aes(x = site, y = concentration_mg_kg_dw, 
                                  fill = site)) +
-    ggplot2::geom_violin(width=1.4) +
+    ggplot2::geom_violin(ggplot2::aes(color = site),
+                         width = 1.4, alpha = 0.5) +
     ggplot2::geom_boxplot() +
+    ggplot2::geom_hline(data = mean_median_tib, 
+                        ggplot2::aes(yintercept = median), 
+                        linetype = "solid", 
+                        color = "darkred") +
+    ggplot2::geom_hline(data = mean_median_tib, 
+                        ggplot2::aes(yintercept = mean), 
+                        linetype = "dashed", 
+                        color = "darkred") +
     ggplot2::stat_summary(fun.y = mean, geom = "errorbar", 
                           ggplot2::aes(ymax = ..y.., ymin = ..y..),
                           width = .75, linetype = "dashed") +
     ggplot2::ylab("Nutrient concentration (in mg/kg dry weight)") +
-    ggplot2::geom_jitter(color="darkgrey", size=0.7, alpha=0.2) +
-    ggplot2::scale_fill_manual(values = c("#278B9AFF", "#E75B64FF")) +
+    ggplot2::scale_color_manual(values = c("#353839", "#AE93BEFF")) +
+    ggplot2::scale_fill_manual(values = c("#353839", "#AE93BEFF")) +
     ggplot2::facet_wrap(~ Nutrient, scale = "free") +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(), 
@@ -351,7 +372,7 @@ fig_nut_scat_compo_relative_sites <- function(scat_compo_tib) {
     dplyr::filter(site == "Cap Noir") |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative), 
-                      fill = "#278B9AFF", 
+                      fill = "#353839", 
                       stat = "identity", 
                       position = ggplot2::position_dodge(1)) +
     ggplot2::facet_wrap(~ Code_sample) + 
@@ -390,7 +411,7 @@ fig_nut_scat_compo_relative_sites <- function(scat_compo_tib) {
     dplyr::filter(site == "Pointe Suz") |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative), 
-                      fill = "#E75B64FF", 
+                      fill = "#AE93BEFF",
                       stat = "identity", 
                       position = ggplot2::position_dodge(1)) +
     ggplot2::facet_wrap(~ Code_sample) + 
@@ -445,7 +466,7 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
     dplyr::filter(site == "Cap Noir", class_nutrient == "major") |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative), 
-                      fill = "#278B9AFF", 
+                      fill = "#353839", 
                       stat = "identity", 
                       position = ggplot2::position_dodge(1)) +
     ggplot2::facet_wrap(~ Code_sample) + 
@@ -486,7 +507,7 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
     dplyr::filter(site == "Cap Noir", class_nutrient == "minor") |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative), 
-                      fill = "#278B9AFF", 
+                      fill = "#353839", 
                       stat = "identity", 
                       position = ggplot2::position_dodge(1)) +
     ggplot2::facet_wrap(~ Code_sample) + 
@@ -529,7 +550,7 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
     dplyr::filter(site == "Cap Noir") |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative), 
-                      fill = "#278B9AFF", 
+                      fill = "#353839", 
                       stat = "identity", 
                       position = ggplot2::position_dodge(1)) +
     ggplot2::facet_grid(Code_sample ~ class_nutrient, scales = "free_y") + 
@@ -575,7 +596,7 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
     dplyr::filter(site == "Pointe Suz", class_nutrient == "major") |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative), 
-                      fill = "#E75B64FF", 
+                      fill = "#AE93BEFF",
                       stat = "identity", 
                       position = ggplot2::position_dodge(1)) +
     ggplot2::facet_wrap(~ Code_sample) + 
@@ -616,7 +637,7 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
     dplyr::filter(site == "Pointe Suz", class_nutrient == "minor") |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative), 
-                      fill = "#E75B64FF", 
+                      fill = "#AE93BEFF",  
                       stat = "identity", 
                       position = ggplot2::position_dodge(1)) +
     ggplot2::facet_wrap(~ Code_sample) + 

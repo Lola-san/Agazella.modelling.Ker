@@ -22,13 +22,13 @@ biplot_pca_coda|function|c4e6fe52704005a1|||||||||||||||
 biplot_pca_sites|stem|69399f58ace88d3d|139e7b90931764bb|eadae7af1405b6b3|-670303058||t19578.5386171565s|1990819d57dec260|107|rds|local|vector|||0.81||
 bootstrap_compo_data|function|3c5299955e130dda|||||||||||||||
 boxplot_compo_clust|function|8bc4dd82e9a4b4ce|||||||||||||||
-boxplot_compo_clust_full_tib|function|3d5122896e2f502b|||||||||||||||
-boxplot_compo_scats_site|function|69a119661bf08691|||||||||||||||
-boxplot_scat_compo_in_sites|stem|09fbcbddf07e36d7|b1fe5ad2ecf1b865|42d080329ebd6f8b|1480465233||t19580.3449442624s|7e237f4fd77044db|91|rds|local|vector|||1.69|1m22mThe fun.y argument of stat_summary is deprecated as of ggplot2 3.3.0.36mi39m Please use the fun argument instead.. 1m22mThe dotdot notation ..y.. was deprecated in ggplot2 3.4.0.36mi39m Please use after_staty instead.. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals|
-boxplot_scat_compo_in_sites_FeZnCu_MnSeCo|stem|b14f313476f0bb97|65360fa3180037dd|b35f9cae968b779f|418572435||t19580.608172246s|060eaebff2eb84c0|108|rds|local|vector|||6.19||
+boxplot_compo_clust_full_tib|function|72aeabe5c568e712|||||||||||||||
+boxplot_compo_scats_site|function|a9b18e4547a4a8d5|||||||||||||||
+boxplot_scat_compo_in_sites|stem|09fbcbddf07e36d7|b1fe5ad2ecf1b865|c84d2a20a540a102|1480465233||t19584.6196397682s|7e237f4fd77044db|91|rds|local|vector|||1.2|1m22mThe fun.y argument of stat_summary is deprecated as of ggplot2 3.3.0.36mi39m Please use the fun argument instead.. 1m22mThe dotdot notation ..y.. was deprecated in ggplot2 3.4.0.36mi39m Please use after_staty instead.. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals. 1m22mposition_dodge requires nonoverlapping 32mx39m intervals|
+boxplot_scat_compo_in_sites_FeZnCu_MnSeCo|stem|b14f313476f0bb97|65360fa3180037dd|6aa142450d11a6ac|418572435||t19584.6196006058s|060eaebff2eb84c0|108|rds|local|vector|||5.67||
 clust_all_nut_all_scats|stem|f53302fe37c7619a|ec2c36f39656d979|9bbe1c896910e47f|-1489682394||t19578.5030522369s|87ad3eb35b9f2dd1|2008|rds|local|vector|||2.83||
 clust_all_nut_all_scats_barplot_rel|stem|eb33cdb1fd555b97|9d515761db32dd0f|f357fbf96999a132|1713110786||t19582.625019715s|e7d92fd410ee4ccc|129|rds|local|vector|||2.61||
-clust_all_nut_all_scats_boxplot|stem|eba0da36e57af7c5|2dfeedb87d78c3be|e01810a80c52efec|-54884440||t19582.6801423622s|1c8514edd5663f75|127|rds|local|vector|||1.27||
+clust_all_nut_all_scats_boxplot|stem|eba0da36e57af7c5|2dfeedb87d78c3be|f854c6c3fadc2813|-54884440||t19584.6431866523s|1c8514edd5663f75|127|rds|local|vector|||1.23||
 clust_all_nut_all_scats_dendro|stem|31f6a1964e89bee1|d61690a66067af8a|e6683c24c419bc95|-1733011615||t19578.5031126823s|25edcc1f7bb1c960|85|rds|local|vector|||0.03||
 clust_all_nut_findk_means_plot_all_scats|stem|d83b82cbdb754044|6b4ce4004cf795c8|efc8f5640432c510|914301884||t19578.5031341431s|b6339ff9c4e887de|136|rds|local|vector|||0.52||
 clust_all_nut_findk_means_plot_sites|stem|5f0f5e06ff24ff71|2a7c5a3797870a09|27c07290867f34a2|-847649770||t19578.5031279291s|b6339ff9c4e887de|136|rds|local|vector|||1.32|1m22mRemoved 10 rows containing missing values geom_point.|
@@ -36,7 +36,7 @@ clust_all_nut_findk_table_all_scats|stem|3f35c16e04d43628|4ab7e4959d523eca|50cac
 clust_all_nut_findk_table_sites|stem|da18a8aa3e1f5453|72667d77fcedf877|50cac6baaf0dd1c8|572136030||t19578.503066175s|31b2d47270c05a2d|1713|rds|local|vector|||0.73||
 clust_all_nut_sites|stem|b7262ae774b2cce1|7e0ca03fb85ae025|9bbe1c896910e47f|1644700899||t19579.5078925987s|b95e1b6eae19cf7e|2527|rds|local|vector|||5.31||
 clust_all_nut_sites_barplot_rel|stem|5a54df000201a880|e06aef08fa71b565|cc53e462435acb36|-1307448091||t19582.6250448978s|29140560f1feeb24|138|rds|local|vector|||2.14||
-clust_all_nut_sites_boxplot|stem|874bb0e85710eb4e|0e489f25a8f18a11|3ed22cc6d97f820a|425180310||t19582.6801590293s|f2000359ad1073b7|131|rds|local|vector|||1.39||
+clust_all_nut_sites_boxplot|stem|874bb0e85710eb4e|0e489f25a8f18a11|51a0f3fe359295db|425180310||t19584.6431998027s|f2000359ad1073b7|131|rds|local|vector|||1.12||
 clust_all_nut_sites_dendro|stem|31f6a1964e89bee1|4d4e098a137dfc42|3d5c0f38dbed398f|-282880395||t19579.507944156s|25edcc1f7bb1c960|85|rds|local|vector|||0.05||
 clust_compo_dendro_full_tib|function|55b20bfdd4897e61|||||||||||||||
 clust_compo_full_tib|function|280b6706402f1913|||||||||||||||
@@ -197,8 +197,8 @@ fig_nut_scat_compo_relative_clust|function|af26e47928aa98ed|||||||||||||||
 fig_nut_scat_compo_relative_comp_pinn|function|a8498cb114c62fd7|||||||||||||||
 fig_nut_scat_compo_relative_norm|function|b9a40d68647b1133|||||||||||||||
 fig_nut_scat_compo_relative_norm_comp_pinn|function|1e5dbc7adfae136b|||||||||||||||
-fig_nut_scat_compo_relative_sites|function|e9ffd5987354bcc3|||||||||||||||
-fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo|function|6e7cb7962e95316b|||||||||||||||
+fig_nut_scat_compo_relative_sites|function|552c2bf14ae82d6e|||||||||||||||
+fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo|function|be85c8d8a41be1a6|||||||||||||||
 fig_pop_nut_release_per_diet|stem|a0fc123d815f74e2|13e997c8853e94e1|4fb43340608f97be|-1370471710||t19569.5691042595s|24586d750a460551|1745141|rds|local|vector|||2.31||
 fig_pop_nut_release_per_diet_all_prey|stem|a771df680a306289|02ad0f42f1dfcfe5|221e87e80c829db0|-799771722||t19571.4529293328s|f724b85ecccdc0f2|1007070|rds|local|vector|||1.23||
 fig_pop_nut_release_per_diet_all_prey_with_factice|stem|2835071c4270aec8|4fcf97b746e3e2d6|e79fce9f1f715451|-767104717||t19570.6091957159s|1999b8eb188d2e2a|1216213|rds|local|vector|||1.95||
@@ -217,7 +217,7 @@ fig_scat_compo_rel|stem|7997ba4887e077e2|f8e2ab4c9c986bf6|67c33c2a9b765ead|16834
 fig_scat_compo_rel_clust|stem|504eef299c1b9c5a|ff26224fc384862b|328b818ea03c34c3|1013630985||t19577.5226411402s|739a57fa64463401|96|rds|local|vector|||1.33||
 fig_scat_compo_rel_compa_pinnipeds|stem|103ca5b07ec20c84|e4e6520380fcdaea|5fdf5ef364bd4d8f|2123483272||t19580.3563867722s|79aaa2a1bb91a08d|69256|rds|local|vector|||0.5||
 fig_scat_compo_rel_norm|stem|baefc7a1ef28cdc5|dd63cfcb1ef56ac7|3238b6a480e5bd4c|-1897037819||t19571.3034979244s|fa20c6d0d39c247f|50022|rds|local|vector|||3.27||
-fig_scat_compo_rel_sites|stem|a28737a0beaafd98|911bd6a687254ca0|1adb70c500bc73fd|-523718301||t19580.3724001479s|0072a1a570cdd1fa|101|rds|local|vector|||2.86||
+fig_scat_compo_rel_sites|stem|a28737a0beaafd98|911bd6a687254ca0|0d36ec19cdc10506|-523718301||t19584.6196254934s|0072a1a570cdd1fa|101|rds|local|vector|||2.12||
 fish_ceph_compo_data_boot_dw|stem|fd3a7ee6c2bfe1a2|1d868920a960f45d|8770460fb48e1452|-1947050723||t19570.3511294026s||440934|rds|local|vector|||0.08||objet fish_ceph_compo_data_ready introuvable
 fish_ceph_compo_data_boot_ww|stem|29939a7eeba01c1a|7083aea09c86de94|9381d3f2ea295e8d|1458931332||t19570.3511385775s|6b56cb0f8c38afa2|202646|rds|local|vector|||0.19|1m22mValues from concentration_mg_kg_ww are not uniquely identified output willcontain listcols.36m39m Use values_fn  list to suppress this warning.36m39m Use values_fn  summary_fun to summarise duplicates.36m39m Use the following dplyr code to identify duplicates.  data   dplyrgroup_byCode_sample, Species, Genus, Family, Taxa, Nutrient   dplyrsummarisen  dplyrn, .groups  drop   dplyrfiltern  1L|
 fish_ceph_compo_data_ready|stem|26a96a8296ed6e4e|22a9532c019e51ff|7a3a5acc86967d93|1520564062||t19570.3511191044s|03f84284e1106add|18035|rds|local|vector|||0.02||
