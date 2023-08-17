@@ -29,7 +29,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
     
     scat_compo_tib <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "CN")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       dplyr::mutate(cluster = clust_vec)
     
     
@@ -42,31 +42,35 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
     
     scat_compo_tib <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "PS")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       dplyr::mutate(cluster = clust_vec)
   }
   
   output_tib |>
     # get rid of unwanted columns to lighten the data
     dplyr::select(-c(Indi_data, 
-                     release_dm_pop_tot_daily,
-                     release_dm_pop_on_land_daily,
-                     release_dm_pop_at_sea_daily,
+                     conso_food_dm_ind_daily,
+                     # keep release_dm_ind_period_tot
+                     release_dm_ind_period_sea, 
+                     release_dm_ind_period_land,
                      release_dm_pop_tot_period,
                      release_dm_pop_on_land_period,
                      release_dm_pop_at_sea_period,
-                     release_nut_ind_daily_all_scats,
-                     release_nut_ind_tot_period_all_scats,
-                     release_nut_pop_tot_period_all_scats)) |>
+                     release_dm_pop_tot_period,
+                     release_nut_ind_period_sea_all_scats,
+                     release_nut_ind_period_land_all_scats,
+                     release_nut_ind_period_sea_sites, 
+                     release_nut_ind_period_land_sites
+                     )) |>
     dplyr::mutate(
-      scat_boot_scenario100 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario100 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 100 % of clust_test in scat dataset in scat dataset
                      dplyr::filter(cluster == clust_test) |>
                      dplyr::slice_sample(n = purrr::pluck(simu_count, .), 
                                          replace = TRUE) |>
                      dplyr::select(-cluster)),  
-      scat_boot_scenario90 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario90 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 90 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.9, 
@@ -75,7 +79,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario80 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario80 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 80 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.8, 
@@ -84,7 +88,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario70 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario70 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 70 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.7, 
@@ -93,7 +97,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario60 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario60 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 60 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.6, 
@@ -102,7 +106,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario50 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario50 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 50 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.5, 
@@ -111,7 +115,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario40 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario40 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 40 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.4, 
@@ -120,7 +124,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario30 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario30 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 30 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.3, 
@@ -129,7 +133,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario20 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario20 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 20 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.2, 
@@ -138,7 +142,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario10 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario10 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 10 % of clust_test in scat dataset
                      dplyr::mutate(weight = dplyr::case_when(cluster == clust_test ~ 0.1, 
@@ -147,7 +151,7 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
                                          replace = TRUE, 
                                          weight_by = weight) |> 
                      dplyr::select(-c(cluster, weight))), 
-      scat_boot_scenario00 = seq_along(release_dm_ind_daily) |>
+      scat_boot_scenario00 = seq_along(dm_release ) |>
         purrr::map(~  scat_compo_tib |>
                      # 0 % of clust_test in scat dataset
                      dplyr::filter(cluster != clust_test) |>
@@ -180,7 +184,7 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
     
     scat_compo_tib <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "CN")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       dplyr::mutate(cluster = clust_vec)
     
     ############### COMPILE OUTPUT WITH ALL SCENARIOS ##########################
@@ -191,7 +195,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_data_sampled_sites) |>
         tidyr::unnest(scat_data_sampled_sites) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -210,7 +215,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario100) |>
         tidyr::unnest(scat_boot_scenario100) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -235,7 +241,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario90) |>
         tidyr::unnest(scat_boot_scenario90) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -254,7 +261,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario80) |>
         tidyr::unnest(scat_boot_scenario80) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -273,7 +281,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario70) |>
         tidyr::unnest(scat_boot_scenario70) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -292,7 +301,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario60) |>
         tidyr::unnest(scat_boot_scenario60) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -311,7 +321,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario50) |>
         tidyr::unnest(scat_boot_scenario50) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -330,7 +341,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario40) |>
         tidyr::unnest(scat_boot_scenario40) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -349,7 +361,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario30) |>
         tidyr::unnest(scat_boot_scenario30) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -368,7 +381,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario20) |>
         tidyr::unnest(scat_boot_scenario20) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -387,7 +401,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario10) |>
         tidyr::unnest(scat_boot_scenario10) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -406,7 +421,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario00) |>
         tidyr::unnest(scat_boot_scenario00) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -433,7 +449,7 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
     
     scat_compo_tib <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "PS")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       dplyr::mutate(cluster = clust_vec)
     
     ############### COMPILE OUTPUT WITH ALL SCENARIOS ##########################
@@ -444,7 +460,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_data_sampled_sites) |>
         tidyr::unnest(scat_data_sampled_sites) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -464,7 +481,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario100) |>
         tidyr::unnest(scat_boot_scenario100) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -488,7 +506,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario90) |>
         tidyr::unnest(scat_boot_scenario90) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -507,7 +526,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario80) |>
         tidyr::unnest(scat_boot_scenario80) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -526,7 +546,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario70) |>
         tidyr::unnest(scat_boot_scenario70) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -545,7 +566,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario60) |>
         tidyr::unnest(scat_boot_scenario60) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -564,7 +586,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario50) |>
         tidyr::unnest(scat_boot_scenario50) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu",
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -583,7 +606,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario40) |>
         tidyr::unnest(scat_boot_scenario40) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -602,7 +626,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario30) |>
         tidyr::unnest(scat_boot_scenario30) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -621,7 +646,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario20) |>
         tidyr::unnest(scat_boot_scenario20) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -640,7 +666,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario10) |>
         tidyr::unnest(scat_boot_scenario10) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>
@@ -659,7 +686,8 @@ table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_ti
                       scat_boot_scenario00) |>
         tidyr::unnest(scat_boot_scenario00) |>
         dplyr::left_join(scat_compo_tib, 
-                         by = c("Fe", "Zn", "Cu", "Mn", "Se", "Co")) |>
+                         by = c("P", "Fe", "Zn", "Cu", 
+                                "Mn", "Se", "Co")) |>
         dplyr::select(c(Site, cluster)) |>
         table() |>
         as.data.frame() |>

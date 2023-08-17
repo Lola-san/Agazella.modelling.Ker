@@ -28,12 +28,12 @@ clust_compo_full_tib <- function(scat_compo_tib,
   if (type == "sites") {
     data.act_CN <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "CN")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     data.act_PS <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "PS")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     ## robust estimation (default):
@@ -50,7 +50,7 @@ clust_compo_full_tib <- function(scat_compo_tib,
     
   } else if (type == "all") {
     data.act <- scat_compo_tib |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     ## robust estimation (default):
@@ -86,7 +86,7 @@ clust_find_k_table_full_tib <- function(scat_compo_tib,
     ########################### CAP NOIR #########################################
     data.act_CN <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "CN")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     # define distance matrix
@@ -98,25 +98,7 @@ clust_find_k_table_full_tib <- function(scat_compo_tib,
     list_outputs_CN <- list()
     
     for (i in k_range) {
-      
-      # # cut the tree in k clusters 
-      # clust_output <- data.frame(cluster = cutree(tree = tree_CN, k = i))
-      # 
-      # # compute validity measures
-      # clust_stats <- fpc::cluster.stats(as.dist(d_CN), clust_output$cluster)
-      # 
-      # # and save them
-      # ki_df <- data.frame(k = clust_stats$cluster.number, 
-      #                     method = method, 
-      #                     size = clust_stats$cluster.size,
-      #                     separation = round(clust_stats$separation, 3),
-      #                     average.distance = round(clust_stats$average.distance, 3), 
-      #                     median.distance = round(clust_stats$median.distance, 3),
-      #                     avg.silwidth = round(as.data.frame(clust_stats$clus.avg.silwidths)[,1], 
-      #                                          3), 
-      #                     average.toother = round(clust_stats$average.toother, 3), 
-      #                     min.clust.size = clust_stats$min.cluster.size)
-      
+
       ## robust estimation (default):
       res.clust.rob_CN <- robCompositions::clustCoDa(data.act_CN,
                                                      k = i,
@@ -161,7 +143,7 @@ clust_find_k_table_full_tib <- function(scat_compo_tib,
     ########################### POINTE SUZANNE ###################################
     data.act_PS <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "PS")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     list_outputs_PS <- list()
@@ -211,7 +193,7 @@ clust_find_k_table_full_tib <- function(scat_compo_tib,
     
   } else if (type == "all") {
     data.act <- scat_compo_tib |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     list_outputs <- list()
@@ -420,12 +402,12 @@ pca_coda <- function(scat_compo_tib,
   if (type == "sites") {
     data.act_CN <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "CN")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     data.act_PS <- scat_compo_tib |> 
       dplyr::filter(stringr::str_detect(Code_sample, "PS")) |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     ## robust estimation (default):
@@ -436,7 +418,7 @@ pca_coda <- function(scat_compo_tib,
     
   } else if (type == "all") {
     data.act <- scat_compo_tib |> 
-      dplyr::select(Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
       as.data.frame()
     
     ## robust estimation (default):

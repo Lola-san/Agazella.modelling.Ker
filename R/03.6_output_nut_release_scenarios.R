@@ -24,11 +24,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_sites) |>
       tidyr::unnest(release_nut_pop_tot_period_sites) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = "All scat samples from colony") |>
@@ -45,11 +45,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario100) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("100% of scat samples from cluster ", clust_test)) |>
@@ -66,11 +66,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario90) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("90% of scat samples from cluster ", clust_test)) |>
@@ -87,11 +87,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario80) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("80% of scat samples from cluster ", clust_test)) |>
@@ -108,11 +108,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario70) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("70% of scat samples from cluster ", clust_test)) |>
@@ -129,11 +129,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario60) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("60% of scat samples from cluster ", clust_test)) |>
@@ -150,11 +150,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario50) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("50% of scat samples from cluster ", clust_test)) |>
@@ -171,11 +171,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario40) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("40% of scat samples from cluster ", clust_test)) |>
@@ -192,11 +192,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario30) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("30% of scat samples from cluster ", clust_test)) |>
@@ -213,11 +213,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario20) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("20% of scat samples from cluster ", clust_test)) |>
@@ -234,11 +234,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario10) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("10% of scat samples from cluster ", clust_test)) |>
@@ -255,11 +255,11 @@ nut_per_site_tot_period_scenarios <- function(output_nut_release_scenarios_tib,
       dplyr::select(Site,
                     release_nut_pop_tot_period_scenario00) |>
       tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
-      tidyr::pivot_longer(cols = c(Fe:Co),
+      tidyr::pivot_longer(cols = c(P:Co),
                           names_to = "Nutrient",
                           values_to = "tot_pop_release_period_kg") |>
       dplyr::mutate(Nutrient = factor(Nutrient,
-                                      levels = c("Fe", "Zn",
+                                      levels = c("P", "Fe", "Zn",
                                                  "Cu", "Mn", "Se",
                                                  "Co")),
                     scat_compo = paste0("0% of scat samples from cluster ", clust_test)) |>
@@ -418,11 +418,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario100) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[1]) |>
@@ -439,11 +439,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario90) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[2]) |>
@@ -460,11 +460,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario80) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[3]) |>
@@ -481,11 +481,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario70) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[4]) |>
@@ -502,11 +502,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario60) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[5]) |>
@@ -523,11 +523,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario50) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[6]) |>
@@ -544,11 +544,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario40) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[7]) |>
@@ -565,11 +565,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario30) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[8]) |>
@@ -586,11 +586,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario20) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[9]) |>
@@ -607,11 +607,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario10) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[10]) |>
@@ -628,11 +628,11 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario00) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
-        tidyr::pivot_longer(cols = c(Fe:Co),
+        tidyr::pivot_longer(cols = c(P:Co),
                             names_to = "Nutrient",
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(Nutrient = factor(Nutrient,
-                                        levels = c("Fe", "Zn",
+                                        levels = c("P", "Fe", "Zn",
                                                    "Cu", "Mn", "Se",
                                                    "Co")),
                       sub_scenario = vec_percent_i[11]) |>
@@ -663,21 +663,21 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
                   release_nut_pop_tot_period_sites) |>
     dplyr::filter(Site == site) |>
     tidyr::unnest(release_nut_pop_tot_period_sites) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "tot_pop_release_period_kg") |> 
     dplyr::group_by(Nutrient) |>
     dplyr::summarise(mean_release_est = mean(tot_pop_release_period_kg), 
                      median_release_est = median(tot_pop_release_period_kg)) |> 
   dplyr::mutate(Nutrient = factor(Nutrient, 
-                                  levels = c("Fe", "Zn", 
+                                  levels = c("P", "Fe", "Zn", 
                                              "Cu", "Mn", "Se",
                                              "Co"))) 
 
   df_compiled_tests |>
     dplyr::mutate(sub_scenario = as.numeric(sub_scenario), 
                   Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co"))) |>
     ggplot2::ggplot(ggplot2::aes(x = sub_scenario,
@@ -689,8 +689,9 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
                                          ymin = `10_quant`,
                                          ymax = `80_quant`,
                                          color = scenario)) +
-    ggplot2::scale_color_manual(values = c("#E75B64FF", "#44A57CFF",
-                                           "#1D2645FF", "#D8AF39FF",
+    ggplot2::scale_color_manual(values = c("#44A57CFF",
+                                           "#1D2645FF",
+                                           "#D8AF39FF", 
                                            "#AE93BEFF"
     )) +
     ggplot2::facet_wrap(~ Nutrient, scales = "free_y") +
@@ -742,6 +743,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
   df_compiled_tests <- data.frame(Site = NA, 
                                   scenario = NA,
                                   subscenario = NA,
+                                  P = NA,
                                   Fe = NA, 
                                   Zn = NA, 
                                   Cu = NA, 
@@ -756,7 +758,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site, 
                       release_nut_pop_tot_period_sites) |>
         tidyr::unnest(release_nut_pop_tot_period_sites) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "all scat samples from colony"), 
@@ -765,7 +767,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario00) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "0%"), 
@@ -774,7 +776,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario10) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "10%"), 
@@ -783,7 +785,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario20) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "20%"), 
@@ -792,7 +794,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario30) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "30%"), 
@@ -801,7 +803,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario40) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "40%"), 
@@ -810,7 +812,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario50) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "50%"), 
@@ -819,7 +821,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario60) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "60%"), 
@@ -828,7 +830,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario70) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "70%"), 
@@ -837,7 +839,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario80) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "80%"), 
@@ -846,7 +848,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario90) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "90%"), 
@@ -855,13 +857,13 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario100) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = "100%")
     )  |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
-                                      levels = c("Fe", "Zn", 
+                                      levels = c("P", "Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co"))) |> 
       tidyr::pivot_wider(names_from = scenario,
@@ -899,7 +901,7 @@ MWtest_test_nut_sites_tot_period_all_scenarios <- function(list_output_scenarios
       tidyr::pivot_wider(names_from = Nutrient, 
                          values_from = test_obs_scenario) |>
       dplyr::mutate(scenario = i) |>
-      dplyr::select(c(Site, scenario, subscenario, Fe:Co))
+      dplyr::select(c(Site, scenario, subscenario, P:Co))
     
     
     # compile with the rest 
@@ -938,7 +940,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
     dplyr::select(Site, 
                   release_nut_pop_tot_period_sites) |>
     tidyr::unnest(release_nut_pop_tot_period_sites) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "tot_pop_release_period_kg") |>
     dplyr::group_by(Site, Nutrient) |>
@@ -958,7 +960,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario00) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario00) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -970,7 +972,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario10) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario10) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -982,7 +984,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario20) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario20) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -994,7 +996,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario30) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario30) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -1006,7 +1008,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario40) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario40) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |>
         dplyr::mutate(scenario = i, 
@@ -1018,7 +1020,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario50) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario50) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -1030,7 +1032,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario60) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario60) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -1042,7 +1044,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario70) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario70) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -1054,7 +1056,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario80) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario80) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -1066,7 +1068,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario90) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario90) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -1078,7 +1080,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
         dplyr::select(Site,
                       release_nut_pop_tot_period_scenario100) |>
         tidyr::unnest(release_nut_pop_tot_period_scenario100) |>
-        tidyr::pivot_longer(cols = c(Fe:Co), 
+        tidyr::pivot_longer(cols = c(P:Co), 
                             names_to = "Nutrient", 
                             values_to = "tot_pop_release_period_kg") |> 
         dplyr::mutate(scenario = i, 
@@ -1099,7 +1101,7 @@ percent_diff_nut_sites_tot_period_all_scenarios <- function(list_output_scenario
   table <- df_compiled_mean_subscenarios |>
     dplyr::left_join(df_mean, by = c("Site", "Nutrient")) |>
     dplyr::mutate(Nutrient = factor(Nutrient,
-                                    levels = c("Fe", "Zn",
+                                    levels = c("P", "Fe", "Zn",
                                                "Cu", "Mn", "Se",
                                                "Co")),
                   diff_mean_with_all_scats = mean_subscenario_kg - mean_all_scats_kg,

@@ -48,8 +48,8 @@ dm_per_site_period <- function(list_output_dm) {
                                          ymin = `10_quant`, 
                                          ymax = `80_quant`)) +
     ggplot2::scale_fill_manual(values = c("#278B9AFF", "#E75B64FF")) +
-    ggplot2::facet_wrap(~ Location, scales = "free_y") +
-    ggplot2::ylab("Fecal dry matter released during\nbreeding and moulting period") +
+    ggplot2::facet_wrap(~ Location) +
+    ggplot2::ylab("Fecal dry matter released during\nbreeding and moulting period (kg)") +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(size = 15), 
                    axis.text.y = ggplot2::element_text(size = 15), 

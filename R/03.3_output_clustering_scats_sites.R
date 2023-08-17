@@ -107,11 +107,11 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                                             stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |>
       dplyr::filter(site == "Cap Noir") |>
       dplyr::mutate(cluster = clust_vec_CN) |>
-      tidyr::pivot_longer(cols = c(Fe:Co), 
+      tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
                           values_to = "conc_mg_kg_dw") |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
-                                      levels = c("Fe", "Zn", 
+                                      levels = c("P", "Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co"))) |> 
       dplyr::group_by(Nutrient) |>
@@ -123,16 +123,17 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                                             stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |>
       dplyr::filter(site == "Cap Noir") |>
       dplyr::mutate(cluster = clust_vec_CN) |>
-      tidyr::pivot_longer(cols = c(Fe:Co), 
+      tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
                           values_to = "conc_mg_kg_dw") |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
-                                      levels = c("Fe", "Zn", 
+                                      levels = c("P", "Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co")), 
-                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17575, 
+                    y_lim = dplyr::case_when(Nutrient == "P" ~ 142000,
+                                             Nutrient == "Fe" ~ 18000, 
                                              Nutrient == "Zn" ~ 1175, 
-                                             Nutrient == "Cu" ~ 800, 
+                                             Nutrient == "Cu" ~ 850, 
                                              Nutrient == "Mn" ~ 420, 
                                              Nutrient == "Se" ~ 135, 
                                              Nutrient == "Co" ~ 14)) |> 
@@ -140,7 +141,8 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
       ggplot2::geom_boxplot(ggplot2::aes(x = cluster, y = conc_mg_kg_dw, 
                                          fill = factor(cluster)), 
                             position = ggplot2::position_dodge(1)) +
-      ggplot2::facet_wrap(~ Nutrient, scales = "free_y") + 
+      ggplot2::facet_wrap(~ Nutrient,
+                          nrow = 2, scales = "free_y") + 
       ggplot2::geom_hline(data = mean_conc_table_CN, 
                           ggplot2::aes(yintercept = mean_conc), 
                           linetype = "dashed",
@@ -169,7 +171,7 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                      legend.position = "none")
     ggplot2::ggsave("output/sites/clustering with all nutrients/clust_scat_compo_abs_all_nut_CapNoir.jpg",
                     scale = 1,
-                    height = 6, width = 9
+                    height = 5, width = 9
     )
     
     
@@ -182,11 +184,11 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                                             stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |>
       dplyr::filter(site == "Pointe Suz") |>
       dplyr::mutate(cluster = clust_vec_PS) |>
-      tidyr::pivot_longer(cols = c(Fe:Co), 
+      tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
                           values_to = "conc_mg_kg_dw") |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
-                                      levels = c("Fe", "Zn", 
+                                      levels = c("P", "Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co"))) |> 
       dplyr::group_by(Nutrient) |>
@@ -199,16 +201,17 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                                             stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |>
       dplyr::filter(site == "Pointe Suz") |>
       dplyr::mutate(cluster = clust_vec_PS) |>
-      tidyr::pivot_longer(cols = c(Fe:Co), 
+      tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
                           values_to = "conc_mg_kg_dw") |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
-                                      levels = c("Fe", "Zn", 
+                                      levels = c("P", "Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co")), 
-                    y_lim = dplyr::case_when(Nutrient == "Fe" ~ 17575, 
+                    y_lim = dplyr::case_when(Nutrient == "P" ~ 142000,
+                                             Nutrient == "Fe" ~ 18000, 
                                             Nutrient == "Zn" ~ 1175, 
-                                            Nutrient == "Cu" ~ 800, 
+                                            Nutrient == "Cu" ~ 850, 
                                             Nutrient == "Mn" ~ 420, 
                                             Nutrient == "Se" ~ 135, 
                                             Nutrient == "Co" ~ 14)) |> 
@@ -216,7 +219,8 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
       ggplot2::geom_boxplot(ggplot2::aes(x = cluster, y = conc_mg_kg_dw, 
                                          fill = factor(cluster)), 
                             position = ggplot2::position_dodge(1)) +
-      ggplot2::facet_wrap(~ Nutrient, scales = "free_y") + 
+      ggplot2::facet_wrap(~ Nutrient, 
+                          nrow = 2, scales = "free_y") + 
       ggplot2::geom_hline(data = mean_conc_table_PS, 
                           ggplot2::aes(yintercept = mean_conc),
                           linetype = "dashed", 
@@ -245,7 +249,7 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                      legend.position = "none")
     ggplot2::ggsave("output/sites/clustering with all nutrients/clust_scat_compo_abs_all_nut_PSuzanne.jpg",
                     scale = 1,
-                    height = 6, width = 9
+                    height = 5, width = 9
     )
     
   } else if (type == "all") {
@@ -255,11 +259,11 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
     
     mean_conc_table <- scat_compo_tib |>
       dplyr::mutate(cluster = clust_vec) |>
-      tidyr::pivot_longer(cols = c(Fe:Co), 
+      tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
                           values_to = "conc_mg_kg_dw") |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
-                                      levels = c("Fe", "Zn", 
+                                      levels = c("P", "Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co"))) |> 
       dplyr::group_by(Nutrient) |>
@@ -268,11 +272,11 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
     
     scat_compo_tib |>
       dplyr::mutate(cluster = clust_vec) |>
-      tidyr::pivot_longer(cols = c(Fe:Co), 
+      tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
                           values_to = "conc_mg_kg_dw") |> 
       dplyr::mutate(Nutrient = factor(Nutrient, 
-                                      levels = c("Fe", "Zn", 
+                                      levels = c("P", "Fe", "Zn", 
                                                  "Cu", "Mn", "Se",
                                                  "Co"))) |> 
       ggplot2::ggplot() +
@@ -489,11 +493,11 @@ table_stats_clust_per_site_full_tib <- function(list_res_clust_sites_full_tib,
                    dplyr::filter(site == "Cap Noir") |>
                    dplyr::mutate(cluster = clust_vec_CN, 
                                  ntot = dplyr::n_distinct(Code_sample)) |>
-                   tidyr::pivot_longer(cols = c(Fe:Co), 
+                   tidyr::pivot_longer(cols = c(P:Co), 
                                        names_to = "Nutrient", 
                                        values_to = "conc_mg_kg_dw") |>
                    dplyr::mutate(Nutrient = factor(Nutrient, 
-                                                   levels = c("Fe", "Zn", "Cu",
+                                                   levels = c("P", "Fe", "Zn", "Cu",
                                                               "Mn", "Se", "Co"))) |>
                    dplyr::group_by(site, cluster, Nutrient) |>
                    dplyr::summarise(mean = round(mean(conc_mg_kg_dw), 3), 
@@ -512,11 +516,11 @@ table_stats_clust_per_site_full_tib <- function(list_res_clust_sites_full_tib,
                    dplyr::filter(site == "Pointe Suzanne") |>
                    dplyr::mutate(cluster = clust_vec_PS, 
                                  ntot = dplyr::n_distinct(Code_sample)) |>
-                   tidyr::pivot_longer(cols = c(Fe:Co), 
+                   tidyr::pivot_longer(cols = c(P:Co), 
                                        names_to = "Nutrient", 
                                        values_to = "conc_mg_kg_dw") |>
                    dplyr::mutate(Nutrient = factor(Nutrient, 
-                                                 levels = c("Fe", "Zn", "Cu",
+                                                 levels = c("P", "Fe", "Zn", "Cu",
                                                             "Mn", "Se", "Co"))) |>
                    dplyr::group_by(site, cluster, Nutrient) |>
                    dplyr::summarise(mean = round(mean(conc_mg_kg_dw), 3), 
@@ -560,7 +564,7 @@ MWtest_clust_k43_full_tib <- function(list_res_clust_full_tib_sites,
                                           stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
     dplyr::filter(site == "Cap Noir") |>
     dplyr::mutate(cluster = clust_vec_CN) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") 
   
@@ -569,7 +573,7 @@ MWtest_clust_k43_full_tib <- function(list_res_clust_full_tib_sites,
                                           stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
     dplyr::filter(site == "Pointe Suzanne") |>
     dplyr::mutate(cluster = clust_vec_PS) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") 
   

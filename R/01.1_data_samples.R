@@ -140,7 +140,7 @@ set_up_prey_compo <- function(compo_results_prey) {
 #'
 #'
 # select only nutrient of interest, get rid of technical outliers/contaminated
-set_up_scats_compo <- function(compo_results_scats) {
+set_up_scats_compo_part1 <- function(compo_results_scats) {
   
   
   compo_results_scats |>
@@ -151,6 +151,26 @@ set_up_scats_compo <- function(compo_results_scats) {
     # get rid of unwanted nutrients (+ with only trace)
     dplyr::select(c(Code_sample, 
                     Fe, Zn, Cu, Mn, Se, Co))
+  
+}
+
+
+#'
+#'
+#'
+#'
+# select only nutrient of interest, get rid of technical outliers/contaminated
+set_up_scats_compo_part2 <- function(compo_results_scats) {
+  
+  
+  compo_results_scats |>
+    # for technical outliers
+    dplyr::filter(!(Code_sample %in% c("CN12", "CN02", 
+                                       "PS06", "PS27"
+    ))) |>
+    # get rid of unwanted nutrients (+ with only trace)
+    dplyr::select(c(Code_sample, 
+                    P, Fe, Zn, Cu, Mn, Se, Co))
   
 }
 

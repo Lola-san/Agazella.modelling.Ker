@@ -53,8 +53,8 @@ list(
              format = "file"),
   tar_target(res_compo_scats_raw, load_xl(res_compo_scats_file)),
   # clean the file with samples and nutrients 
-  tar_target(res_compo_scats, 
-             set_up_scats_compo(res_compo_scats_raw)),
+  tar_target(res_compo_scats_part1, 
+             set_up_scats_compo_part1(res_compo_scats_raw)),
   
   # summarize data on fish samples 
   # tar_target(data_fish_summary, summary_fish_samples(data_fish_samples, 
@@ -391,7 +391,9 @@ list(
              MWtest_test_dm_sites_tot_period(list_output_dm_produced)),
 
   # script 02.4_compute_nut_release.R
-
+  # prepare scat composition dataset
+  tar_target(res_compo_scats,
+             set_up_scats_compo_part2(res_compo_scats_raw)),
   tar_target(list_output_dm_produced_with_scat_compo_data,
              add_bootstrap_scat_data(list_output_dm_produced,
                                      res_compo_scats)),
@@ -420,7 +422,7 @@ list(
              table_compo_scats_site(res_compo_scats)),
   tar_target(table_test_scat_compo_sites,
              MWtest_scats_compo_sites(res_compo_scats)),
-  
+
   # relative composition of scats
   tar_target(fig_scat_compo_rel,
              fig_nut_scat_compo_relative(res_compo_scats)),
@@ -428,21 +430,21 @@ list(
              fig_nut_scat_compo_relative_sites(res_compo_scats)),
   # relative composition of scats, comparison with other pinnipeds
   tar_target(fig_scat_compo_rel_compa_pinnipeds,
-             fig_nut_scat_compo_relative_comp_pinn(res_compo_scats)), 
-  
+             fig_nut_scat_compo_relative_comp_pinn(res_compo_scats)),
+
   # ########### with cluster from chap3
-  # # define and load results of composition of scats 
+  # # define and load results of composition of scats
   # tar_target(res_compo_scats_clust_file,
-  #            "data/clust_attribution_scats_tot_PCs_k2.xlsx", 
+  #            "data/clust_attribution_scats_tot_PCs_k2.xlsx",
   #            format = "file"),
   # tar_target(res_compo_clust_scats_raw, load_xl(res_compo_scats_clust_file)),
-  # # clean the file with samples and nutrients 
-  # tar_target(res_compo_clust_scats, 
+  # # clean the file with samples and nutrients
+  # tar_target(res_compo_clust_scats,
   #            set_up_scats_compo_clust(res_compo_clust_scats_raw)),
   # # see compo relative in the two clusters
   # tar_target(fig_scat_compo_rel_clust,
   #            fig_nut_scat_compo_relative_clust(res_compo_clust_scats)),
-  
+
   ########## CLUSTERING
   ######################## USING ALL NUTRIENTS #################################
   ### without using a PCA to reduce dimensions
@@ -462,7 +464,7 @@ list(
   tar_target(clust_all_nut_findk_means_plot_all_scats,
              means_clust_find_k_val_full_tib(clust_all_nut_findk_table_all_scats,
                                     type = "all")),
-  
+
   tar_target(clust_all_nut_sites,
              clust_compo_full_tib(res_compo_scats,
                                   k = c(4, 3, 4),
@@ -473,8 +475,8 @@ list(
                                   k = c(4, 4, 4),
                                   method = "ward.D2",
                                   type = "all")),
-  
-  # dendrogram ##### DID NOT FIND A WAY TO MAKE A DENDROGRAM WITH GGPLOT 
+
+  # dendrogram ##### DID NOT FIND A WAY TO MAKE A DENDROGRAM WITH GGPLOT
   # WITH HCLUST OUTPUT OF RobComposition PACKAGE so it's not pretty
   # but still we can identify samples in clusters...
   tar_target(clust_all_nut_sites_dendro,
@@ -493,8 +495,8 @@ list(
   tar_target(clust_all_nut_all_scats_boxplot,
              boxplot_compo_clust_full_tib(clust_all_nut_all_scats,
                                  res_compo_scats,
-                                 "all")), 
-  
+                                 "all")),
+
   # barplot with relative composition per scat with cluster coloring
   tar_target(clust_all_nut_sites_barplot_rel,
              barplot_nut_scat_compo_relative_clust(clust_all_nut_sites,
@@ -503,15 +505,15 @@ list(
   tar_target(clust_all_nut_all_scats_barplot_rel,
              barplot_nut_scat_compo_relative_clust(clust_all_nut_all_scats,
                                           res_compo_scats,
-                                          "all")), 
-  # tables 
+                                          "all")),
+  # tables
    tar_target(table_stats_clusts_all_nut_sites,
               table_stats_clust_per_site_full_tib(clust_all_nut_sites,
                                          res_compo_scats)),
    tar_target(table_test_clust_all_nut_sites,
               MWtest_clust_k43_full_tib(clust_all_nut_sites,
                               res_compo_scats)),
-  
+
   ################ USING PCA FIRST TO REDUCE DIMENSIONS ########################
 
   # PCA and clustering, script 03.1_clustering_scats_sites.R
@@ -605,7 +607,7 @@ list(
 
 
  ###############################################################################
-  ### with scenarios of different ratios of scats of different "types"
+ ### with scenarios of different ratios of scats of different "types"
 
  # script 03.2_set_up_nut_release_scenarios.R
  # first CAP NOIR
@@ -699,7 +701,7 @@ list(
                                                   site = "Pointe Suzanne",
                                                   clust_test = "3")),
 
-  # script 03.3_compute_nut_release_scenarios.R
+  # script 03.3_compute_nut_produced_scenarios.R
  # first CAP NOIR
   tar_target(output_nut_release_with_scenarios_CN_clust1,
              compute_nut_release_scenarios(input_data_with_scenarios_CN_clust1)),
@@ -794,7 +796,7 @@ list(
                                                                  output_nut_release_with_scenarios_PS_clust2,
                                                                  output_nut_release_with_scenarios_PS_clust3),
                                                             site = "Pointe Suzanne"))
-  
+   
   
   
 )

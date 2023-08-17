@@ -19,11 +19,11 @@
 boxplot_compo_scats_site <- function(scat_compo_tib) {
   
   mean_median_tib <- scat_compo_tib |>
-    tidyr::pivot_longer(cols = c("Fe":"Co"), 
+    tidyr::pivot_longer(cols = c("P":"Co"), 
                         names_to = "Nutrient", 
                         values_to = "concentration_mg_kg_dw") |>
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", "Cu", 
+                                    levels = c("P", "Fe", "Zn", "Cu", 
                                                "Mn", "Se","Co"))) |>
     dplyr::group_by( Nutrient) |>
     dplyr::summarise(mean = mean(concentration_mg_kg_dw), 
@@ -31,13 +31,13 @@ boxplot_compo_scats_site <- function(scat_compo_tib) {
   
   
   scat_compo_tib |>
-    tidyr::pivot_longer(cols = c("Fe":"Co"), 
+    tidyr::pivot_longer(cols = c("P":"Co"), 
                         names_to = "Nutrient", 
                         values_to = "concentration_mg_kg_dw") |>
     dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap\nNoir", 
                                           stringr::str_detect(Code_sample, "PS") ~ "Pointe\nSuzanne"), 
                   Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", "Cu", 
+                                    levels = c("P", "Fe", "Zn", "Cu", 
                                                "Mn", "Se","Co"))) |>
     dplyr::mutate(site = factor(site, 
                                 levels = c("Cap\nNoir", 
@@ -61,7 +61,8 @@ boxplot_compo_scats_site <- function(scat_compo_tib) {
     ggplot2::ylab("Nutrient concentration (in mg/kg dry weight)") +
     ggplot2::scale_color_manual(values = c("#353839", "#AE93BEFF")) +
     ggplot2::scale_fill_manual(values = c("#353839", "#AE93BEFF")) +
-    ggplot2::facet_wrap(~ Nutrient, scale = "free") +
+    ggplot2::facet_wrap(~ Nutrient, scale = "free", 
+                        nrow = 2) +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(), 
                    axis.text.x = ggplot2::element_text(size = 16),
@@ -73,8 +74,127 @@ boxplot_compo_scats_site <- function(scat_compo_tib) {
                    legend.position = "none")
   ggplot2::ggsave("output/sites/boxplot_scat_conc_sites.jpg",
                   scale = 1,
-                  height = 6, width = 8
+                  height = 6, width = 10
   )
+  
+}
+
+
+
+#'
+#'
+#'
+#'
+#'
+# function to produce table with summary of elemental analysis
+table_compo_scats_site <- function(scat_compo_tib
+) {
+  
+  table_summary <- scat_compo_tib |>
+    tidyr::pivot_longer(cols = c(P:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "concentration_mg_kg_dw") |>
+    dplyr::mutate(Site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |>
+    dplyr::group_by(Site, Nutrient) |>
+    dplyr::summarise(n = dplyr::n_distinct(Code_sample), 
+                     mean = round(mean(concentration_mg_kg_dw), 3),
+                     median = round(median(concentration_mg_kg_dw), 3),
+                     sd = round(sd(concentration_mg_kg_dw), 3),
+                     cv = round(sd/mean, 3),
+                     min = round(min(concentration_mg_kg_dw), 3),
+                     max = round(max(concentration_mg_kg_dw), 3)) |>
+    tidyr::pivot_longer(cols = c(mean, median, sd, cv, min, max), 
+                        names_to = "variable", 
+                        values_to = "conc_mg_kg_dw") |>
+    tidyr::pivot_wider(names_from = Nutrient,  
+                       values_from = conc_mg_kg_dw) |>
+    dplyr::select(c(Site, n, variable, 
+                    P, Fe, Zn, Cu, Mn, Se, Co)) |>
+    dplyr::bind_rows(scat_compo_tib |>
+                       tidyr::pivot_longer(cols = c(P:Co), 
+                                           names_to = "Nutrient", 
+                                           values_to = "concentration_mg_kg_dw") |>
+                       dplyr::mutate(Site = "All scats together") |>
+                       dplyr::group_by(Site, Nutrient) |>
+                       dplyr::summarise(n = dplyr::n_distinct(Code_sample), 
+                                        mean = round(mean(concentration_mg_kg_dw), 3),
+                                        median = round(median(concentration_mg_kg_dw), 3),
+                                        sd = round(sd(concentration_mg_kg_dw), 3),
+                                        cv = round(sd/mean, 3),
+                                        min = round(min(concentration_mg_kg_dw), 3),
+                                        max = round(max(concentration_mg_kg_dw), 3)) |>
+                       tidyr::pivot_longer(cols = c(mean, median, sd, cv, min, max), 
+                                           names_to = "variable", 
+                                           values_to = "conc_mg_kg_dw") |>
+                       tidyr::pivot_wider(names_from = Nutrient,  
+                                          values_from = conc_mg_kg_dw) |>
+                       dplyr::select(c(Site, n, variable, 
+                                       P, Fe, Zn, Cu, Mn, Se, Co)))
+  
+  openxlsx::write.xlsx(table_summary, 
+                       file = paste0("output/sites/table_summary_sites_scat_compo_data.xlsx"))
+  
+}
+
+
+
+#'
+#'
+#'
+#'
+#'
+# function to compute Mann-Whitney U Test to assess difference between 
+# concentrations in scats between sites 
+MWtest_scats_compo_sites <- function(scat_compo_tib) {
+  
+  scat_compo_tib <- scat_compo_tib |>
+    tidyr::pivot_longer(cols = c(P:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") |> 
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne"),
+                  Nutrient = factor(Nutrient, 
+                                    levels = c("P", "Fe", "Zn", "Cu", 
+                                               "Mn", "Se", "Co"))) 
+  
+  nut_vec <- unique(scat_compo_tib$Nutrient)
+  
+  list_outputs <- list()
+  
+  for (nut in nut_vec) {
+    
+    table <- scat_compo_tib |>
+      dplyr::filter(Nutrient == nut) |>
+      tidyr::pivot_wider(names_from = site, 
+                         values_from = conc_mg_kg_dw)
+    
+    CapNo <- na.omit(table$`Cap Noir`)
+    PSuz <- na.omit(table$`Pointe Suzanne`)
+    
+    nut_test <- data.frame(Nutrient = nut,  
+                           alpha_MW = wilcox.test(CapNo, PSuz)[[3]])
+    
+    list_outputs <- append(list_outputs, list(nut_test))
+  }
+  
+  
+  df_test <- data.frame(Nutrient = NA, 
+                        alpha_MW = NA)
+  
+  for (i in 1:length(nut_vec)) {
+    df_test <- rbind(df_test, list_outputs[[i]])
+  }
+  
+  # delete first line of NAs
+  df_test <- df_test[-1,]
+  
+  df_test <- df_test |>
+    dplyr::mutate(significant = dplyr::case_when(alpha_MW <= 0.05 ~ "yes", 
+                                                 TRUE ~ "no"))
+  
+  openxlsx::write.xlsx(df_test, 
+                       file = "output/sites/Mann_Whitney_test_scats_sites.xlsx")
   
 }
 
@@ -91,13 +211,13 @@ boxplot_compo_scats_site <- function(scat_compo_tib) {
 fig_nut_scat_compo_relative <- function(scat_compo_tib) {
   
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(conc_relative = conc_mg_kg_dw/sum_nut, 
                   Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")))  |>
     dplyr::group_by(Nutrient) |>
@@ -129,13 +249,13 @@ fig_nut_scat_compo_relative <- function(scat_compo_tib) {
   
   
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(conc_relative = conc_mg_kg_dw/sum_nut, 
                   Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")))  |>
     dplyr::group_by(Nutrient) |>
@@ -318,12 +438,12 @@ fig_nut_scat_compo_relative_sites <- function(scat_compo_tib) {
   
   # comparison between sites
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -332,7 +452,7 @@ fig_nut_scat_compo_relative_sites <- function(scat_compo_tib) {
     dplyr::group_by(site, Nutrient) |>
     dplyr::summarise(mean_conc_relative = mean(conc_relative)) |>
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co"))) |> 
     ggplot2::ggplot() +
@@ -358,12 +478,12 @@ fig_nut_scat_compo_relative_sites <- function(scat_compo_tib) {
   
   # Cap Noir
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -390,19 +510,61 @@ fig_nut_scat_compo_relative_sites <- function(scat_compo_tib) {
                                                         face = "bold"),
                    strip.text.x = ggplot2::element_blank(),
                    legend.position = "none")
-  ggplot2::ggsave("output/sites/scat_compo_rel_comp_CapNoir_Agazella.jpg",
+  ggplot2::ggsave("output/sites/scat_compo_rel_comp_CapNoir_Agazella_dodge.jpg",
                   scale = 1,
                   height = 6, width = 12
   )
   
-  # Pointe Suzanne
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co")), 
+                  conc_relative = conc_mg_kg_dw/sum_nut, 
+                  site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+    dplyr::filter(site == "Cap Noir") |>
+    ggplot2::ggplot() +
+    ggplot2::geom_bar(ggplot2::aes(x = Code_sample, y = conc_relative, 
+                                   fill = Nutrient), 
+                      stat = "identity", 
+                      position = ggplot2::position_stack()) +
+    ggplot2::scale_fill_manual(values = c("#B4DAE5FF", "#278B9AFF",
+                                          "#DE7862FF", "#D8AF39FF",  
+                                          "#403369FF", "#5A6F80FF", 
+                                          "#E8C4A2FF")) +
+    ggplot2::ggtitle("Cap Noir") +
+    ggplot2::ylab("Relative fraction") +
+    ggplot2::xlab("Scat sample") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 12), 
+                   axis.text.x = ggplot2::element_blank(), 
+                   title = ggplot2::element_text(size = 15, 
+                                                 face = "bold"),
+                   axis.title.x = ggplot2::element_text(size = 14, 
+                                                        face = "bold"), 
+                   axis.title.y = ggplot2::element_text(size = 14, 
+                                                        face = "bold"),
+                   strip.text.x = ggplot2::element_blank(),
+                   legend.position = "bottom", 
+                   legend.text = ggplot2::element_text(size = 12))
+  ggplot2::ggsave("output/sites/scat_compo_rel_comp_CapNoir_Agazella_stack.jpg",
+                  scale = 1,
+                  height = 4, width = 6
+  )
+  
+  # Pointe Suzanne
+  scat_compo_tib |>
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") |> 
+    dplyr::mutate(Nutrient = factor(Nutrient, 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -429,9 +591,51 @@ fig_nut_scat_compo_relative_sites <- function(scat_compo_tib) {
                                                         face = "bold"),
                    strip.text.x = ggplot2::element_blank(),
                    legend.position = "none")
-  ggplot2::ggsave("output/sites/scat_compo_rel_comp_PSuz_Agazella.jpg",
+  ggplot2::ggsave("output/sites/scat_compo_rel_comp_PSuz_Agazella_dodge.jpg",
                   scale = 1,
                   height = 6, width = 12
+  )
+  
+  scat_compo_tib |>
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") |> 
+    dplyr::mutate(Nutrient = factor(Nutrient, 
+                                    levels = c("P", "Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co")), 
+                  conc_relative = conc_mg_kg_dw/sum_nut, 
+                  site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+    dplyr::filter(site == "Pointe Suz") |>
+    ggplot2::ggplot() +
+    ggplot2::geom_bar(ggplot2::aes(x = Code_sample, y = conc_relative, 
+                                   fill = Nutrient), 
+                      stat = "identity", 
+                      position = ggplot2::position_stack()) +
+    ggplot2::scale_fill_manual(values = c("#B4DAE5FF", "#278B9AFF",
+                                          "#DE7862FF", "#D8AF39FF",  
+                                          "#403369FF", "#5A6F80FF", 
+                                          "#E8C4A2FF")) +
+    ggplot2::ggtitle("Pointe Suzanne") +
+    ggplot2::ylab("Relative fraction") +
+    ggplot2::xlab("Scat sample") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 12), 
+                   axis.text.x = ggplot2::element_blank(), 
+                   title = ggplot2::element_text(size = 15, 
+                                                 face = "bold"),
+                   axis.title.x = ggplot2::element_text(size = 14, 
+                                                        face = "bold"), 
+                   axis.title.y = ggplot2::element_text(size = 14, 
+                                                        face = "bold"),
+                   strip.text.x = ggplot2::element_blank(),
+                   legend.position = "bottom", 
+                   legend.text = ggplot2::element_text(size = 12))
+  ggplot2::ggsave("output/sites/scat_compo_rel_comp_PSuz_Agazella_stack.jpg",
+                  scale = 1,
+                  height = 4, width = 6
   )
   
   
@@ -449,15 +653,15 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
   
   # Cap Noir
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
-                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("Fe", "Zn", "Cu") ~ "major", 
+                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("P", "Fe", "Zn", "Cu") ~ "major", 
                                                     Nutrient %in% c("Mn", "Se", "Co") ~ "minor"), 
                                           levels = c("major", "minor")),
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -490,15 +694,15 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
   )
   
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
-                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("Fe", "Zn", "Cu") ~ "major", 
+                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("P", "Fe", "Zn", "Cu") ~ "major", 
                                                            Nutrient %in% c("Mn", "Se", "Co") ~ "minor"), 
                                           levels = c("major", "minor")),
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -533,15 +737,15 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
   
   
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
-                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("Fe", "Zn", "Cu") ~ "major", 
+                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("P", "Fe", "Zn", "Cu") ~ "major", 
                                                            Nutrient %in% c("Mn", "Se", "Co") ~ "minor"), 
                                           levels = c("major", "minor")),
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -579,15 +783,15 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
   
   # Pointe Suzanne
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
-                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("Fe", "Zn", "Cu") ~ "major", 
+                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("P", "Fe", "Zn", "Cu") ~ "major", 
                                                            Nutrient %in% c("Mn", "Se", "Co") ~ "minor"), 
                                           levels = c("major", "minor")),
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -620,15 +824,15 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
   )
   
   scat_compo_tib |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
+    dplyr::mutate(sum_nut = P + Fe + Zn + Cu + Mn + Se + Co) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
                         values_to = "conc_mg_kg_dw") |> 
     dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
+                                    levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
                                                "Co")), 
-                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("Fe", "Zn", "Cu") ~ "major", 
+                  class_nutrient = factor(dplyr::case_when(Nutrient %in% c("P", "Fe", "Zn", "Cu") ~ "major", 
                                                            Nutrient %in% c("Mn", "Se", "Co") ~ "minor"), 
                                           levels = c("major", "minor")),
                   conc_relative = conc_mg_kg_dw/sum_nut, 
@@ -660,123 +864,6 @@ fig_nut_scat_compo_relative_sites_FeZnCu_MnSeCo <- function(scat_compo_tib) {
                   height = 6, width = 12
   )
   
-  
-}
-
-#'
-#'
-#'
-#'
-#'
-# function to produce table with summary of elemental analysis
-table_compo_scats_site <- function(scat_compo_tib
-) {
-  
-  table_summary <- scat_compo_tib |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
-                        names_to = "Nutrient", 
-                        values_to = "concentration_mg_kg_dw") |>
-    dplyr::mutate(Site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
-                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |>
-    dplyr::group_by(Site, Nutrient) |>
-    dplyr::summarise(n = dplyr::n_distinct(Code_sample), 
-                     mean = round(mean(concentration_mg_kg_dw), 3),
-                     median = round(median(concentration_mg_kg_dw), 3),
-                     sd = round(sd(concentration_mg_kg_dw), 3),
-                     cv = round(sd/mean, 3),
-                     min = round(min(concentration_mg_kg_dw), 3),
-                     max = round(max(concentration_mg_kg_dw), 3)) |>
-    tidyr::pivot_longer(cols = c(mean, median, sd, cv, min, max), 
-                        names_to = "variable", 
-                        values_to = "conc_mg_kg_dw") |>
-    tidyr::pivot_wider(names_from = Nutrient,  
-                       values_from = conc_mg_kg_dw) |>
-    dplyr::select(c(Site, n, variable, 
-                  Fe, Zn, Cu, Mn, Se, Co)) |>
-    dplyr::bind_rows(scat_compo_tib |>
-                       tidyr::pivot_longer(cols = c(Fe:Co), 
-                                           names_to = "Nutrient", 
-                                           values_to = "concentration_mg_kg_dw") |>
-                       dplyr::mutate(Site = "All scats together") |>
-                       dplyr::group_by(Site, Nutrient) |>
-                       dplyr::summarise(n = dplyr::n_distinct(Code_sample), 
-                                        mean = round(mean(concentration_mg_kg_dw), 3),
-                                        median = round(median(concentration_mg_kg_dw), 3),
-                                        sd = round(sd(concentration_mg_kg_dw), 3),
-                                        cv = round(sd/mean, 3),
-                                        min = round(min(concentration_mg_kg_dw), 3),
-                                        max = round(max(concentration_mg_kg_dw), 3)) |>
-                       tidyr::pivot_longer(cols = c(mean, median, sd, cv, min, max), 
-                                           names_to = "variable", 
-                                           values_to = "conc_mg_kg_dw") |>
-                       tidyr::pivot_wider(names_from = Nutrient,  
-                                          values_from = conc_mg_kg_dw) |>
-                       dplyr::select(c(Site, n, variable, 
-                                     Fe, Zn, Cu, Mn, Se, Co)))
-  
-  openxlsx::write.xlsx(table_summary, 
-                       file = paste0("output/sites/table_summary_sites_scat_compo_data.xlsx"))
-  
-}
-
-
-
-#'
-#'
-#'
-#'
-#'
-# function to compute Mann-Whitney U Test to assess difference between 
-# concentrations in scats between sites 
-MWtest_scats_compo_sites <- function(scat_compo_tib) {
-  
-  scat_compo_tib <- scat_compo_tib |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
-                        names_to = "Nutrient", 
-                        values_to = "conc_mg_kg_dw") |> 
-    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
-                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne"),
-                  Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", "Cu", 
-                                               "Mn", "Se", "Co"))) 
-  
-  nut_vec <- unique(scat_compo_tib$Nutrient)
-  
-  list_outputs <- list()
-  
-  for (nut in nut_vec) {
-    
-    table <- scat_compo_tib |>
-      dplyr::filter(Nutrient == nut) |>
-      tidyr::pivot_wider(names_from = site, 
-                         values_from = conc_mg_kg_dw)
-    
-    CapNo <- na.omit(table$`Cap Noir`)
-    PSuz <- na.omit(table$`Pointe Suzanne`)
-    
-    nut_test <- data.frame(Nutrient = nut,  
-                           alpha_MW = wilcox.test(CapNo, PSuz)[[3]])
-    
-    list_outputs <- append(list_outputs, list(nut_test))
-  }
-  
-  
-  df_test <- data.frame(Nutrient = NA, 
-                        alpha_MW = NA)
-  
-  for (i in 1:length(nut_vec)) {
-    df_test <- rbind(df_test, list_outputs[[i]])
-  }
-  
-  # delete first line of NAs
-  df_test <- df_test[-1,]
-  
-  df_test <- df_test |>
-    dplyr::mutate(significant = dplyr::case_when(alpha_MW <= 0.05 ~ "yes", 
-                                                 TRUE ~ "no"))
-  
-  openxlsx::write.xlsx(df_test, 
-                       file = "output/sites/Mann_Whitney_test_scats_sites.xlsx")
   
 }
 
