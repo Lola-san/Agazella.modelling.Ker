@@ -542,6 +542,116 @@ table_stats_clust_per_site_full_tib <- function(list_res_clust_sites_full_tib,
 }
 
 
+#'
+#'
+#'
+#'
+#'
+# function to compute Mann-Whitney U Test to assess difference between 
+# concentration of fish in different clusters 
+MWtest_clust_k33_full_tib <- function(list_res_clust_full_tib_sites,
+                                      scat_compo_tib) {
+  
+  # assign each sample to its cluster
+  clust_vec_CN <- list_res_clust_full_tib_sites$CN$cluster
+  clust_vec_PS <- list_res_clust_full_tib_sites$PS$cluster
+  
+  scat_compo_tib_CN <- scat_compo_tib |>
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+    dplyr::filter(site == "Cap Noir") |>
+    dplyr::mutate(cluster = clust_vec_CN) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") 
+  
+  scat_compo_tib_PS <- scat_compo_tib |>
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suzanne")) |>
+    dplyr::filter(site == "Pointe Suzanne") |>
+    dplyr::mutate(cluster = clust_vec_PS) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "conc_mg_kg_dw") 
+  
+  
+  nut_vec <- unique(scat_compo_tib_CN$Nutrient)
+  
+  list_outputs <- list()
+  
+  for (nut in nut_vec) {
+    
+    table_CN <- scat_compo_tib_CN |>
+      dplyr::filter(Nutrient == nut)
+    
+    table_PS <- scat_compo_tib_PS |>
+      dplyr::filter(Nutrient == nut)
+    
+    table_CN$cluster <- factor(table_CN$cluster)
+    table_PS$cluster <- factor(table_PS$cluster)
+    
+    table_CN <- table_CN |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = conc_mg_kg_dw) 
+    
+    clust1_CN <- na.omit(table_CN$`1`)
+    clust2_CN <- na.omit(table_CN$`2`)
+    clust3_CN <- na.omit(table_CN$`3`)
+    
+    table_PS <- table_PS |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = conc_mg_kg_dw) 
+    
+    clust1_PS <- na.omit(table_PS$`1`)
+    clust2_PS <- na.omit(table_PS$`2`)
+    clust3_PS <- na.omit(table_PS$`3`)
+    
+    nut_test <- rbind(data.frame(Site = "Cap Noir",
+                                 Nutrient = rep(nut, 3), 
+                                 Cluster_comp_1 = c("1", "1", 
+                                                    "2"), 
+                                 Cluster_comp_2 = c("2", "3", 
+                                                    "3"), 
+                                 alpha_MW = c(wilcox.test(clust1_CN, clust2_CN)[[3]],
+                                              wilcox.test(clust1_CN, clust3_CN)[[3]],
+                                              
+                                              wilcox.test(clust2_CN, clust3_CN)[[3]])), 
+                      data.frame(Site = "Pointe Suzanne",
+                                 Nutrient = rep(nut, 3), 
+                                 Cluster_comp_1 = c("1", "1", 
+                                                    "2"), 
+                                 Cluster_comp_2 = c("2", "3", 
+                                                    "3"), 
+                                 alpha_MW = c(wilcox.test(clust1_PS, clust2_PS)[[3]],
+                                              wilcox.test(clust1_PS, clust3_PS)[[3]],
+                                              
+                                              wilcox.test(clust2_PS, clust3_PS)[[3]])))
+    
+    list_outputs <- append(list_outputs, list(nut_test))
+  }
+  
+  
+  df_test <- data.frame(Site = NA, 
+                        Nutrient = NA, 
+                        Cluster_comp_1 = NA,
+                        Cluster_comp_2 = NA,
+                        alpha_MW = NA)
+  
+  for (i in 1:length(nut_vec)) {
+    df_test <- rbind(df_test, list_outputs[[i]])
+  }
+  
+  # delete first line of NAs
+  df_test <- df_test[-1,] |>
+    tidyr::pivot_wider(names_from = Nutrient, 
+                       values_from = alpha_MW)
+  
+  
+  openxlsx::write.xlsx(df_test, 
+                       file = "output/sites/clustering with all nutrients/Mann_Whitney_test_clust_all_nut_compo_sites_k33.xlsx")
+  
+  
+}
 
 
 
@@ -658,7 +768,7 @@ MWtest_clust_k43_full_tib <- function(list_res_clust_full_tib_sites,
   
   
   openxlsx::write.xlsx(df_test, 
-                       file = "output/sites/clustering with all nutrients/Mann_Whitney_test_clust_all_nut_compo_sites.xlsx")
+                       file = "output/sites/clustering with all nutrients/Mann_Whitney_test_clust_all_nut_compo_sites_k43.xlsx")
   
   
 }

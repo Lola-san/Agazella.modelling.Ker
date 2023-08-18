@@ -679,12 +679,20 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
                   Nutrient = factor(Nutrient, 
                                     levels = c("P", "Fe", "Zn", 
                                                "Cu", "Mn", "Se",
-                                               "Co"))) |>
+                                               "Co")), 
+                  y_lim = dplyr::case_when(Nutrient == "P" ~ 1100,
+                                           Nutrient == "Fe" ~ 65, 
+                                           Nutrient == "Zn" ~ 4.2, 
+                                           Nutrient == "Cu" ~ 3.2, 
+                                           Nutrient == "Mn" ~ 1.7, 
+                                           Nutrient == "Se" ~ 0.7, 
+                                           Nutrient == "Co" ~ 0.06)) |>
     ggplot2::ggplot(ggplot2::aes(x = sub_scenario,
                                  y = mean,
                                  color = scenario)) +
     ggplot2::geom_line() +
     ggplot2::geom_point() +
+    ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
     ggplot2::geom_linerange(ggplot2::aes(x = sub_scenario,
                                          ymin = `10_quant`,
                                          ymax = `80_quant`,

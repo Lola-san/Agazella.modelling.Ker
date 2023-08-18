@@ -164,12 +164,310 @@ add_bootstrap_scat_data_scenarios <- function(list_output_nut_release_site,
 
 
 
+
 #'
 #'
 #'
 #'
 #
-table_percent_cluster_after_scenarios <- function(input_nut_release_scenarios_tib,
+table_percent_cluster_k33_after_scenarios <- function(input_nut_release_scenarios_tib,
+                                                      scat_compo_tib,
+                                                      list_res_clust_sites,
+                                                      site, # "Cap Noir" or "Pointe Suzanne"
+                                                      clust_test
+) {
+  
+  
+  if (site == "Cap Noir") {
+    clust_vec <- list_res_clust_sites$CN$cluster
+    
+    unique_clust_vec <- unique(clust_vec)
+    
+    scat_compo_tib <- scat_compo_tib |> 
+      dplyr::filter(stringr::str_detect(Code_sample, "CN")) |> 
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::mutate(cluster = clust_vec)
+    
+  } else if (site == "Pointe Suzanne") {
+    clust_vec <- list_res_clust_sites$PS$cluster
+    
+    unique_clust_vec <- unique(clust_vec)
+    
+    scat_compo_tib <- scat_compo_tib |> 
+      dplyr::filter(stringr::str_detect(Code_sample, "PS")) |> 
+      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co) |>
+      dplyr::mutate(cluster = clust_vec)
+    
+    
+  }
+  
+  ############### COMPILE OUTPUT WITH ALL SCENARIOS ##########################
+  rbind(
+    # with all scats taken on site
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_data_sampled_sites) |>
+      tidyr::unnest(scat_data_sampled_sites) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = "All samples from site", 
+                    subscenario = NA) |>
+      dplyr::select(c(Site, scenario, subscenario, 
+                      `1`, `2`, `3`)), 
+    # with only scat samples from one enriched cluster - 100% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario100) |>
+      tidyr::unnest(scat_boot_scenario100) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      dplyr::bind_rows(data.frame(Site = rep(site, 2), 
+                                  cluster = c(as.character(unique_clust_vec[unique_clust_vec != clust_test][1]), 
+                                              as.character(unique_clust_vec[unique_clust_vec != clust_test][2])), 
+                                  percent_cluster = rep(0, 2))) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "100%") |>
+      dplyr::select(c(Site, scenario, subscenario,  
+                      `1`, `2`, `3`)),
+    # with 90% scat samples from one enriched cluster - 90% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario90) |>
+      tidyr::unnest(scat_boot_scenario90) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "90%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 80% scat samples from one enriched cluster - 80% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario80) |>
+      tidyr::unnest(scat_boot_scenario80) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "80%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 70% scat samples from one enriched cluster - 70% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario70) |>
+      tidyr::unnest(scat_boot_scenario70) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "70%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 60% scat samples from one enriched cluster - 60% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario60) |>
+      tidyr::unnest(scat_boot_scenario60) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "60%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 50% scat samples from one enriched cluster - 50% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario50) |>
+      tidyr::unnest(scat_boot_scenario50) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu",
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "50%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 40% scat samples from one enriched cluster - 40% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario40) |>
+      tidyr::unnest(scat_boot_scenario40) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "40%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 30% scat samples from one enriched cluster - 30% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario30) |>
+      tidyr::unnest(scat_boot_scenario30) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "30%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 20% scat samples from one enriched cluster - 20% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario20) |>
+      tidyr::unnest(scat_boot_scenario20) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "20%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 10% scat samples from one enriched cluster - 10% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario10) |>
+      tidyr::unnest(scat_boot_scenario10) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "10%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`)),
+    # with 00% scat samples from one enriched cluster - 00% scenario
+    input_nut_release_scenarios_tib |>
+      dplyr::select(Site,
+                    scat_boot_scenario00) |>
+      tidyr::unnest(scat_boot_scenario00) |>
+      dplyr::left_join(scat_compo_tib, 
+                       by = c("P", "Fe", "Zn", "Cu", 
+                              "Mn", "Se", "Co")) |>
+      dplyr::select(c(Site, cluster)) |>
+      table() |>
+      as.data.frame() |>
+      dplyr::mutate(nb_samples = sum(Freq)) |>
+      dplyr::group_by(Site, cluster) |>
+      dplyr::mutate(percent_cluster = round(100*(Freq/nb_samples), 1)) |>
+      dplyr::select(c(Site, cluster, percent_cluster)) |>
+      dplyr::bind_rows(data.frame(Site = site, 
+                                  cluster = as.character(unique_clust_vec[unique_clust_vec == clust_test]), 
+                                  percent_cluster = 0)) |>
+      tidyr::pivot_wider(names_from = cluster, 
+                         values_from = percent_cluster) |>
+      dplyr::mutate(scenario = clust_test, 
+                    subscenario = "00%") |>
+      dplyr::select(c(Site, scenario, subscenario, `1`, `2`, `3`))
+  ) 
+  
+  
+  
+}
+
+
+
+
+
+#'
+#'
+#'
+#'
+#
+table_percent_cluster_k43_after_scenarios <- function(input_nut_release_scenarios_tib,
                                                   scat_compo_tib,
                                                   list_res_clust_sites,
                                                   site, # "Cap Noir" or "Pointe Suzanne"

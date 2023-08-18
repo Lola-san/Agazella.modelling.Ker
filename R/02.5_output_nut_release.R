@@ -33,11 +33,18 @@ nut_per_site_tot_period <- function(list_output_nut_release) {
     dplyr::group_by(Site, scat_compo, Nutrient) |>
     dplyr::summarise(min = min(tot_pop_release_period_kg), 
                      mean = mean(tot_pop_release_period_kg), 
-                     `10_quant` = quantile(tot_pop_release_period_kg, 
-                                           probs = c(0.1)),
-                     `80_quant` = quantile(tot_pop_release_period_kg, 
-                                           probs = c(0.8)), 
+                     `2.5_quant` = quantile(tot_pop_release_period_kg, 
+                                           probs = c(0.025)),
+                     `97.5_quant` = quantile(tot_pop_release_period_kg, 
+                                           probs = c(0.975)), 
                      max = max(tot_pop_release_period_kg)) |>
+    dplyr::mutate(y_lim = dplyr::case_when(Nutrient == "P" ~ 500,
+                                           Nutrient == "Fe" ~ 35, 
+                                           Nutrient == "Zn" ~ 3.9, 
+                                           Nutrient == "Cu" ~ 1.9, 
+                                           Nutrient == "Mn" ~ 0.9, 
+                                           Nutrient == "Se" ~ 0.3, 
+                                           Nutrient == "Co" ~ 0.03)) |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Site, 
                                    y = mean, 
@@ -45,13 +52,14 @@ nut_per_site_tot_period <- function(list_output_nut_release) {
                       stat = "identity", 
                       position = ggplot2::position_dodge(width = 1)) +
     ggplot2::geom_linerange(ggplot2::aes(x = Site, 
-                                         ymin = `10_quant`, 
-                                         ymax = `80_quant`), 
-                            color = "black",
+                                         ymin = `2.5_quant`, 
+                                         ymax = `97.5_quant`), 
+                            color = "darkgrey",
                             position = ggplot2::position_dodge2(width = 1)) +
     ggplot2::scale_fill_manual(values = c("#353839",
                                           "#AE93BEFF")) +
     ggplot2::facet_wrap(~ Nutrient, scales = "free_y") +
+    ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
     ggplot2::ggtitle("With all scat samples mixed") +
     ggplot2::ylab("Total nutrient released\nin feces during breeding\nand moulting period (in kg)") +
     ggplot2::theme_bw() +
@@ -88,11 +96,18 @@ nut_per_site_tot_period <- function(list_output_nut_release) {
     dplyr::group_by(Site, scat_compo, Nutrient) |>
     dplyr::summarise(min = min(tot_pop_release_period_kg), 
                      mean = mean(tot_pop_release_period_kg), 
-                     `10_quant` = quantile(tot_pop_release_period_kg, 
-                                           probs = c(0.1)),
-                     `80_quant` = quantile(tot_pop_release_period_kg, 
-                                           probs = c(0.8)), 
+                     `2.5_quant` = quantile(tot_pop_release_period_kg, 
+                                           probs = c(0.025)),
+                     `97.5_quant` = quantile(tot_pop_release_period_kg, 
+                                           probs = c(0.975)), 
                      max = max(tot_pop_release_period_kg)) |>
+    dplyr::mutate(y_lim = dplyr::case_when(Nutrient == "P" ~ 500,
+                                           Nutrient == "Fe" ~ 35, 
+                                           Nutrient == "Zn" ~ 3.9, 
+                                           Nutrient == "Cu" ~ 1.9, 
+                                           Nutrient == "Mn" ~ 0.9, 
+                                           Nutrient == "Se" ~ 0.3, 
+                                           Nutrient == "Co" ~ 0.03)) |>
     ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = Site, 
                                    y = mean, 
@@ -100,13 +115,14 @@ nut_per_site_tot_period <- function(list_output_nut_release) {
                       stat = "identity", 
                       position = ggplot2::position_dodge(width = 1)) +
     ggplot2::geom_linerange(ggplot2::aes(x = Site, 
-                                         ymin = `10_quant`, 
-                                         ymax = `80_quant`), 
-                            color = "black",
+                                         ymin = `2.5_quant`, 
+                                         ymax = `97.5_quant`), 
+                            color = "darkgrey",
                             position = ggplot2::position_dodge2(width = 1)) +
     ggplot2::scale_fill_manual(values = c("#353839",
                                           "#AE93BEFF")) +
     ggplot2::facet_wrap(~ Nutrient, scales = "free_y") +
+    ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
     ggplot2::ggtitle("With scat samples separated per site") +
     ggplot2::ylab("Total nutrient released\nin feces during breeding\nand moulting period (in kg)") +
     ggplot2::theme_bw() +
