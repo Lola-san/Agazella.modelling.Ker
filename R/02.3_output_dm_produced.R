@@ -12,10 +12,20 @@
 #'
 #'
 #
-dm_per_site_period <- function(list_output_dm) {
+dm_per_site_period <- function(output_dm_CN, 
+                               output_dm_PS) {
   
   
-  rbind(list_output_dm$CN, list_output_dm$PS) |>
+  rbind(output_dm_CN |>
+          dplyr::select(c(Site, 
+                        release_dm_pop_tot_period,  
+                        release_dm_pop_on_land_period, 
+                        release_dm_pop_at_sea_period)), 
+        output_dm_PS |>
+          dplyr::select(c(Site, 
+                        release_dm_pop_tot_period,  
+                        release_dm_pop_on_land_period, 
+                        release_dm_pop_at_sea_period))) |>
     dplyr::group_by(Site) |>
     tidyr::pivot_longer(cols = c(release_dm_pop_tot_period, 
                                  release_dm_pop_on_land_period, 
@@ -74,9 +84,15 @@ dm_per_site_period <- function(list_output_dm) {
 #'
 # function to compute Mann-Whitney U Test to assess difference between 
 # concentration of fish in different habitats 
-MWtest_test_dm_sites_tot_period <- function(list_output_dm) {
+test_diff_dm_sites_tot_period <- function(output_dm_CN,
+                                          output_dm_PS) {
   
-  table_test <- rbind(list_output_dm$CN, list_output_dm$PS) |>
+  table_test <- rbind(output_dm_CN |>
+                         dplyr::select(c(Site, 
+                                         release_dm_pop_tot_period)), 
+                      output_dm_PS |>
+                        dplyr::select(c(Site, 
+                                        release_dm_pop_tot_period))) |>
     dplyr::select(Site, release_dm_pop_tot_period) |>
     dplyr::group_by(Site) |>
     tidyr::unnest(release_dm_pop_tot_period) |>
@@ -92,5 +108,196 @@ MWtest_test_dm_sites_tot_period <- function(list_output_dm) {
   
   openxlsx::write.xlsx(table_test, 
                        file = paste0("output/sites/test_differences_sites_dm.xlsx"))
+  
+}
+
+
+
+#'
+#'
+#'
+#'
+#'
+#' function to generate supplementary material table with all parameters summary values
+table_model_param <- function(output_dm_CN,
+                              output_dm_PS) {
+  
+  options(scipen = 999)
+  
+  # get rid of heavy outputs that are not needed here 
+  # to lighten the data
+  output_dm_CN <- output_dm_CN |>
+      dplyr::select(-c(conso_food_dm_ind_daily,
+                       # keep release_dm_ind_period_tot
+                       release_dm_ind_period_sea, 
+                       release_dm_ind_period_land,
+                       release_dm_pop_tot_period,
+                       release_dm_pop_on_land_period,
+                       release_dm_pop_at_sea_period,
+                       release_dm_pop_tot_period
+      )) 
+  output_dm_PS <- output_dm_PS |>
+      dplyr::select(-c(conso_food_dm_ind_daily,
+                       # keep release_dm_ind_period_tot
+                       release_dm_ind_period_sea, 
+                       release_dm_ind_period_land,
+                       release_dm_pop_tot_period,
+                       release_dm_pop_on_land_period,
+                       release_dm_pop_at_sea_period,
+                       release_dm_pop_tot_period
+      ))
+  
+  
+  table_summary_model_param <- output_dm_CN |>
+    dplyr::select(c(Site, simu_count)) |>
+    dplyr::group_by(Site) |>
+    dplyr::summarize(min = round(min(simu_count), 0),
+                     `2.5_quant` = round(quantile(simu_count, probs = c(0.025)), 0),
+                     mean = round(mean(simu_count), 0),
+                     median = round(median(simu_count), 0),
+                     `97.5_quant` = round(quantile(simu_count, probs = c(0.975)), 0),
+                     max = round(max(simu_count), 0)) |>
+    dplyr::mutate(Parameter = "Abundance on colony") |>
+    # next parameters
+    dplyr::bind_rows(output_dm_PS |>
+                       dplyr::select(c(Site, simu_count)) |>
+                       dplyr::group_by(Site) |>
+                       dplyr::summarize(min = round(min(simu_count), 0),
+                                        `2.5_quant` = round(quantile(simu_count, probs = c(0.025)), 0),
+                                        mean = round(mean(simu_count), 0),
+                                        median = round(median(simu_count), 0),
+                                        `97.5_quant` = round(quantile(simu_count, probs = c(0.975)), 0),
+                                        max = round(max(simu_count), 0)) |>
+                       dplyr::mutate(Parameter = "Abundance on colony"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(BM), 
+                           output_dm_PS |>
+                             dplyr::select(BM)) |>
+                       tidyr::unnest(BM) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "Body mass (kg)"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(Beta_land), 
+                           output_dm_PS |>
+                             dplyr::select(Beta_land)) |>
+                       tidyr::unnest(Beta_land) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "Beta_land"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(Beta_sea), 
+                           output_dm_PS |>
+                             dplyr::select(Beta_sea)) |>
+                       tidyr::unnest(Beta_sea) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "Beta_sea"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(NRJ_diet), 
+                           output_dm_PS |>
+                             dplyr::select(NRJ_diet)) |>
+                       tidyr::unnest(NRJ_diet) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "mean energy content of diet (kJ/kg)"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(dm_ration), 
+                           output_dm_PS |>
+                             dplyr::select(dm_ration)) |>
+                       tidyr::unnest(dm_ration) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "% of dry matter in ration"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(dm_release), 
+                           output_dm_PS |>
+                             dplyr::select(dm_release)) |>
+                       tidyr::unnest(dm_release) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "dry matter release rate"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(duration_of_stay), 
+                           output_dm_PS |>
+                             dplyr::select(duration_of_stay)) |>
+                       tidyr::unnest(duration_of_stay) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "Duration of stay (days)"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(time_on_land), 
+                           output_dm_PS |>
+                             dplyr::select(time_on_land)) |>
+                       tidyr::unnest(time_on_land) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2)) |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = "% of time spent on land"),
+                     rbind(output_dm_CN |>
+                             dplyr::select(Indi_data), 
+                           output_dm_PS |>
+                             dplyr::select(Indi_data)) |>
+                       tidyr::unnest(Indi_data) |>
+                       tidyr::pivot_longer(cols = c(ADMR_land:PercentBM),
+                                           names_to = "Parameter",
+                                           values_to = "value") |>
+                       dplyr::mutate(Site = NA, 
+                                     Parameter = dplyr::case_when(Parameter == "A_rate" ~ "Assimilation rate",
+                                                                  Parameter == "PercentBM" ~ "% of body mass (daily ration)",
+                                                                  Parameter == "Ration" ~ "Daily ration (kg)",
+                                                                  Parameter == "ADMR_land" ~ "Average Daily Metabolic Rate (land) (kJ)",
+                                                                  Parameter == "ADMR_sea" ~ "Average Daily Metabolic Rate (sea) (kJ)")) |>
+                       dplyr::group_by(Site, Parameter) |>
+                       dplyr::summarize(min = round(min(value), 2),
+                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
+                                        mean = round(mean(value), 2),
+                                        median = round(median(value), 2),
+                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
+                                        max = round(max(value), 2))
+    )
+  
+  openxlsx::write.xlsx(table_summary_model_param,
+                       file = "output/sites/table_summary_model_parameters.xlsx")
+  
   
 }

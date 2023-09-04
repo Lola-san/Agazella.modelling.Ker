@@ -12,12 +12,16 @@
 #'
 #'
 #
-nut_per_site_tot_period <- function(list_output_nut_release) {
+nut_per_site_tot_period <- function(output_nut_release_CN, 
+                                    output_nut_release_PS) {
   
   # first with all scats mixed 
-  rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-    dplyr::select(Site, 
-                  release_nut_pop_tot_period_all_scats) |>
+  rbind(output_nut_release_CN |>
+          dplyr::select(c(Site, 
+                        release_nut_pop_tot_period_all_scats)), 
+        output_nut_release_PS |>
+          dplyr::select(c(Site, 
+                        release_nut_pop_tot_period_all_scats))) |>
     tidyr::unnest(release_nut_pop_tot_period_all_scats) |>
     tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
@@ -78,9 +82,12 @@ nut_per_site_tot_period <- function(list_output_nut_release) {
   )
   
   # then with scat samples separated per site 
-  rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-    dplyr::select(Site, 
-                  release_nut_pop_tot_period_sites) |>
+  rbind(output_nut_release_CN |>
+          dplyr::select(c(Site, 
+                          release_nut_pop_tot_period_sites)), 
+        output_nut_release_PS |>
+          dplyr::select(c(Site, 
+                          release_nut_pop_tot_period_sites))) |>
     tidyr::unnest(release_nut_pop_tot_period_sites) |>
     tidyr::pivot_longer(cols = c(P:Co), 
                         names_to = "Nutrient", 
@@ -148,13 +155,17 @@ nut_per_site_tot_period <- function(list_output_nut_release) {
 #'
 #'
 #
-table_nut_per_site_sea_land_period <- function(list_output_nut_release) {
+table_nut_per_site_sea_land_period <- function(output_nut_release_CN, 
+                                               output_nut_release_PS) {
   
   table_summary <- rbind(
     # first with all scat samples mixed
-    rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-      dplyr::select(Site, 
-                    release_nut_pop_tot_period_land_all_scats) |>
+    rbind(output_nut_release_CN |>
+            dplyr::select(Site, 
+                          release_nut_pop_tot_period_land_all_scats), 
+          output_nut_release_PS |>
+            dplyr::select(Site, 
+                          release_nut_pop_tot_period_land_all_scats)) |>
       tidyr::unnest(release_nut_pop_tot_period_land_all_scats) |>
       tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
@@ -169,9 +180,12 @@ table_nut_per_site_sea_land_period <- function(list_output_nut_release) {
                           names_to = "variable", 
                           values_to = "estimates") |>
       dplyr::bind_rows(
-        rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-          dplyr::select(Site, 
-                        release_nut_pop_tot_period_sea_all_scats) |>
+        rbind(output_nut_release_CN |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_sea_all_scats), 
+              output_nut_release_PS |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_sea_all_scats)) |>
           tidyr::unnest(release_nut_pop_tot_period_sea_all_scats) |>
           tidyr::pivot_longer(cols = c(P:Co), 
                               names_to = "Nutrient", 
@@ -186,9 +200,12 @@ table_nut_per_site_sea_land_period <- function(list_output_nut_release) {
                               names_to = "variable", 
                               values_to = "estimates")) |>
       dplyr::bind_rows(
-        rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-          dplyr::select(Site, 
-                        release_nut_pop_tot_period_all_scats) |>
+        rbind(output_nut_release_CN |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_all_scats), 
+              output_nut_release_PS |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_all_scats)) |>
           tidyr::unnest(release_nut_pop_tot_period_all_scats) |>
           tidyr::pivot_longer(cols = c(P:Co), 
                               names_to = "Nutrient", 
@@ -228,9 +245,12 @@ table_nut_per_site_sea_land_period <- function(list_output_nut_release) {
       dplyr::select(c(scat_compo, Site, level, variable,  
                       P, Fe, Zn, Cu, Mn, Se, Co)),
     # then with scat samples separated per site 
-    rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-      dplyr::select(Site, 
-                    release_nut_pop_tot_period_land_sites) |>
+    rbind(output_nut_release_CN |>
+            dplyr::select(Site, 
+                          release_nut_pop_tot_period_land_sites), 
+          output_nut_release_PS |>
+            dplyr::select(Site, 
+                          release_nut_pop_tot_period_land_sites)) |>
       tidyr::unnest(release_nut_pop_tot_period_land_sites) |>
       tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
@@ -245,9 +265,12 @@ table_nut_per_site_sea_land_period <- function(list_output_nut_release) {
                           names_to = "variable", 
                           values_to = "estimates") |>
       dplyr::bind_rows(
-        rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-          dplyr::select(Site, 
-                        release_nut_pop_tot_period_sea_sites) |>
+        rbind(output_nut_release_CN |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_sea_sites), 
+              output_nut_release_PS |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_sea_sites)) |>
           tidyr::unnest(release_nut_pop_tot_period_sea_sites) |>
           tidyr::pivot_longer(cols = c(P:Co), 
                               names_to = "Nutrient", 
@@ -262,9 +285,12 @@ table_nut_per_site_sea_land_period <- function(list_output_nut_release) {
                               names_to = "variable", 
                               values_to = "estimates")) |>
       dplyr::bind_rows(
-        rbind(list_output_nut_release$CN, list_output_nut_release$PS) |>
-          dplyr::select(Site, 
-                        release_nut_pop_tot_period_sites) |>
+        rbind(output_nut_release_CN |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_sites), 
+              output_nut_release_PS |>
+                dplyr::select(Site, 
+                              release_nut_pop_tot_period_sites)) |>
           tidyr::unnest(release_nut_pop_tot_period_sites) |>
           tidyr::pivot_longer(cols = c(P:Co), 
                               names_to = "Nutrient", 
@@ -318,14 +344,17 @@ table_nut_per_site_sea_land_period <- function(list_output_nut_release) {
 #'
 #'
 #
-test_nut_sites_tot_period <- function(list_output_nut_release) {
+test_nut_sites_tot_period <- function(output_nut_release_CN, 
+                                      output_nut_release_PS) {
   
   table_test <- rbind(
     # first with scats separated per site
-    rbind(list_output_nut_release$CN, 
-          list_output_nut_release$PS) |>
-      dplyr::select(Site, 
-                    release_nut_pop_tot_period_sites) |>
+    rbind(output_nut_release_CN |>
+            dplyr::select(Site, 
+                          release_nut_pop_tot_period_sites), 
+          output_nut_release_PS |>
+            dplyr::select(Site, 
+                          release_nut_pop_tot_period_sites)) |>
       tidyr::unnest(release_nut_pop_tot_period_sites) |>
       tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
@@ -347,10 +376,12 @@ test_nut_sites_tot_period <- function(list_output_nut_release) {
       tidyr::pivot_wider(names_from = Nutrient, 
                          values_from = test_nut_sites),
     # then with all scats mixed 
-    table_test_all_scats <- rbind(list_output_nut_release$CN, 
-                                  list_output_nut_release$PS) |>
-      dplyr::select(Site, 
-                    release_nut_pop_tot_period_all_scats) |>
+    table_test_all_scats <- rbind(output_nut_release_CN |>
+                                    dplyr::select(Site, 
+                                                  release_nut_pop_tot_period_all_scats), 
+                                  output_nut_release_PS |>
+                                    dplyr::select(Site, 
+                                                  release_nut_pop_tot_period_all_scats)) |>
       tidyr::unnest(release_nut_pop_tot_period_all_scats) |>
       tidyr::pivot_longer(cols = c(P:Co), 
                           names_to = "Nutrient", 
@@ -378,147 +409,3 @@ test_nut_sites_tot_period <- function(list_output_nut_release) {
   
 }
 
-
-#'
-#'
-#'
-#'
-#'
-#' function to generate supplementary material table with all parameters summary values
-table_model_param <- function(list_output_nut_release) {
-  
-  options(scipen = 999)
-  
-  table_summary_model_param <- list_output_nut_release$CN  |>
-    dplyr::summarize(min = round(min(simu_count), 0),
-                     `2.5_quant` = round(quantile(simu_count, probs = c(0.025)), 0),
-                     mean = round(mean(simu_count), 0),
-                     median = round(median(simu_count), 0),
-                     `97.5_quant` = round(quantile(simu_count, probs = c(0.975)), 0),
-                     max = round(max(simu_count), 0)) |>
-    dplyr::mutate(Site = "Cap Noir", 
-                  Parameter = "Abundance on colony") |>
-    # next parameters
-    dplyr::bind_rows(list_output_nut_release$PS  |>
-                       dplyr::summarize(min = round(min(simu_count), 0),
-                                        `2.5_quant` = round(quantile(simu_count, probs = c(0.025)), 0),
-                                        mean = round(mean(simu_count), 0),
-                                        median = round(median(simu_count), 0),
-                                        `97.5_quant` = round(quantile(simu_count, probs = c(0.975)), 0),
-                                        max = round(max(simu_count), 0)) |>
-                       dplyr::mutate(Site = "Pointe Suzanne", 
-                                     Parameter = "Abundance on colony"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(BM) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "Body mass (kg)"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(Beta_land) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "Beta_land"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(Beta_sea) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "Beta_sea"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(NRJ_diet) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "mean energy content of diet (kJ/kg)"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(dm_ration) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "% of dry matter in ration"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(dm_release) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "dry matter release rate"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(duration_of_stay) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "Duration of stay (days)"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(time_on_land) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2)) |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = "% of time spent on land"),
-                     rbind(list_output_nut_release$CN, 
-                           list_output_nut_release$PS) |>
-                       tidyr::unnest(Indi_data) |>
-                       tidyr::pivot_longer(cols = c(ADMR_land:PercentBM),
-                                           names_to = "Parameter",
-                                           values_to = "value") |>
-                       dplyr::mutate(Site = NA, 
-                                     Parameter = dplyr::case_when(Parameter == "A_rate" ~ "Assimilation rate",
-                                                                  Parameter == "PercentBM" ~ "% of body mass (daily ration)",
-                                                                  Parameter == "Ration" ~ "Daily ration (kg)",
-                                                                  Parameter == "ADMR_land" ~ "Average Daily Metabolic Rate (land) (kJ)",
-                                                                  Parameter == "ADMR_sea" ~ "Average Daily Metabolic Rate (sea) (kJ)")) |>
-                       dplyr::group_by(Site, Parameter) |>
-                       dplyr::summarize(min = round(min(value), 2),
-                                        `2.5_quant` = round(quantile(value, probs = c(0.025)), 2),
-                                        mean = round(mean(value), 2),
-                                        median = round(median(value), 2),
-                                        `97.5_quant` = round(quantile(value, probs = c(0.975)), 2),
-                                        max = round(max(value), 2))
-    )
-  
-  openxlsx::write.xlsx(table_summary_model_param,
-                       file = "output/sites/table_summary_model_parameters.xlsx")
-  
-  
-}

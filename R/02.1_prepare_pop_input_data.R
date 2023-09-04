@@ -27,39 +27,41 @@ Ker_summarise_count_data <- function(count_raw_tib) {
   rbind(
     # Cap Noir
     count_raw_tib |>
-      dplyr::filter(site == "Cap Noir",
-                    species == "A. gazella",
-                    status == "pups", 
-                    comment == "with beach") |>
-      dplyr::rename(Site = site) |>
-      dplyr::group_by(Site, operator, date) |>
-      dplyr::summarise(min_count = sum(count)), #|>
-      # dplyr::select(site, operator, sum_site),
+      dplyr::filter(Site == "Cap Noir",
+                    species == "fur seal",
+                    status == "pups") |>
+      dplyr::group_by(Site, operator, date, land_beach) |>
+      dplyr::summarise(int_sum_count = sum(count)) |>
+      # first count by LG was very low and is excluded
+      # TJDD count started with separation land and land + beach, but then only 
+      # land + beach, and only TJDD counted the river part, so for TJDD counts
+      # we exclude the sum for land, and we sum the land_beach and 
+      # the river part 
+      dplyr::filter(date != lubridate::ymd("2023-01-14"), 
+                    !(operator == "TJDD" & land_beach == "land")) |>
+      dplyr::group_by(Site, operator) |>
+      dplyr::summarise(sum_count = sum(int_sum_count)) |>
+      dplyr::select(Site, sum_count),
+    
     # Pointe Suzanne
     count_raw_tib |>
-      dplyr::filter(site == "Pointe Suzanne", 
-                    species == "A. gazella", 
-                    status == "pups", 
-                    comment == "with beach") |>
-      dplyr::rename(Site = site) |>
-      dplyr::group_by(Site, operator, date) |>
-      dplyr::summarise(min_count = sum(count)) #|>
-      # tidyr::pivot_wider(names_from = c(operator, date), 
-      #                    values_from = sum_site, 
-      #                    names_sep = "_") 
-      # dplyr::mutate(LG = `LG_2022-12-31` + `LG_2023-01-04`, 
-      #               MC_LG = `MC_2022-12-31` + `LG_2023-01-04`, 
-      #               TJDD_LG = `TJDD_2022-12-31` + `LG_2023-01-04`) |>
-      # tidyr::pivot_longer(cols = c(LG, MC_LG, TJDD_LG), 
-      #                     names_to = "operator",
-      #                     values_to = "sum_site") |>
-      # dplyr::select(c(site, operator, sum_site))
-  ) # |>
-    # dplyr::group_by(site) |>
-    # dplyr::summarise(min_count = min(sum_site),
-    #                  mean_count = round(mean(sum_site), 0),
-    #                  max_count = max(sum_site)) |>
-    # dplyr::rename(Site = site)
+      dplyr::filter(Site == "Pointe Suzanne", 
+                    species == "fur seal", 
+                    status == "pups") |>
+      dplyr::group_by(Site, operator, date, land_beach) |>
+      dplyr::summarise(int_sum_count = sum(count)) |>
+      # count of 2023/12/31 did not cover the entire colony and was excluded
+      # and only one pup count the 2023/01/10 (TJDD sector 4), so was excluded too
+      # and LG did only count on sector 3 on the 2023-01-04, so was excluded too 
+      dplyr::filter(date != lubridate::ymd("2022-12-31"), 
+                    date != lubridate::ymd("2023-01-10"), 
+                    operator != "LG") |>
+      # MC and TJDD did separated counts for the beach and land parts on the 
+      # two remaining dates, so the total are the sum of their two counts
+      dplyr::group_by(Site, date) |>
+      dplyr::summarise(sum_count = sum(int_sum_count)) |>
+      dplyr::select(Site, sum_count)
+  ) 
   
    
 
@@ -73,9 +75,7 @@ Ker_summarise_count_data <- function(count_raw_tib) {
 simulate_count_data <- function(counts_summmarise_pups_tib) {
   
   counts_summmarise_pups_tib |>
-    dplyr::mutate(max_count = min_count + 0.2*min_count) |>
-        tidyr::nest(initial_counts = c(operator, date, 
-                                       min_count, max_count))
+    tidyr::nest(initial_counts = sum_count)
   
 }
 
@@ -91,8 +91,9 @@ pop_data_for_simulations <- function(pop_count_tib,
   tib_both_sites <- pop_count_tib |>
     dplyr::mutate(pop_count = seq_along(initial_counts) |>
                     purrr::map(~ tibble::tibble(simu_count = round(runif(n = nsim,  
-                                                                         min = purrr::pluck(initial_counts, ., "min_count"), 
-                                                                         max = purrr::pluck(initial_counts, ., "max_count")), 
+                                                                         min = min(purrr::pluck(initial_counts, ., "sum_count")), 
+                                                                         max = max(purrr::pluck(initial_counts, ., "sum_count")) +
+                                                                           0.2*max(purrr::pluck(initial_counts, ., "sum_count"))), 
                                                                    0)))) |>
     tidyr::unnest(pop_count) |>
     dplyr::mutate(BM = seq_along(initial_counts) |>
@@ -113,7 +114,7 @@ pop_data_for_simulations <- function(pop_count_tib,
                                                                              sd = 0.1, 
                                                                              a = 2, 
                                                                              b = 4.5))), 
-                  NRJ_diet = seq_along(initial_counts) |> # mean diet energy content from TJDD2015
+                  NRJ_diet = seq_along(initial_counts) |> # mean diet energy content from TJDD2017, PloS ONE
                     purrr::map(~ tibble::as_tibble_col(truncnorm::rtruncnorm(n = purrr::pluck(simu_count, .), 
                                                                              mean = 7.75*1e3, # kJ per g to kJ per kg
                                                                              sd = 2.47*1e3, 

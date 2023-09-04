@@ -169,6 +169,21 @@ compute_nut_release_scenarios <- function(input_tib_with_scenarios) {
                      tidyr::pivot_wider(names_from = Nutrient, 
                                         values_from = pop_tot_release_period) |> 
                      dplyr::select(P, Fe, Zn, Cu, Mn, Se, Co))
-    )
+    ) |>
+    # now clean up the dataset and keep only what's needed
+    dplyr::select(c(Site, 
+                    simu_count,
+                    release_nut_pop_tot_period_sites, 
+                    release_nut_pop_tot_period_scenario00,
+                    release_nut_pop_tot_period_scenario10, 
+                    release_nut_pop_tot_period_scenario20, 
+                    release_nut_pop_tot_period_scenario30, 
+                    release_nut_pop_tot_period_scenario40, 
+                    release_nut_pop_tot_period_scenario50, 
+                    release_nut_pop_tot_period_scenario60, 
+                    release_nut_pop_tot_period_scenario70, 
+                    release_nut_pop_tot_period_scenario80, 
+                    release_nut_pop_tot_period_scenario90, 
+                    release_nut_pop_tot_period_scenario100))
 
 }
