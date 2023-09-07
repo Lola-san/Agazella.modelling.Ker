@@ -210,11 +210,11 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
                                                  "Co")), 
                     y_lim = dplyr::case_when(Nutrient == "P" ~ 142000,
                                              Nutrient == "Fe" ~ 18000, 
-                                            Nutrient == "Zn" ~ 1175, 
-                                            Nutrient == "Cu" ~ 850, 
-                                            Nutrient == "Mn" ~ 420, 
-                                            Nutrient == "Se" ~ 135, 
-                                            Nutrient == "Co" ~ 14)) |> 
+                                             Nutrient == "Zn" ~ 1175, 
+                                             Nutrient == "Cu" ~ 850, 
+                                             Nutrient == "Mn" ~ 420, 
+                                             Nutrient == "Se" ~ 135, 
+                                             Nutrient == "Co" ~ 14)) |> 
       ggplot2::ggplot() +
       ggplot2::geom_boxplot(ggplot2::aes(x = cluster, y = conc_mg_kg_dw, 
                                          fill = factor(cluster)), 
@@ -329,108 +329,108 @@ boxplot_compo_clust_full_tib <- function(clust_full_tib_output,
 barplot_nut_scat_compo_relative_clust <- function(clust_full_tib_output,
                                                   scat_compo_tib,  
                                                   type # "sites" if one/site or "all" if all together
-                                                  ) {
+) {
   
   if (type == "sites") {
-  # Cap Noir
-  clust_vec_CN <- clust_full_tib_output$CN$cluster
-
-  scat_compo_tib |>
-    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
-                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
-    dplyr::filter(site == "Cap Noir") |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
-                  cluster = clust_vec_CN) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
-                        names_to = "Nutrient", 
-                        values_to = "conc_mg_kg_dw") |> 
-    dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
-                                               "Cu", "Mn", "Se",
-                                               "Co")), 
-                  conc_relative = conc_mg_kg_dw/sum_nut) |> 
-    ggplot2::ggplot() +
-    ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
-                                   fill = factor(cluster)), 
-                      stat = "identity", 
-                      position = ggplot2::position_dodge(1)) +
-    ggplot2::facet_wrap(~ Code_sample) + 
-    ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
-                                          "2" = "#1D2645FF",
-                                          "3" = "#D8AF39FF", 
-                                          "4" = "#AE93BEFF")) +
-    ggplot2::ggtitle("Cap Noir") +
-    ggplot2::ylab("Relative proportion in scats") +
-    ggplot2::xlab("Nutrient") +
-    ggplot2::theme_bw() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(size = 14), 
-                   axis.text.y = ggplot2::element_text(size = 14), 
-                   title = ggplot2::element_text(size = 17, 
-                                                 face = "bold"),
-                   axis.title.x = ggplot2::element_text(size = 16, 
-                                                        face = "bold"), 
-                   axis.title.y = ggplot2::element_text(size = 16, 
-                                                        face = "bold"),
-                   strip.text.x = ggplot2::element_blank(),
-                   legend.position = "none")
-  ggplot2::ggsave("output/sites/clustering with all nutrients/scat_compo_rel_comp__with clusters_CapNoir_Agazella.jpg",
-                  scale = 1,
-                  height = 6, width = 12
-  )
-  
-  # Pointe Suzanne
-  clust_vec_PS <- clust_full_tib_output$PS$cluster
-  
-  scat_compo_tib |>
-    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
-                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
-    dplyr::filter(site == "Pointe Suz") |>
-    dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
-                  cluster = clust_vec_PS) |>
-    tidyr::pivot_longer(cols = c(Fe:Co), 
-                        names_to = "Nutrient", 
-                        values_to = "conc_mg_kg_dw") |> 
-    dplyr::mutate(Nutrient = factor(Nutrient, 
-                                    levels = c("Fe", "Zn", 
-                                               "Cu", "Mn", "Se",
-                                               "Co")), 
-                  conc_relative = conc_mg_kg_dw/sum_nut) |> 
-    ggplot2::ggplot() +
-    ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
-                                   fill = factor(cluster)), 
-                      stat = "identity", 
-                      position = ggplot2::position_dodge(1)) +
-    ggplot2::facet_wrap(~ Code_sample) + 
-    ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
-                                          "2" = "#1D2645FF",
-                                          "3" = "#D8AF39FF", 
-                                          "4" = "#AE93BEFF")) +
-    ggplot2::ggtitle("Pointe Suzanne") +
-    ggplot2::ylab("Relative proportion in scats") +
-    ggplot2::xlab("Nutrient") +
-    ggplot2::theme_bw() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(size = 14), 
-                   axis.text.y = ggplot2::element_text(size = 14),
-                   title = ggplot2::element_text(size = 17, 
-                                                 face = "bold"),
-                   axis.title.x = ggplot2::element_text(size = 16, 
-                                                        face = "bold"), 
-                   axis.title.y = ggplot2::element_text(size = 16, 
-                                                        face = "bold"),
-                   strip.text.x = ggplot2::element_blank(),
-                   legend.position = "none")
-  ggplot2::ggsave("output/sites/clustering with all nutrients/scat_compo_rel_comp_with_clusters_PSuz_Agazella.jpg",
-                  scale = 1,
-                  height = 6, width = 12
-  )
-  
-  
+    # Cap Noir
+    clust_vec_CN <- clust_full_tib_output$CN$cluster
+    
+    scat_compo_tib |>
+      dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                            stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+      dplyr::filter(site == "Cap Noir") |>
+      dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
+                    cluster = clust_vec_CN) |>
+      tidyr::pivot_longer(cols = c(Fe:Co), 
+                          names_to = "Nutrient", 
+                          values_to = "conc_mg_kg_dw") |> 
+      dplyr::mutate(Nutrient = factor(Nutrient, 
+                                      levels = c("Fe", "Zn", 
+                                                 "Cu", "Mn", "Se",
+                                                 "Co")), 
+                    conc_relative = conc_mg_kg_dw/sum_nut) |> 
+      ggplot2::ggplot() +
+      ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
+                                     fill = factor(cluster)), 
+                        stat = "identity", 
+                        position = ggplot2::position_dodge(1)) +
+      ggplot2::facet_wrap(~ Code_sample) + 
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
+      ggplot2::ggtitle("Cap Noir") +
+      ggplot2::ylab("Relative proportion in scats") +
+      ggplot2::xlab("Nutrient") +
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 14), 
+                     axis.text.y = ggplot2::element_text(size = 14), 
+                     title = ggplot2::element_text(size = 17, 
+                                                   face = "bold"),
+                     axis.title.x = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     axis.title.y = ggplot2::element_text(size = 16, 
+                                                          face = "bold"),
+                     strip.text.x = ggplot2::element_blank(),
+                     legend.position = "none")
+    ggplot2::ggsave("output/sites/clustering with all nutrients/scat_compo_rel_comp__with clusters_CapNoir_Agazella.jpg",
+                    scale = 1,
+                    height = 6, width = 12
+    )
+    
+    # Pointe Suzanne
+    clust_vec_PS <- clust_full_tib_output$PS$cluster
+    
+    scat_compo_tib |>
+      dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                            stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+      dplyr::filter(site == "Pointe Suz") |>
+      dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
+                    cluster = clust_vec_PS) |>
+      tidyr::pivot_longer(cols = c(Fe:Co), 
+                          names_to = "Nutrient", 
+                          values_to = "conc_mg_kg_dw") |> 
+      dplyr::mutate(Nutrient = factor(Nutrient, 
+                                      levels = c("Fe", "Zn", 
+                                                 "Cu", "Mn", "Se",
+                                                 "Co")), 
+                    conc_relative = conc_mg_kg_dw/sum_nut) |> 
+      ggplot2::ggplot() +
+      ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
+                                     fill = factor(cluster)), 
+                        stat = "identity", 
+                        position = ggplot2::position_dodge(1)) +
+      ggplot2::facet_wrap(~ Code_sample) + 
+      ggplot2::scale_fill_manual(values = c("1" = "#44A57CFF",
+                                            "2" = "#1D2645FF",
+                                            "3" = "#D8AF39FF", 
+                                            "4" = "#AE93BEFF")) +
+      ggplot2::ggtitle("Pointe Suzanne") +
+      ggplot2::ylab("Relative proportion in scats") +
+      ggplot2::xlab("Nutrient") +
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 14), 
+                     axis.text.y = ggplot2::element_text(size = 14),
+                     title = ggplot2::element_text(size = 17, 
+                                                   face = "bold"),
+                     axis.title.x = ggplot2::element_text(size = 16, 
+                                                          face = "bold"), 
+                     axis.title.y = ggplot2::element_text(size = 16, 
+                                                          face = "bold"),
+                     strip.text.x = ggplot2::element_blank(),
+                     legend.position = "none")
+    ggplot2::ggsave("output/sites/clustering with all nutrients/scat_compo_rel_comp_with_clusters_PSuz_Agazella.jpg",
+                    scale = 1,
+                    height = 6, width = 12
+    )
+    
+    
   } else if (type == "all") {
     clust_vec_all <- clust_full_tib_output$cluster
     
     scat_compo_tib |>
       dplyr::mutate(sum_nut = Fe + Zn + Cu + Mn + Se + Co, 
-                  cluster = clust_vec_all) |>
+                    cluster = clust_vec_all) |>
       tidyr::pivot_longer(cols = c(Fe:Co), 
                           names_to = "Nutrient", 
                           values_to = "conc_mg_kg_dw") |> 
@@ -439,7 +439,7 @@ barplot_nut_scat_compo_relative_clust <- function(clust_full_tib_output,
                                                  "Cu", "Mn", "Se",
                                                  "Co")), 
                     conc_relative = conc_mg_kg_dw/sum_nut
-                    ) |> 
+      ) |> 
       ggplot2::ggplot() +
       ggplot2::geom_bar(ggplot2::aes(x = Nutrient, y = conc_relative, 
                                      fill = factor(cluster)),
@@ -470,6 +470,54 @@ barplot_nut_scat_compo_relative_clust <- function(clust_full_tib_output,
     
     
   }
+  
+  
+}
+
+
+
+#'
+#'
+#'
+#'
+# output matching species/samples with attributed cluster
+clust_samples <- function(clust_full_tib_output,
+                          scat_compo_tib
+) {
+  
+  #Cap Noir
+  clust_vec_CN <- clust_full_tib_output$CN$cluster
+  
+  clust_tib_CN <- scat_compo_tib |> 
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+    dplyr::filter(site == "Cap Noir", 
+                  # outliers
+                  !(Code_sample %in% c("CN12", "CN02", 
+                                       "PS06", "PS27"))) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(cluster = as.factor(clust_vec_CN)) 
+  
+  # save 
+  openxlsx::write.xlsx(clust_tib_CN, 
+                       file = "output/sites/clustering with all nutrients/clust_attribution_CN.xlsx")
+  
+  # Pointe Suzanne
+  clust_vec_PS <- clust_full_tib_output$PS$cluster
+  
+  clust_tib_PS <- scat_compo_tib |> 
+    dplyr::mutate(site = dplyr::case_when(stringr::str_detect(Code_sample, "CN") ~ "Cap Noir", 
+                                          stringr::str_detect(Code_sample, "PS") ~ "Pointe Suz")) |> 
+    dplyr::filter(site == "Pointe Suz", 
+                  # outliers
+                  !(Code_sample %in% c("CN12", "CN02", 
+                                       "PS06", "PS27"))) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(cluster = as.factor(clust_vec_PS)) 
+  # save 
+  openxlsx::write.xlsx(clust_tib_PS, 
+                       file = "output/sites/clustering with all nutrients/clust_attribution_PS.xlsx")
+  
   
   
 }
@@ -520,8 +568,8 @@ table_stats_clust_per_site_full_tib <- function(list_res_clust_sites_full_tib,
                                        names_to = "Nutrient", 
                                        values_to = "conc_mg_kg_dw") |>
                    dplyr::mutate(Nutrient = factor(Nutrient, 
-                                                 levels = c("P", "Fe", "Zn", "Cu",
-                                                            "Mn", "Se", "Co"))) |>
+                                                   levels = c("P", "Fe", "Zn", "Cu",
+                                                              "Mn", "Se", "Co"))) |>
                    dplyr::group_by(site, cluster, Nutrient) |>
                    dplyr::summarise(mean = round(mean(conc_mg_kg_dw), 3), 
                                     median = round(median(conc_mg_kg_dw), 3),

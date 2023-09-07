@@ -535,6 +535,9 @@ list(
   tar_target(table_test_clust_all_nut_sites,
              MWtest_clust_k33_full_tib(clust_all_nut_sites,
                                        res_compo_scats)),
+  tar_target(tables_scat_samples_clust_attribution,
+             clust_samples(clust_all_nut_sites,
+                           res_compo_scats)),
 
   # ################ USING PCA FIRST TO REDUCE DIMENSIONS ########################
   # # PCA and clustering, script 03.2_clustering_scats_sites.R
