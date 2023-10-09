@@ -13,7 +13,7 @@ all_prey_compo_data_ready|stem|c3c8bd10ea2627b5|a8011183d4f1700d|13930d4932cac8e
 barplot_compo_clust_per_scat|function|f408caed29e96f49|||||||||||||||
 barplot_compo_rel_clust_per_scat|function|ab36d5b21fdb4178|||||||||||||||
 barplot_dm_produced_per_site_period|stem|e68a375d1bd0ba1a|63b97b9e881c0968|74b1bfdde2ad3caa|355357554||t19605.4848387733s|dc6150ff0244dbb7|99|rds|local|vector|||1.95||
-barplot_nut_release_per_site_tot_period|stem|bdd3defb76c5a02c|c178bc0668f02e8a|8a04dd26c5bf6032|1429005804||t19605.5246234803s|7fabc27342db198c|111|rds|local|vector|||3.17||
+barplot_nut_release_per_site_tot_period|stem|bdd3defb76c5a02c|c178bc0668f02e8a|0fd1039e750a856a|1429005804||t19639.7765958342s|7fabc27342db198c|111|rds|local|vector|||3.09||
 barplot_nut_release_with_scenarios_clust2Fe|stem|daf8ef3d6fde4f33|5d53918a932b75de|b2305d2635788c3f|-72551523||t19575.3628587336s|5ccb3d41d74b2974|116|rds|local|vector|||11.66||
 barplot_nut_release_with_scenarios_Fe|stem|daf8ef3d6fde4f33|cabd60dd9c025dab|63301fbce5a32fda|111780320||t19575.3267773462s|5ccb3d41d74b2974|116|rds|local|vector|||10.91||
 barplot_nut_scat_compo_relative_clust|function|660170db2ec153c7|||||||||||||||
@@ -292,8 +292,8 @@ MWtest_test_nut_sites_tot_period|function|28dbeb1bfce33a55|||||||||||||||
 MWtest_test_nut_sites_tot_period_1_scenarios|function|0f7ffa637f37bb20|||||||||||||||
 MWtest_test_nut_sites_tot_period_all_scenarios|function|cb1ac88eabf30ce2|||||||||||||||
 nut_per_site_period|function|0a56b0b215573131|||||||||||||||
-nut_per_site_tot_period|function|1e124d3c95968db2|||||||||||||||
-nut_per_site_tot_period_all_scenarios|function|2baa7efa94d78145|||||||||||||||
+nut_per_site_tot_period|function|2cac1c4c555d396c|||||||||||||||
+nut_per_site_tot_period_all_scenarios|function|a0a528afbf3361f5|||||||||||||||
 nut_per_site_tot_period_scenarios|function|b605794305a54b21|||||||||||||||
 nut_per_site_totperiod|function|e405ef08fa7c573b|||||||||||||||
 output_dm_produced|stem|69bd1886bf2b7ffd|0e9b912f85df6bbb|dc33e0e3e4cfac7e|-1166556377||t19576.4520046329s|4ddd25cc6b763fdd|128355437|rds|local|vector|||6.78||
@@ -329,8 +329,8 @@ percent_cluster_with_scenarios_PS_clust3|stem|8143b95d4737afc4|a932f256c53f70b1|
 percent_diff_nut_sites_tot_period_1_scenarios|function|29a8b0df4ec4674f|||||||||||||||
 percent_diff_nut_sites_tot_period_all_scenarios|function|57e6f4476bf35265|||||||||||||||
 plot_nut_release_with_all_scenarios|stem|b5d56a5e243490ea|83e364035b00ddaf|fe3ba1cca99d6d94|-347424507||t19576.4930382312s|aa798d680db62784|117|rds|local|vector|||5.66||
-plot_nut_release_with_all_scenarios_CN|stem|e0d0c0539844bef4|254db10bfaa46249|6ef33d2602dbbb82|-1684578436||t19606.6332681219s|5c82a6b436969051|120|rds|local|vector|||4.12||
-plot_nut_release_with_all_scenarios_PS|stem|b3d114421edf754c|4e37dba8d78329f0|c1adf1d4c55229d7|65381663||t19606.6004961048s|b6284359ec2a2750|125|rds|local|vector|||5.06||
+plot_nut_release_with_all_scenarios_CN|stem|e0d0c0539844bef4|254db10bfaa46249|dcb948c4ce80b403|-1684578436||t19639.7859190109s|5c82a6b436969051|120|rds|local|vector|||6.71||
+plot_nut_release_with_all_scenarios_PS|stem|b3d114421edf754c|4e37dba8d78329f0|450fc3bd77b40e31|65381663||t19639.7858194436s|b6284359ec2a2750|125|rds|local|vector|||8.06||
 plot_nut_release_with_scenarios_clust1Zn|stem|f2132c1bd94b5348|6a758bd22a981c48|eebd1d69f7ce92f9|-1586050137||t19576.4928379216s|5c82a6b436969051|120|rds|local|vector|||4.59||
 plot_nut_release_with_scenarios_clust2Fe|stem|daf8ef3d6fde4f33|5d53918a932b75de|025b5613e3ad9893|-437454111||t19576.4928815563s|5ccb3d41d74b2974|116|rds|local|vector|||3.76||
 plot_nut_release_with_scenarios_clust3Cu|stem|c616f54c25015eb8|466c6149f839148b|2f0fde0093796743|1442069634||t19576.4930909545s|5ccb3d41d74b2974|116|rds|local|vector|||4.53||
@@ -399,8 +399,8 @@ table_differences_mean_nut_release_with_scenarios_clust2_PS|stem|ca116251ef7b35f
 table_differences_mean_nut_release_with_scenarios_clust3_CN|stem|5a580f43eec10969|462f1e64ed625b47|cf882b7c67c372fc|2053425988||t19606.6330946168s|94bc60e05daa312b|405|rds|local|vector|||1.55||
 table_differences_mean_nut_release_with_scenarios_clust3_PS|stem|c79762833bc4f057|d100b1cd3254dc22|c4915ef2bf598122|1232578628||t19606.588589745s|00cd6c0a45d27a05|402|rds|local|vector|||1.32||
 table_model_param|function|1a024aa8eae5fafe|||||||||||||||
-table_nut_per_site_sea_land_period|function|875c2502f7c86f9a|||||||||||||||
-table_nut_release_per_site_period|stem|b0b7dd1100ce5e8d|4262e31a8db7e337|139993dcc849e3c3|-310579061||t19605.5080517739s|b1de5fe31ecae5f0|146184|rds|local|vector|||1.66|impossible de créer le fichier outputsitestable_summary_sites_nut_total_estimates.xlsx, à cause de Permission denied|
+table_nut_per_site_sea_land_period|function|ef7a0025a4227d60|||||||||||||||
+table_nut_release_per_site_period|stem|eef035e398d48096|4262e31a8db7e337|e91746646327b08c|-310579061||t19611.4526930009s|f612968f0ac6ed4e|144840|rds|local|vector|||18.73||
 table_percent_cluster_after_scenarios|function|95b924a0625625e2|||||||||||||||
 table_percent_cluster_k33_after_scenarios|function|936fe9619958acce|||||||||||||||
 table_percent_cluster_k43_after_scenarios|function|95b924a0625625e2|||||||||||||||

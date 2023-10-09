@@ -642,7 +642,7 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
                                                probs = c(0.8)),
                          max = max(tot_pop_release_period_kg))
     ) |>
-      dplyr::mutate(scenario = paste0("changing % of scat samples from cluster ", i)) |>
+      dplyr::mutate(scenario = paste0("changing % of scats from cluster ", i)) |>
       dplyr::select(c(Site, scenario, sub_scenario, Nutrient, 
                       min, mean, `10_quant`, `80_quant`, max))
     
@@ -703,9 +703,10 @@ nut_per_site_tot_period_all_scenarios <- function(list_output_scenarios,
     ggplot2::geom_hline(data = mean_conc_table_with_all_scats, 
                         ggplot2::aes(yintercept = mean_release_est),
                         linetype = "dashed", 
+                        linewidth = 1.5,
                         color = "darkred") +
-    ggplot2::ylab("Total nutrient released\nin feces during breeding\nand moulting period (in kg)") +
-    ggplot2::xlab("% of cluster in scat samples bootstrapped") +
+    ggplot2::ylab("Total nutrient released\nin scats during breeding\nand moulting period (in kg)") +
+    ggplot2::xlab("% of varying-scat cluster tested in simulation dataset") +
     ggplot2::guides(color = ggplot2::guide_legend(ncol = 2)) +
     ggplot2::ggtitle(site) +
     ggplot2::theme_bw() +

@@ -58,13 +58,14 @@ nut_per_site_tot_period <- function(output_nut_release_CN,
     ggplot2::geom_linerange(ggplot2::aes(x = Site, 
                                          ymin = `2.5_quant`, 
                                          ymax = `97.5_quant`), 
-                            color = "darkgrey",
+                            color = "slategray",
+                            linewidth = 1.5,
                             position = ggplot2::position_dodge2(width = 1)) +
     ggplot2::scale_fill_manual(values = c("#353839",
-                                          "#AE93BEFF")) +
+                                          "#CDB5CD")) +
     ggplot2::facet_wrap(~ Nutrient, scales = "free_y") +
     ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
-    ggplot2::ggtitle("With all scat samples mixed") +
+    ggplot2::ggtitle("All scats combined") +
     ggplot2::ylab("Total nutrient released\nin feces during breeding\nand moulting period (in kg)") +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(size = 15), 
@@ -124,13 +125,14 @@ nut_per_site_tot_period <- function(output_nut_release_CN,
     ggplot2::geom_linerange(ggplot2::aes(x = Site, 
                                          ymin = `2.5_quant`, 
                                          ymax = `97.5_quant`), 
-                            color = "darkgrey",
+                            color = "slategray",
+                            linewidth = 1.5,
                             position = ggplot2::position_dodge2(width = 1)) +
     ggplot2::scale_fill_manual(values = c("#353839",
-                                          "#AE93BEFF")) +
+                                          "#CDB5CD")) +
     ggplot2::facet_wrap(~ Nutrient, scales = "free_y") +
     ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
-    ggplot2::ggtitle("With scat samples separated per site") +
+    ggplot2::ggtitle("Scat separated per colony site") +
     ggplot2::ylab("Total nutrient released\nin feces during breeding\nand moulting period (in kg)") +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(size = 15), 
@@ -158,7 +160,7 @@ nut_per_site_tot_period <- function(output_nut_release_CN,
 table_nut_per_site_sea_land_period <- function(output_nut_release_CN, 
                                                output_nut_release_PS) {
   
-  table_summary <- rbind(
+  table_summary_per_site <- rbind(
     # first with all scat samples mixed
     rbind(output_nut_release_CN |>
             dplyr::select(Site, 
@@ -304,6 +306,7 @@ table_nut_per_site_sea_land_period <- function(output_nut_release_CN,
           tidyr::pivot_longer(cols = c(mean_tot:max_tot), 
                               names_to = "variable", 
                               values_to = "estimates")) |>
+      # compute statistics
       tidyr::pivot_wider(names_from = variable, 
                          values_from = estimates) |>
       dplyr::mutate(on_land_percent = round(100*mean_on_land/mean_tot, 0), 
@@ -331,8 +334,209 @@ table_nut_per_site_sea_land_period <- function(output_nut_release_CN,
                       P, Fe, Zn, Cu, Mn, Se, Co)))
   
   
-  openxlsx::write.xlsx(table_summary, 
+  openxlsx::write.xlsx(table_summary_per_site, 
                        file = paste0("output/sites/table_summary_sites_nut_total_estimates.xlsx"))
+  
+  
+  
+  table_summary_total <- rbind(
+    # first with all scat samples mixed
+    # at sea
+    output_nut_release_CN |>
+      dplyr::ungroup() |>
+      dplyr::rename(release_nut_pop_tot_period_sea_all_scats_CN = release_nut_pop_tot_period_sea_all_scats) |>
+      dplyr::select(release_nut_pop_tot_period_sea_all_scats_CN) |>
+      dplyr::bind_cols(output_nut_release_PS |>
+                         dplyr::ungroup() |>
+                         dplyr::rename(release_nut_pop_tot_period_sea_all_scats_PS = release_nut_pop_tot_period_sea_all_scats) |>
+                         dplyr::select(release_nut_pop_tot_period_sea_all_scats_PS)) |>
+      dplyr::mutate(release_nut_pop_tot_period_sea_sites_all_scats = seq_along(release_nut_pop_tot_period_sea_all_scats_CN) |>
+                      purrr::map(~ purrr::pluck(release_nut_pop_tot_period_sea_all_scats_CN, .) + 
+                                   purrr::pluck(release_nut_pop_tot_period_sea_all_scats_PS, .))) |>
+      tidyr::unnest(release_nut_pop_tot_period_sea_sites_all_scats) |>
+      tidyr::pivot_longer(cols = c(P:Co), 
+                          names_to = "Nutrient", 
+                          values_to = "tot_pop_release_period_sea_kg") |> 
+      dplyr::group_by(Nutrient) |>
+      dplyr::summarise(mean_tot_sea_sites = round(mean(tot_pop_release_period_sea_kg),4),
+                       low2_5quant_tot_sea_sites = round(quantile(tot_pop_release_period_sea_kg, 0.025), 4), 
+                       high97_5quant_tot_sea_sites = round(quantile(tot_pop_release_period_sea_kg, 0.975), 4),  
+                       min_tot_sea_sites = round(min(tot_pop_release_period_sea_kg), 4),
+                       max_tot_sea_sites = round(max(tot_pop_release_period_sea_kg), 4)) |>
+      tidyr::pivot_longer(cols = c(mean_tot_sea_sites:max_tot_sea_sites), 
+                          names_to = "variable", 
+                          values_to = "estimate_kg"),
+    # on land
+    output_nut_release_CN |>
+      dplyr::ungroup() |>
+      dplyr::rename(release_nut_pop_tot_period_land_all_scats_CN = release_nut_pop_tot_period_land_all_scats) |>
+      dplyr::select(release_nut_pop_tot_period_land_all_scats_CN) |>
+      dplyr::bind_cols(output_nut_release_PS |>
+                         dplyr::ungroup() |>
+                         dplyr::rename(release_nut_pop_tot_period_land_all_scats_PS = release_nut_pop_tot_period_land_all_scats) |>
+                         dplyr::select(release_nut_pop_tot_period_land_all_scats_PS)) |>
+      dplyr::mutate(release_nut_pop_tot_period_land_sites_all_scats = seq_along(release_nut_pop_tot_period_land_all_scats_CN) |>
+                      purrr::map(~ purrr::pluck(release_nut_pop_tot_period_land_all_scats_CN, .) + 
+                                   purrr::pluck(release_nut_pop_tot_period_land_all_scats_PS, .))) |>
+      tidyr::unnest(release_nut_pop_tot_period_land_sites_all_scats) |>
+      tidyr::pivot_longer(cols = c(P:Co), 
+                          names_to = "Nutrient", 
+                          values_to = "tot_pop_release_period_land_kg") |> 
+      dplyr::group_by(Nutrient) |>
+      dplyr::summarise(mean_tot_land_sites = round(mean(tot_pop_release_period_land_kg),4),
+                       low2_5quant_tot_land_sites = round(quantile(tot_pop_release_period_land_kg, 0.025), 4), 
+                       high97_5quant_tot_land_sites = round(quantile(tot_pop_release_period_land_kg, 0.975), 4),  
+                       min_tot_land_sites = round(min(tot_pop_release_period_land_kg), 4),
+                       max_tot_land_sites = round(max(tot_pop_release_period_land_kg), 4)) |>
+      tidyr::pivot_longer(cols = c(mean_tot_land_sites:max_tot_land_sites), 
+                          names_to = "variable", 
+                          values_to = "estimate_kg"),
+    # total sea + land
+    output_nut_release_CN |>
+    dplyr::ungroup() |>
+    dplyr::rename(release_nut_pop_tot_period_all_scats_CN = release_nut_pop_tot_period_all_scats) |>
+    dplyr::select(release_nut_pop_tot_period_all_scats_CN) |>
+    dplyr::bind_cols(output_nut_release_PS |>
+                       dplyr::ungroup() |>
+                       dplyr::rename(release_nut_pop_tot_period_all_scats_PS = release_nut_pop_tot_period_all_scats) |>
+                       dplyr::select(release_nut_pop_tot_period_all_scats_PS)) |>
+    dplyr::mutate(release_nut_pop_tot_period_sites_all_scats = seq_along(release_nut_pop_tot_period_all_scats_CN) |>
+                    purrr::map(~ purrr::pluck(release_nut_pop_tot_period_all_scats_CN, .) + 
+                                 purrr::pluck(release_nut_pop_tot_period_all_scats_PS, .))) |>
+    tidyr::unnest(release_nut_pop_tot_period_sites_all_scats) |>
+    tidyr::pivot_longer(cols = c(P:Co), 
+                        names_to = "Nutrient", 
+                        values_to = "tot_pop_release_period_kg") |> 
+    dplyr::group_by(Nutrient) |>
+    dplyr::summarise(mean_tot_sites = round(mean(tot_pop_release_period_kg),4),
+                     low2_5quant_tot_sites = round(quantile(tot_pop_release_period_kg, 0.025), 4), 
+                     high97_5quant_tot_sites = round(quantile(tot_pop_release_period_kg, 0.975), 4),  
+                     min_tot_sites = round(min(tot_pop_release_period_kg), 4),
+                     max_tot_sites = round(max(tot_pop_release_period_kg), 4)) |>
+      tidyr::pivot_longer(cols = c(mean_tot_sites:max_tot_sites), 
+                          names_to = "variable", 
+                          values_to = "estimate_kg")) |>
+    dplyr::mutate(level = dplyr::case_when(stringr::str_detect(variable, "tot_sites") ~ "total", 
+                                           stringr::str_detect(variable, "_land") ~ "on land",
+                                           stringr::str_detect(variable, "_sea") ~ "at sea"), 
+                  variable = dplyr::case_when(stringr::str_detect(variable, "mean") ~ "mean", 
+                                              stringr::str_detect(variable, "low2_5") ~ "2.5% quantile",
+                                              stringr::str_detect(variable, "high97_5") ~ "97.5% quantile",
+                                              stringr::str_detect(variable, "min") ~ "min",
+                                              stringr::str_detect(variable, "max") ~ "max",
+                                              stringr::str_detect(variable, "percent") ~ "percent"), 
+                  scat_compo = "All scat samples mixed", 
+                  Nutrient = factor(Nutrient, 
+                                    levels = c("P", "Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co"))) |>
+    tidyr::pivot_wider(names_from = Nutrient, 
+                       values_from = estimate_kg) |>
+    dplyr::select(c(scat_compo, level, variable,  
+                    P, Fe, Zn, Cu, Mn, Se, Co)) |>
+    dplyr::bind_rows(
+      # second with scat samples separated per colony
+      dplyr::bind_rows(
+      # at sea
+      output_nut_release_CN |>
+        dplyr::ungroup() |>
+        dplyr::rename(release_nut_pop_tot_period_sea_colony_CN = release_nut_pop_tot_period_sea_sites) |>
+        dplyr::select(release_nut_pop_tot_period_sea_colony_CN) |>
+        dplyr::bind_cols(output_nut_release_PS |>
+                           dplyr::ungroup() |>
+                           dplyr::rename(release_nut_pop_tot_period_sea_colony_PS = release_nut_pop_tot_period_sea_sites) |>
+                           dplyr::select(release_nut_pop_tot_period_sea_colony_PS)) |>
+        dplyr::mutate(release_nut_pop_tot_period_sea_sites_colonies = seq_along(release_nut_pop_tot_period_sea_colony_CN) |>
+                        purrr::map(~ purrr::pluck(release_nut_pop_tot_period_sea_colony_CN, .) + 
+                                     purrr::pluck(release_nut_pop_tot_period_sea_colony_PS, .))) |>
+        tidyr::unnest(release_nut_pop_tot_period_sea_sites_colonies) |>
+        tidyr::pivot_longer(cols = c(P:Co), 
+                            names_to = "Nutrient", 
+                            values_to = "tot_pop_release_period_sea_kg") |> 
+        dplyr::group_by(Nutrient) |>
+        dplyr::summarise(mean_tot_sea_sites = round(mean(tot_pop_release_period_sea_kg),4),
+                         low2_5quant_tot_sea_sites = round(quantile(tot_pop_release_period_sea_kg, 0.025), 4), 
+                         high97_5quant_tot_sea_sites = round(quantile(tot_pop_release_period_sea_kg, 0.975), 4),  
+                         min_tot_sea_sites = round(min(tot_pop_release_period_sea_kg), 4),
+                         max_tot_sea_sites = round(max(tot_pop_release_period_sea_kg), 4)) |>
+        tidyr::pivot_longer(cols = c(mean_tot_sea_sites:max_tot_sea_sites), 
+                            names_to = "variable", 
+                            values_to = "estimate_kg"),
+      # on land
+      output_nut_release_CN |>
+        dplyr::ungroup() |>
+        dplyr::rename(release_nut_pop_tot_period_land_colony_CN = release_nut_pop_tot_period_land_sites) |>
+        dplyr::select(release_nut_pop_tot_period_land_colony_CN) |>
+        dplyr::bind_cols(output_nut_release_PS |>
+                           dplyr::ungroup() |>
+                           dplyr::rename(release_nut_pop_tot_period_land_colony_PS = release_nut_pop_tot_period_land_sites) |>
+                           dplyr::select(release_nut_pop_tot_period_land_colony_PS)) |>
+        dplyr::mutate(release_nut_pop_tot_period_land_colonies_all_scats = seq_along(release_nut_pop_tot_period_land_colony_CN) |>
+                        purrr::map(~ purrr::pluck(release_nut_pop_tot_period_land_colony_CN, .) + 
+                                     purrr::pluck(release_nut_pop_tot_period_land_colony_PS, .))) |>
+        tidyr::unnest(release_nut_pop_tot_period_land_colonies_all_scats) |>
+        tidyr::pivot_longer(cols = c(P:Co), 
+                            names_to = "Nutrient", 
+                            values_to = "tot_pop_release_period_land_kg") |> 
+        dplyr::group_by(Nutrient) |>
+        dplyr::summarise(mean_tot_land_sites = round(mean(tot_pop_release_period_land_kg),4),
+                         low2_5quant_tot_land_sites = round(quantile(tot_pop_release_period_land_kg, 0.025), 4), 
+                         high97_5quant_tot_land_sites = round(quantile(tot_pop_release_period_land_kg, 0.975), 4),  
+                         min_tot_land_sites = round(min(tot_pop_release_period_land_kg), 4),
+                         max_tot_land_sites = round(max(tot_pop_release_period_land_kg), 4)) |>
+        tidyr::pivot_longer(cols = c(mean_tot_land_sites:max_tot_land_sites), 
+                            names_to = "variable", 
+                            values_to = "estimate_kg"),
+      # total sea + land
+      output_nut_release_CN |>
+        dplyr::ungroup() |>
+        dplyr::rename(release_nut_pop_tot_period_colony_CN = release_nut_pop_tot_period_sites) |>
+        dplyr::select(release_nut_pop_tot_period_colony_CN) |>
+        dplyr::bind_cols(output_nut_release_PS |>
+                           dplyr::ungroup() |>
+                           dplyr::rename(release_nut_pop_tot_period_colony_PS = release_nut_pop_tot_period_sites) |>
+                           dplyr::select(release_nut_pop_tot_period_colony_PS)) |>
+        dplyr::mutate(release_nut_pop_tot_period_sites_colonies = seq_along(release_nut_pop_tot_period_colony_CN) |>
+                        purrr::map(~ purrr::pluck(release_nut_pop_tot_period_colony_CN, .) + 
+                                     purrr::pluck(release_nut_pop_tot_period_colony_PS, .))) |>
+        tidyr::unnest(release_nut_pop_tot_period_sites_colonies) |>
+        tidyr::pivot_longer(cols = c(P:Co), 
+                            names_to = "Nutrient", 
+                            values_to = "tot_pop_release_period_kg") |> 
+        dplyr::group_by(Nutrient) |>
+        dplyr::summarise(mean_tot_sites = round(mean(tot_pop_release_period_kg),4),
+                         low2_5quant_tot_sites = round(quantile(tot_pop_release_period_kg, 0.025), 4), 
+                         high97_5quant_tot_sites = round(quantile(tot_pop_release_period_kg, 0.975), 4),  
+                         min_tot_sites = round(min(tot_pop_release_period_kg), 4),
+                         max_tot_sites = round(max(tot_pop_release_period_kg), 4)) |>
+        tidyr::pivot_longer(cols = c(mean_tot_sites:max_tot_sites), 
+                            names_to = "variable", 
+                            values_to = "estimate_kg")) |>
+    dplyr::mutate(level = dplyr::case_when(stringr::str_detect(variable, "tot_sites") ~ "total", 
+                                           stringr::str_detect(variable, "_land") ~ "on land",
+                                           stringr::str_detect(variable, "_sea") ~ "at sea"), 
+                  variable = dplyr::case_when(stringr::str_detect(variable, "mean") ~ "mean", 
+                                              stringr::str_detect(variable, "low2_5") ~ "2.5% quantile",
+                                              stringr::str_detect(variable, "high97_5") ~ "97.5% quantile",
+                                              stringr::str_detect(variable, "min") ~ "min",
+                                              stringr::str_detect(variable, "max") ~ "max",
+                                              stringr::str_detect(variable, "percent") ~ "percent"), 
+                  scat_compo = "Scats separated between colonies", 
+                  Nutrient = factor(Nutrient, 
+                                    levels = c("P", "Fe", "Zn", 
+                                               "Cu", "Mn", "Se",
+                                               "Co"))) |>
+    tidyr::pivot_wider(names_from = Nutrient, 
+                       values_from = estimate_kg) |>
+    dplyr::select(c(scat_compo, level, variable,  
+                    P, Fe, Zn, Cu, Mn, Se, Co))
+      
+    )
+  
+  
+  openxlsx::write.xlsx(table_summary_total, 
+                       file = paste0("output/sites/table_summary_total_sites_estimates.xlsx"))
+  
   
 }
 
