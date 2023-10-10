@@ -66,7 +66,7 @@ nut_per_site_tot_period <- function(output_nut_release_CN,
     ggplot2::facet_wrap(~ Nutrient, scales = "free_y") +
     ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
     ggplot2::ggtitle("All scats combined") +
-    ggplot2::ylab("Total nutrient released\nin feces during breeding\nand moulting period (in kg)") +
+    ggplot2::ylab("Total nutrient released\nin scats during breeding\nand moulting period (in kg)") +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(size = 15), 
                    axis.text.y = ggplot2::element_text(size = 15), 
@@ -133,7 +133,7 @@ nut_per_site_tot_period <- function(output_nut_release_CN,
     ggplot2::facet_wrap(~ Nutrient, scales = "free_y") +
     ggplot2::geom_blank(ggplot2::aes(y = y_lim)) +
     ggplot2::ggtitle("Scat separated per colony site") +
-    ggplot2::ylab("Total nutrient released\nin feces during breeding\nand moulting period (in kg)") +
+    ggplot2::ylab("Total nutrient released\nin scats during breeding\nand moulting period (in kg)") +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(size = 15), 
                    axis.text.y = ggplot2::element_text(size = 15), 
